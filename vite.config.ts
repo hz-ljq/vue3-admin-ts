@@ -10,6 +10,7 @@ import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
 //setup name
 // import VueSetupExtend from 'vite-plugin-vue-setup-extend-plus'
+import VueSetupExtend from "vite-plugin-vue-setup-extend";
 
 //auto import element-plus has some issue
 import Components from 'unplugin-vue-components/vite'
@@ -32,6 +33,7 @@ const prodMock = setting.openProdMock
 // import { loadEnv } from 'vite'
 import { optimizeDependencies, optimizeElementPlus } from './optimize-include'
 const pathSrc = path.resolve(__dirname, 'src')
+
 export default ({ command, mode }: any) => {
   return {
     //detail to look https://vitejs.cn/config/#base
@@ -70,6 +72,7 @@ export default ({ command, mode }: any) => {
     },
     plugins: [
       vue({ reactivityTransform: true }),
+      VueSetupExtend(),
       // Icons({
       //   autoInstall: true,
       // }),
