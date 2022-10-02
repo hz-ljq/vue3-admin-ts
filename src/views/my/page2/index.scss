@@ -1,0 +1,40 @@
+.page2 {
+  padding: 20px;
+
+  > * {
+    // margin-right: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.wrapper {
+  width: 200px;
+  height: 50px;
+  position: relative;
+
+  .bg {
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    background-image: radial-gradient(rgba(0, 0, 0, 0) 1px, rgb(255, 255, 255) 1px);
+    background-size: 4px 4px;
+    backdrop-filter: saturate(50%) blur(4px);
+  }
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+  text-align: center;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}

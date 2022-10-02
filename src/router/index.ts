@@ -29,10 +29,35 @@ export const constantRoutes: RouterTy = [
     component: () => import('@/views/error-page/401.vue'),
     hidden: true
   },
+  // FIXME:
+  {
+    path: '/my',
+    component: Layout,
+    redirect: '/my/page1',
+    meta: { title: 'my', icon: 'Fold' },
+    children: [
+      {
+        path: 'page1',
+        name: 'page1',
+        component: () => import('@/views/my/page1/index.vue'),
+        meta: { title: 'page1' }
+      },
+      {
+        path: 'page2',
+        name: 'page2',
+        component: () => import('@/views/my/page2/index.vue'),
+        meta: { title: 'page2' }
+      }
+    ]
+  },
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+
+    // FIXME:
+    // redirect: '/dashboard',
+    redirect: '/my',
+
     children: [
       {
         path: 'dashboard',
@@ -138,7 +163,7 @@ export const constantRoutes: RouterTy = [
         name: 'routerDemoS',
         hidden: true,
         component: () => import('@/views/example/keep-alive/RouterDemoS.vue'),
-        meta: { title: 'RouterDemo-S',cachePage: true, activeMenu: '/writing-demo/keep-alive' }
+        meta: { title: 'RouterDemo-S', cachePage: true, activeMenu: '/writing-demo/keep-alive' }
       },
       {
         path: 'deep-router-keep-alive',
