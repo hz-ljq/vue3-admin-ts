@@ -5,19 +5,19 @@ let mockListData = []
 for (let i = 0; i < 200; i++) {
   mockListData.push({
     id: i,
-    name: 'xxx' + (i + 1),
-    status: Math.floor(1 + Math.random() * 3)
+    val1: 'xxx' + (i + 1),
+    val2: Math.floor(1 + Math.random() * 3)
   })
 }
 
 // 获取 列表数据
 export function getListData(data) {
-  let { pageNum, pageSize, name, status } = data
+  let { pageNum, pageSize, val1, val2 } = data
 
   return new Promise((resolve) => {
     setTimeout(() => {
       let listData = mockListData.filter((x) => {
-        return (name === null ? true : x.name.includes(name)) && (status === null ? true : x.status === status)
+        return (val1 === null ? true : x.val1.includes(val1)) && (val2 === null ? true : x.val2 === val2)
       })
       let total = listData.length
 
@@ -35,7 +35,7 @@ export function getListData(data) {
   })
 }
 
-// 获取 列表数据
+// 删除
 export function del(data) {
   let { id } = data
   return new Promise((resolve) => {

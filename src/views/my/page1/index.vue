@@ -47,10 +47,10 @@
         </template>
       </el-table-column> -->
       <el-table-column type="index" width="60"></el-table-column>
-      <el-table-column prop="name" label="应用名称" min-width="200"></el-table-column>
-      <el-table-column prop="status" label="状态" min-width="200">
+      <el-table-column prop="val1" label="应用名称" min-width="200"></el-table-column>
+      <el-table-column prop="val2" label="状态" min-width="200">
         <template #default="scope">
-          <span>{{ Sel.opt101[scope.row.status] }}</span>
+          <span>{{ Sel.opt101[scope.row.val2] }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
@@ -74,7 +74,7 @@
     ></el-pagination>
 
     <!-- 弹出框 -->
-    <!-- <el-dialog :title="dialog.title" :visible.sync="dialog.visible">
+    <!-- <el-dialog :title="dialog.title" v-model="dialog.visible">
       <div v-if="dialog.title !== '查看'" slot="footer" class="dialog-footer">
         <el-button @click="dialog.visible = false">取 消</el-button>
         <el-button type="primary" @click="dialog.visible = false"
@@ -83,7 +83,7 @@
       </div>
     </el-dialog> -->
 
-    <!-- <detailForm ref="detailFormDialog" :id="detailFormDialogInfo.id" :mode="detailFormDialogInfo.mode"></detailForm> -->
+    <detailForm ref="detailFormDialog" :id="detailFormDialogInfo.id" :mode="detailFormDialogInfo.mode"></detailForm>
   </div>
 </template>
 
@@ -91,8 +91,9 @@
 import * as Api from './api.ts'
 import * as Sel from './selectOpt.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
-// import detailForm from './detailForm/index.vue'
+import detailForm from './detailForm/index.vue'
 
+// -------------------------------------------------------------------data
 let radio = ref('1')
 let filter = reactive({
   inputVal: null,
@@ -114,6 +115,9 @@ let detailFormDialogInfo = reactive({
   id: null
 })
 
+let detailFormDialog = ref()
+
+// -------------------------------------------------------------------methods
 // 打开弹出框（新增、查看、编辑）
 function openDialog(mode, id) {
   detailFormDialogInfo = {
@@ -121,9 +125,10 @@ function openDialog(mode, id) {
     id
   }
 
-  // this.$refs.detailFormDialog.visible = true;
+  detailFormDialog.value.visible = true
 }
 
+// 删除
 function del(id) {
   ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
     confirmButtonText: '确定',
@@ -153,13 +158,14 @@ function handleSelectionChange(val) {
   multipleSelection.value = val
 }
 
-;(function getData1() {
+// 获取 列表数据
+function getData1() {
   let param = {
     pageNum: paginationOpt.currentPage,
     pageSize: paginationOpt.pageSize,
 
-    name: filter.inputVal,
-    status: filter.selectVal1
+    val1: filter.inputVal,
+    val2: filter.selectVal1
   }
 
   loading.value = true
@@ -175,7 +181,7 @@ function handleSelectionChange(val) {
     .finally(() => {
       loading.value = false
     })
-})()
+}
 
 // 查询
 function search() {
@@ -190,6 +196,11 @@ function reset() {
   paginationOpt.currentPage = 1
   getData1()
 }
+
+// ------------------------------------------------------------------生命周期
+onBeforeMount(() => {
+  getData1();
+});
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

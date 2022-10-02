@@ -3,17 +3,12 @@
     <el-dialog
       class="my-dialog"
       title="我是标题（弹出框）"
-      :visible.sync="visible"
+      v-model="visible"
       @open="open"
-      @close="close"
+      @opened="opened"
+      @closed="init()"
     >
-      <el-form
-        class="my-form"
-        :model="form"
-        ref="ruleForm"
-        label-width="180px"
-        size="small"
-      >
+      <el-form class="my-form" :model="form" ref="ruleForm" label-width="180px">
         <el-row>
           <el-col :span="24">
             <el-form-item label="应用名称" prop="val1" required>
@@ -29,20 +24,13 @@
 
           <el-col :span="24">
             <el-form-item label="状态" prop="val2" required>
-              <el-select
-                v-model="form.val2"
-                placeholder="请选择"
-                filterable
-                clearable
-                :disabled="mode === 'view'"
-              >
+              <el-select v-model="form.val2" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
                   v-for="item in Sel.convertToArray(Sel.opt101)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                >
-                </el-option>
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -50,137 +38,121 @@
 
         <!-- form按钮 -->
         <!-- <el-form-item>
-          <el-button
-            style="float: right; margin-left: 10px"
-            type="primary"
-            @click="submit"
-            :loading="submitLoading"
-            size="small"
-            >{{ submitLoading ? "正在提交..." : "提交" }}</el-button
-          >
-          <el-button
-            style="float: right; margin-left: 10px"
-            @click="visible = false"
-            >取消</el-button
-          >
+          <el-button type="primary" @click="submit" :loading="submitLoading">
+            {{ submitLoading ? '正在提交...' : '提交' }}
+          </el-button>
+          <el-button @click="visible = false">取消</el-button>
         </el-form-item> -->
       </el-form>
 
       <!-- dialog按钮 -->
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="visible = false">取消</el-button>
-        <el-button
-          type="primary"
-          size="small"
-          :loading="submitLoading"
-          @click="submit"
-          >{{ submitLoading ? "正在提交..." : "提交" }}</el-button
-        >
+        <el-button @click="visible = false">取消</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="submit">
+          {{ submitLoading ? '正在提交...' : '提交' }}
+        </el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
-<script>
-import * as Sel from "../selectOpt";
-import * as Api from "../api.js";
-import elFormMixin from "./elFormMixin.js";
+<script setup lang="ts">
+import * as Api from '../api.ts'
+import * as Sel from '../selectOpt.ts'
+import { ElMessage } from 'element-plus'
 
-export default {
-  name: "detailForm",
-  mixins: [elFormMixin],
-  props: {
-    id: {
-      type: [String, Number],
-      default: () => {
-        return null;
-      },
-    },
+// -------------------------------------------------------------------props、emits
+// props
+const props = defineProps({
+  id: {
+    type: [String, Number],
+    default: null
   },
-  data() {
-    return {
-      Sel,
-      visible: false,
-      form: null,
-      submitLoading: false,
-    };
-  },
-  computed: {},
-  watch: {},
-  methods: {
-    getDetail() {
-      return new Promise((resolve) => {
-        let res = {
-          result: {
-            val1: 1,
-            val2: 1,
-          },
-        };
-        resolve(res);
-      });
-    },
-    // 提交
-    submit() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.submitLoading = true;
-          Api.submit()
-            .then(() => {
-              this.visible = false;
-              this.$message({
-                // showClose: true,
-                message: "提交成功！",
-                type: "success",
-              });
-              this.$emit("submited");
-            })
-            .catch((err) => {})
-            .finally(() => {
-              this.submitLoading = false;
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
-    init() {
-      // 初始化表单
-      this.form = {
-        val1: null,
-        val2: null,
-      };
+  mode: {
+    type: [String, Number],
+    default: 'view' // ["view", "add", "update"]
+  }
+})
+// emits
+const emits = defineEmits(['submited'])
 
-      // 清除校验
-      this.$nextTick(() => {
-        this.$refs.ruleForm?.clearValidate();
-      });
-    },
+// -------------------------------------------------------------------data
+let visible = ref(false)
+let form = ref({})
+let submitLoading = ref(false)
+let ruleForm = ref()
 
-    open() {
-      this.$nextTick(() => {
-        if (this.mode !== "add" && this.id !== null) {
-          let param = { id: this.id };
-          this.getDetail(param).then((res) => {
-            this.form = res.result;
-            this.$refs.ruleForm?.validate().catch((err) => false);
-          });
-        }
-      });
-    },
-    close() {
-      this.init();
-    },
-  },
-  created() {
-    this.init();
-  },
-  mounted() {
-    this.$nextTick(() => {});
-  },
-  components: {},
-  beforeDestroy() {},
-};
+// -------------------------------------------------------------------methods
+function getDetail() {
+  return new Promise((resolve) => {
+    let res = {
+      result: {
+        val1: 1,
+        val2: 1
+      }
+    }
+    resolve(res)
+  })
+}
+
+// 提交
+function submit() {
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      submitLoading.value = true
+      Api.submit()
+        .then(() => {
+          visible.value = false
+          ElMessage({
+            // showClose: true,
+            message: '提交成功！',
+            type: 'success'
+          })
+          emits('submited')
+        })
+        .catch((err) => {})
+        .finally(() => {
+          submitLoading.value = false
+        })
+    } else {
+      console.log('error submit!!')
+      return false
+    }
+  })
+}
+
+function init() {
+  // 初始化表单
+  form.value = {
+    val1: null,
+    val2: null
+  }
+
+  // 清除校验
+  nextTick(() => {
+    ruleForm.value?.clearValidate()
+  })
+}
+
+function open() {
+  init()
+}
+
+function opened() {
+  if (props.mode !== 'add' && props.id !== null) {
+    console.log(props.id)
+    let param = { id: props.id }
+    getDetail(param).then((res) => {
+      form.value = res.result
+      ruleForm.value?.validate().catch((err) => false)
+    })
+  }
+}
+
+// -------------------------------------------------------------------暴露到组件外部
+defineExpose({
+  visible
+})
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
