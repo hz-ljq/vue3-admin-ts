@@ -50,8 +50,8 @@
 </template>
 
 <script setup lang="ts" name="detailForm">
-import * as Api from '../api.ts'
-import * as Sel from '../selectOpt.ts'
+import * as Api from '../api'
+import * as Sel from '../selectOpt'
 import { ElMessage } from 'element-plus'
 import elFormHook from './elFormHook'
 
@@ -72,6 +72,7 @@ const emits = defineEmits(['submited'])
 
 // -------------------------------------------------------------------data
 let { xxx } = elFormHook()
+console.log(xxx);
 let visible = ref(false)
 let form = ref({})
 let submitLoading = ref(false)
