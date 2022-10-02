@@ -1,30 +1,30 @@
 export const convertToArray = (opt) => {
-  let arr = [];
+  let arr = []
   for (let key in opt) {
-    let value = key;
+    let value = key
     if (isNaN(+key)) {
       // 非数字
-      if (["true", "false"].includes(key)) {
+      if (['true', 'false'].includes(key)) {
         // 布尔值
-        value = JSON.parse(key);
+        value = JSON.parse(key)
       }
     } else {
       // 数字
-      value = +key;
+      value = +key
     }
 
     arr.push({
       label: opt[key],
-      value,
-    });
+      value
+    })
   }
-  return arr;
-};
+  return arr
+}
 
 // 下拉框
 export const opt101 = {
-  1: "建设中",
-  2: "运行中",
-  3: "停用",
-  99: "其他",
-};
+  1: '建设中',
+  2: '运行中',
+  3: '停用',
+  99: '其他'
+}
