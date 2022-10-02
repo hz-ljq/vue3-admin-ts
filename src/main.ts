@@ -54,4 +54,5 @@ import { createPinia } from 'pinia'
 
 app.use(createPinia())
 
+
 app.use(router).mount('#app')
