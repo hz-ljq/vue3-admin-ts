@@ -1,4 +1,4 @@
-import request from '@/utils/axiosReq'
+// import request from '@/utils/axiosReq'
 
 // 列表的mock数据
 let mockListData = []
@@ -31,6 +31,16 @@ export function getListData(data) {
       }
 
       resolve(res)
+    }, 300)
+  })
+}
+
+// 详情
+export function getDetail({ id }) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let item = mockListData.find((x) => x.id === id)
+      resolve({ result: JSON.parse(JSON.stringify(item)) })
     }, 300)
   })
 }

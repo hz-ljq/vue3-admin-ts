@@ -1,13 +1,6 @@
 <template>
   <div class="detailForm">
-    <el-dialog
-      class="my-dialog"
-      title="我是标题（弹出框）"
-      v-model="visible"
-      @open="open"
-      @opened="opened"
-      @closed="init()"
-    >
+    <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" @closed="init">
       <el-form class="my-form" :model="form" ref="ruleForm" label-width="180px">
         <el-row>
           <el-col :span="24">
@@ -56,10 +49,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="detailForm">
 import * as Api from '../api.ts'
 import * as Sel from '../selectOpt.ts'
 import { ElMessage } from 'element-plus'
+import elFormHook from './elFormHook'
 
 // -------------------------------------------------------------------props、emits
 // props
@@ -69,7 +63,7 @@ const props = defineProps({
     default: null
   },
   mode: {
-    type: [String, Number],
+    type: [String],
     default: 'view' // ["view", "add", "update"]
   }
 })
@@ -77,24 +71,13 @@ const props = defineProps({
 const emits = defineEmits(['submited'])
 
 // -------------------------------------------------------------------data
+let { xxx } = elFormHook()
 let visible = ref(false)
 let form = ref({})
 let submitLoading = ref(false)
 let ruleForm = ref()
 
 // -------------------------------------------------------------------methods
-function getDetail() {
-  return new Promise((resolve) => {
-    let res = {
-      result: {
-        val1: 1,
-        val2: 1
-      }
-    }
-    resolve(res)
-  })
-}
-
 // 提交
 function submit() {
   ruleForm.value.validate((valid) => {
@@ -121,13 +104,13 @@ function submit() {
   })
 }
 
+// 初始化
 function init() {
   // 初始化表单
   form.value = {
     val1: null,
     val2: null
   }
-
   // 清除校验
   nextTick(() => {
     ruleForm.value?.clearValidate()
@@ -135,16 +118,13 @@ function init() {
 }
 
 function open() {
-  init()
-}
-
-function opened() {
   if (props.mode !== 'add' && props.id !== null) {
-    console.log(props.id)
     let param = { id: props.id }
-    getDetail(param).then((res) => {
+    Api.getDetail(param).then((res) => {
       form.value = res.result
-      ruleForm.value?.validate().catch((err) => false)
+      nextTick(() => {
+        ruleForm.value?.validate().catch((err) => false)
+      })
     })
   }
 }

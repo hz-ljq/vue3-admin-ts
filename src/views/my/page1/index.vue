@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="page1">
 import * as Api from './api.ts'
 import * as Sel from './selectOpt.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -110,7 +110,7 @@ let paginationOpt = reactive({
 })
 
 // 弹出框
-let detailFormDialogInfo = reactive({
+let detailFormDialogInfo = ref({
   mode: 'add',
   id: null
 })
@@ -120,7 +120,7 @@ let detailFormDialog = ref()
 // -------------------------------------------------------------------methods
 // 打开弹出框（新增、查看、编辑）
 function openDialog(mode, id) {
-  detailFormDialogInfo = {
+  detailFormDialogInfo.value = {
     mode,
     id
   }
