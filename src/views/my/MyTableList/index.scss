@@ -1,7 +1,7 @@
 .MyTableList {
   padding: 20px;
 
-  :deep(.filter) {
+  ::v-deep .filter {
     font-size: 14px;
     font-weight: 400;
     display: flex;
@@ -35,7 +35,7 @@
     margin-top: 30px;
   }
 
-  :deep(.my-table) {
+  ::v-deep .my-table {
     width: 100%;
   }
 }

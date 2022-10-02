@@ -7,6 +7,7 @@ import '@/styles/index.scss' // global css
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 app.use(ElementPlus)
+
 // import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // app.use(ElementPlus, { size: 'small', locale: zhCn })
 
