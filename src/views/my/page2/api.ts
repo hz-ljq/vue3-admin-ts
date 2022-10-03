@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from '@/utils/axiosReq'
 
 // 提交
 export function submit() {
@@ -21,7 +21,7 @@ export function getFileDownloadUrl() {
 // 获取 上传文件的二进制数据，并下载
 export function zhenwuyunDownloadFile(data) {
   return request({
-    baseURL: "http://10.101.2.112:9999/cube-module-directory",
+    baseURL: "http://10.101.5.244:9999/cube-module-directory",
     url: "/OSS/zhenwuyunDownloadFile",
     method: "post",
     data,

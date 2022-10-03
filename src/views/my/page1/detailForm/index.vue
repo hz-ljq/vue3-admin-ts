@@ -1,6 +1,6 @@
 <template>
   <div class="detailForm">
-    <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" :destroy-on-close="true">
+    <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" @closed="init" :destroy-on-close="true">
       <el-form class="my-form" v-loading="loading" :model="form" ref="ruleForm" label-width="180px">
         <el-row>
           <el-col :span="24">
@@ -59,7 +59,7 @@ import * as Sel from '../selectOpt'
 import { ElMessage } from 'element-plus'
 import elFormHook from './elFormHook'
 
-// -------------------------------------------------------------------props、emits
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ props、emits
 // props
 const props = defineProps({
   id: {
@@ -74,19 +74,16 @@ const props = defineProps({
 // emits
 const emits = defineEmits(['submited'])
 
-// -------------------------------------------------------------------data
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 let { xxx } = elFormHook()
 console.log(xxx)
 let visible = ref(false)
-let form = ref({
-  val1: null,
-  val2: null
-})
+let form = ref(null)
 let loading = ref(false)
 let submitLoading = ref(false)
 let ruleForm = ref()
 
-// -------------------------------------------------------------------methods
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 提交
 function submit() {
   ruleForm.value.validate((valid) => {
@@ -126,8 +123,25 @@ function open() {
     })
   }
 }
+// 初始化
+function init() {
+  // 初始化表单
+  form.value = {
+    val1: null,
+    val2: null
+  }
 
-// -------------------------------------------------------------------暴露到组件外部
+  // 清除校验
+  nextTick(() => {
+    ruleForm.value?.clearValidate()
+  })
+}
+
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ 生命周期
+onBeforeMount(() => {
+  init()
+})
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ 暴露到组件外部
 defineExpose({
   visible
 })

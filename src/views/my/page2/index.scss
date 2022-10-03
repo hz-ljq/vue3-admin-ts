@@ -1,40 +1,45 @@
-.page2 {
-  padding: 20px;
+.MyDialogForm {
+  :deep(.my-dialog) {
+    width: 80%;
 
-  > * {
-    // margin-right: 10px;
-    margin-bottom: 20px;
+    .my-form {
+      .el-row {
+        // 解决el-col有时会靠右的问题
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .el-divider__text {
+        color: orange;
+      }
+
+      .el-select,
+      .el-cascader,
+      .el-input-number,
+      .el-date-editor {
+        width: 100%;
+      }
+
+      .el-table {
+        .el-upload {
+          position: relative;
+          top: 6px;
+        }
+
+        .el-upload__tip {
+          vertical-align: bottom;
+        }
+
+        .el-upload-list__item-file-name {
+          line-height: 16px;
+        }
+      }
+
+      .add-btn {
+        padding-top: 10px;
+        width: 100%;
+        text-align: center;
+      }
+    }
   }
-}
-
-.wrapper {
-  width: 200px;
-  height: 50px;
-  position: relative;
-
-  .bg {
-    width: 200px;
-    height: 50px;
-    position: absolute;
-    top: 0;
-    background-image: radial-gradient(rgba(0, 0, 0, 0) 1px, rgb(255, 255, 255) 1px);
-    background-size: 4px 4px;
-    backdrop-filter: saturate(50%) blur(4px);
-  }
-}
-
-.el-carousel__item h3 {
-  color: #475669;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
 }
