@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="page1">
+<script setup lang="ts" name="MyTableList">
 import * as Api from './api.ts'
 import * as Sel from './selectOpt.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'

@@ -33,21 +33,15 @@ export const constantRoutes: RouterTy = [
   {
     path: '/my',
     component: Layout,
-    redirect: '/my/page1',
+    redirect: '/my/home',
     meta: { title: 'my', icon: 'Fold' },
     children: [
       {
-        path: 'page1',
-        name: 'page1',
-        component: () => import('@/views/my/page1/index.vue'),
-        meta: { title: 'page1' }
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/my/index.vue'),
+        meta: { title: 'home' }
       },
-      {
-        path: 'page2',
-        name: 'page2',
-        component: () => import('@/views/my/page2/index.vue'),
-        meta: { title: 'page2' }
-      }
     ]
   },
   {
