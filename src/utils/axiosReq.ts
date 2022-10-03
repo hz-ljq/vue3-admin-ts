@@ -12,6 +12,7 @@ const service: any = axios.create()
 // 请求拦截
 service.interceptors.request.use(
   (request: AxiosReqTy) => {
+    console.log(100, request)
     // token setting
     request.headers['AUTHORIZE_TOKEN'] = getToken()
     /* download file*/
