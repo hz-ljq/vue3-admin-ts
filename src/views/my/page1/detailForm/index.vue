@@ -1,7 +1,7 @@
 <template>
   <div class="detailForm">
     <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" :destroy-on-close="true">
-      <el-form class="my-form" :model="form" ref="ruleForm" label-width="180px">
+      <el-form class="my-form" v-loading="loading" :model="form" ref="ruleForm" label-width="180px">
         <el-row>
           <el-col :span="24">
             <el-form-item label="应用名称" prop="val1" required>
@@ -39,12 +39,16 @@
       </el-form>
 
       <!-- dialog按钮 -->
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="visible = false">取消</el-button>
-        <el-button type="primary" :loading="submitLoading" @click="submit">
-          {{ submitLoading ? '正在提交...' : '提交' }}
-        </el-button>
-      </div>
+      <template #footer>
+        <div v-show="!loading">
+          <el-button @click="visible = false">取消</el-button>
+
+          <el-button v-if="mode === 'view'" @click="visible = false">确定</el-button>
+          <el-button v-else type="primary" :loading="submitLoading" @click="submit">
+            {{ submitLoading ? '正在提交...' : '提交' }}
+          </el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -78,6 +82,7 @@ let form = ref({
   val1: null,
   val2: null
 })
+let loading = ref(false)
 let submitLoading = ref(false)
 let ruleForm = ref()
 
@@ -110,8 +115,10 @@ function submit() {
 
 function open() {
   if (props.mode !== 'add' && props.id !== null) {
+    loading.value = true
     let param = { id: props.id }
     Api.getDetail(param).then((res) => {
+      loading.value = false
       form.value = res.result
       nextTick(() => {
         ruleForm.value?.validate().catch((err) => false)

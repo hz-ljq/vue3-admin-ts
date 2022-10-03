@@ -41,7 +41,7 @@ export function getDetail({ id }) {
     setTimeout(() => {
       let item = mockListData.find((x) => x.id === id)
       resolve({ result: JSON.parse(JSON.stringify(item)) })
-    }, 300)
+    }, 800)
   })
 }
 
