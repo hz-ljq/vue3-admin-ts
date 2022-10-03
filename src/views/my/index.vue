@@ -1,7 +1,7 @@
 <template>
   <div class="my">
-    <!-- <MyTableList /> -->
-    <MyDialogForm />
+    <MyTableList />
+    <!-- <MyDialogForm /> -->
   </div>
 </template>
 

@@ -41,7 +41,7 @@ export const constantRoutes: RouterTy = [
         name: 'home',
         component: () => import('@/views/my/index.vue'),
         meta: { title: 'home' }
-      },
+      }
     ]
   },
   {
