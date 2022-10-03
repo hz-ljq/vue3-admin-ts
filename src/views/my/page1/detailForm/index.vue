@@ -1,6 +1,6 @@
 <template>
   <div class="detailForm">
-    <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" @closed="init">
+    <el-dialog class="my-dialog" title="我是标题（弹出框）" v-model="visible" @open="open" :destroy-on-close="true">
       <el-form class="my-form" :model="form" ref="ruleForm" label-width="180px">
         <el-row>
           <el-col :span="24">
@@ -72,9 +72,12 @@ const emits = defineEmits(['submited'])
 
 // -------------------------------------------------------------------data
 let { xxx } = elFormHook()
-console.log(xxx);
+console.log(xxx)
 let visible = ref(false)
-let form = ref({})
+let form = ref({
+  val1: null,
+  val2: null
+})
 let submitLoading = ref(false)
 let ruleForm = ref()
 
@@ -102,19 +105,6 @@ function submit() {
       console.log('error submit!!')
       return false
     }
-  })
-}
-
-// 初始化
-function init() {
-  // 初始化表单
-  form.value = {
-    val1: null,
-    val2: null
-  }
-  // 清除校验
-  nextTick(() => {
-    ruleForm.value?.clearValidate()
   })
 }
 
