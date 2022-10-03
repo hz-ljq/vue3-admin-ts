@@ -5,7 +5,7 @@ import legacy from '@vitejs/plugin-legacy'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteSvgIcons from 'vite-plugin-svg-icons'
 //mock
-import { viteMockServe } from 'vite-plugin-mock'
+// import { viteMockServe } from 'vite-plugin-mock'
 //inject title
 import { createHtmlPlugin } from 'vite-plugin-html'
 //setup name
@@ -28,7 +28,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 
 import setting from './src/settings'
 
-const prodMock = setting.openProdMock
+// const prodMock = setting.openProdMock
 // import packageJson from './package.json'
 // import { loadEnv } from 'vite'
 import { optimizeDependencies, optimizeElementPlus } from './optimize-include'
@@ -95,17 +95,17 @@ export default ({ command, mode }: any) => {
         symbolId: 'icon-[dir]-[name]'
       }),
       //https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
-      viteMockServe({
-        supportTs: true,
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
-        prodEnabled: prodMock,
-        injectCode: `
-          import { setupProdMockServer } from './mockProdServer';
-          setupProdMockServer();
-        `,
-        logger: true
-      }),
+      // viteMockServe({
+      //   supportTs: true,
+      //   mockPath: 'mock',
+      //   localEnabled: command === 'serve',
+      //   prodEnabled: prodMock,
+      //   injectCode: `
+      //     import { setupProdMockServer } from './mockProdServer';
+      //     setupProdMockServer();
+      //   `,
+      //   logger: true
+      // }),
       // VueSetupExtend(),using  DefineOptions instant of it
       //https://github.com/antfu/unplugin-auto-import/blob/HEAD/src/types.ts
       Components({
