@@ -69,8 +69,6 @@
       :page-sizes="[10, 20, 30, 40]"
       layout="total, sizes, prev, pager, next, jumper"
       :total="paginationOpt.total"
-      @size-change="getData1"
-      @current-change="getData1"
     ></el-pagination>
 
     <!-- 弹出框 -->
@@ -160,6 +158,7 @@ function handleSelectionChange(val) {
 
 // 获取 列表数据
 function getData1() {
+  console.log(555)
   let param = {
     pageNum: paginationOpt.currentPage,
     pageSize: paginationOpt.pageSize,
@@ -197,10 +196,15 @@ function reset() {
   getData1()
 }
 
+// -------------------------------------------------------------------watch
+watch(() => paginationOpt.currentPage, getData1)
+
+watch(() => paginationOpt.pageSize, getData1)
+
 // ------------------------------------------------------------------生命周期
 onBeforeMount(() => {
-  getData1();
-});
+  getData1()
+})
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
