@@ -158,7 +158,6 @@ function handleSelectionChange(val) {
 
 // 获取 列表数据
 function getData1() {
-  console.log(555)
   let param = {
     pageNum: paginationOpt.currentPage,
     pageSize: paginationOpt.pageSize,
