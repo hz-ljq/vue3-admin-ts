@@ -1,16 +1,14 @@
+<script lang="tsx">
 import { defineComponent, ref, reactive, watch, onMounted, withModifiers } from 'vue'
-import './JsxComp.scss'
-import $style from './JsxComp.module.scss' // css module
-import logo from '@/assets/vue.svg' // 图片
+import logo from '@/assets/logo.png' // 图片
 import child from './child.vue' // 子组件（用于验证slot）
-
 export default defineComponent({
   components: { child },
   // 定义props
   props: {
     msg: {
       type: String,
-      default: () => '我是消息message'
+      default: () => '我是消息msg'
     }
   },
   // 定义emits
@@ -82,25 +80,29 @@ export default defineComponent({
           // -----------------------------------------------------------------------样式
         }
         {/*class、className都能用*/}
-        <div ref={divRef} class="a" class={$style.b}>
-          样式
+        <div ref={divRef} class="a">
+          定义class
         </div>
+        {/*style的写法，有两种*/}
         <div style="color: green" style={{ background: 'pink' }}>
-          样式
+          定义style
         </div>
         {
           // -----------------------------------------------------------------------自定义属性
         }
         <div data-index={name.value}>自定义属性</div>
         {
-          // -----------------------------------------------------------------------事件
+          // -----------------------------------------------------------------------事件（自定义参数、事件修饰符）
         }
         <div onClick={click}>{name.value}，测试click事件</div>
         {/*通过withModifiers来添加事件修饰符（self、stop等）*/}
         <div onClick={withModifiers(click, ['stop'])}>{name.value}，测试事件修饰符</div>
-        {/*加自定义参数的写法*/}
+        {/*加自定义参数，写法一*/}
         <div onClick={(e) => click(e, '自定义参数')}>{name.value}，测试事件的自定义参数</div>
-        {/*bind方法的第一个参数也可以用this*/}
+        {
+          // 加自定义参数，写法二
+          // bind方法的第一个参数也可以用this
+        }
         <div onClick={setName.bind(null, '自定义参数')}>{name.value}，测试事件的自定义参数（通过bind）</div>
         {/*等同于<input onKeyup={withModifiers(keyUp, ["enter"])}></input>*/}
         <input
@@ -111,9 +113,9 @@ export default defineComponent({
             }
           }}
         ></input>
-        {/*element-plus组件*/}
+        {/*在element-plus组件中使用*/}
         <el-pagination
-          v-model:currentPage={pagination.currentPage}
+          v-model:current-page={pagination.currentPage}
           v-model:page-size={pagination.pageSize}
           total={pagination.total}
           page-sizes={[10, 20, 30, 40]}
@@ -149,7 +151,7 @@ export default defineComponent({
           }}
         </child>
         {
-          // -----------------------------------------------------------------------指令
+          // -----------------------------------------------------------------------指令（v-test、v-html、v-show、v-if/v-else、v-for、v-model、指令修饰符）
         }
         {/*等同于<div>{name.value}</div>*/}
         <div v-text={name.value}></div>
@@ -172,3 +174,6 @@ export default defineComponent({
     )
   }
 })
+</script>
+
+<style lang="scss" src="./JsxComp.scss" scoped></style>

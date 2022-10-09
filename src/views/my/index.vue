@@ -9,6 +9,7 @@
         <h3>具名slot-foo</h3>
       </template>
     </JsxComp>
+    <!-- <JsxComp2 @myEmit="myEmit"></JsxComp2> -->
   </div>
 </template>
 
@@ -16,7 +17,7 @@
 import tmp from './tmp/index.vue'
 import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
-import JsxComp from './JsxComp/JsxComp.jsx'
+import JsxComp from './JsxComp/JsxComp.vue'
 
 function myEmit(payload: any) {
   console.log('来自JsxComp的事件', payload)
