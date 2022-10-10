@@ -17,7 +17,7 @@
 import tmp from './tmp/index.vue'
 import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
-import JsxComp from './JsxComp/JsxComp.vue'
+import JsxComp from './JsxComp/JsxComp2.vue'
 
 function myEmit(payload: any) {
   console.log('来自JsxComp的事件', payload)

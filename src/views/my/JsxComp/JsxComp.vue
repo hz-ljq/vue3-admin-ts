@@ -1,7 +1,9 @@
 <script lang="tsx">
-import { defineComponent, ref, reactive, watch, onMounted, withModifiers } from 'vue'
+import { defineComponent, ref, reactive, watch, onMounted, withModifiers, h } from 'vue'
 import logo from '@/assets/logo.png' // 图片
 import child from './child.vue' // 子组件（用于验证slot）
+import { ElMessage } from 'element-plus'
+
 export default defineComponent({
   components: { child },
   // 定义props
@@ -17,9 +19,21 @@ export default defineComponent({
   setup(props, { slots, attrs, emit }) {
     // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ props
     console.log('props', props.msg)
-    // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ emits
     setTimeout(() => {
+      // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ emits
       emit('myEmit', '100')
+      // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ h函数、jsx语法，返回的都是虚拟DOM（也就是VNode）
+      // 早期，都是用h函数来写div
+      ElMessage({
+        message: h('p', null, [
+          h('span', null, 'Message can be '),
+          h('i', { style: 'color: teal' }, 'VNode'),
+        ]),
+      })
+      // 由于h函数太麻烦，后来，就出现了jsx
+      ElMessage({
+        message: <div>jsx返回VNode</div>,
+      })
     }, 2000)
     // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
     const name = ref('jsx')
@@ -129,7 +143,7 @@ export default defineComponent({
           // --------------------------------获取父组件传递过来的slot
         }
         <h3>{slots.default ? slots.default() : 'WEB前端'}</h3>
-        <h3>{slots.foo?.()}</h3>
+        <h3>{slots.foo && slots.foo()}</h3>
         {
           // --------------------------------设置子组件的slot
         }
@@ -165,7 +179,7 @@ export default defineComponent({
         {list.map((item) => (
           <div key={item}>值为：{item}</div>
         ))}
-        <el-input v-model={name.value} placeholder="Please input" />
+        <el-input v-model={name.value} placeholder="请输入" />
         {/*v-xxx指令的修饰符（modifiers）用下划线_连接*/}
         <el-button type="primary" v-loading_fullscreen_lock={loading.value}>
           Loading
