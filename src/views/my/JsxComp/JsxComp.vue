@@ -11,6 +11,10 @@ export default defineComponent({
     msg: {
       type: String,
       default: () => '我是消息msg'
+    },
+    listFromParent: {
+      type: Array,
+      default: []
     }
   },
   // 定义emits
@@ -46,8 +50,10 @@ export default defineComponent({
     }, 1000)
     // 用于slots
     const mySlots = {
-      default: () => <div>默认slot-default-1</div>,
-      bar: () => <span>具名slot-bar-1</span>
+      default: () => <div>默认插槽：default-1</div>,
+      bar: () => <span>具名插槽：bar-1</span>,
+      // 作用域插槽：listItem
+      'listItem': (scope) => <span style={{color: 'red'}}>{scope.index} - {scope.item}</span>,
     }
     // 用于分页器
     const pagination = reactive({
@@ -89,7 +95,7 @@ export default defineComponent({
         {
           // -----------------------------------------------------------------------图片
         }
-        <img src={logo} alt="" />
+        <img src={logo} alt="" width="50" />
         {
           // -----------------------------------------------------------------------样式
         }
@@ -139,16 +145,17 @@ export default defineComponent({
         {
           // -----------------------------------------------------------------------slot
         }
-        {
-          // --------------------------------获取父组件传递过来的slot
-        }
+        {/*--------------------------------获取父组件传递过来的slot*/}
         <h3>{slots.default ? slots.default() : 'WEB前端'}</h3>
         <h3>{slots.foo && slots.foo()}</h3>
         {
-          // --------------------------------设置子组件的slot
+          props.listFromParent.map((item, index) => {
+            return <>{slots.listItem && slots.listItem({item, index})}</>
+          })
         }
+        {/*--------------------------------设置子组件的slot*/}
         {/*slot，写法一*/}
-        <child v-slots={mySlots}></child>
+        <child v-slots={mySlots} list={[100, 200, 300, 400]}></child>
         {/*slot，写法二*/}
         <child
           v-slots={{
