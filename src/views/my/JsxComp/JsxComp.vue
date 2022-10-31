@@ -94,13 +94,17 @@ export default defineComponent({
       <>
         {
           // -----------------------------------------------------------------------图片
+          <el-divider>图片</el-divider>
         }
         <img src={logo} alt="" width="50" />
+        {/* 通过...someObj，可以一次传递多个属性（包括自定义属性、class、style、prop、事件等） */}
+        <img {...{src:logo, alt:"", width:"50"}} />
         {
           // -----------------------------------------------------------------------样式
+          <el-divider>样式</el-divider>
         }
         {/*class、className都能用*/}
-        <div ref={divRef} class="a">
+        <div ref={divRef} class="aaa">
           定义class
         </div>
         {/*style的写法，有两种*/}
@@ -109,10 +113,12 @@ export default defineComponent({
         </div>
         {
           // -----------------------------------------------------------------------自定义属性
+          <el-divider>自定义属性</el-divider>
         }
         <div data-index={name.value}>自定义属性</div>
         {
           // -----------------------------------------------------------------------事件（自定义参数、事件修饰符）
+          <el-divider>事件（自定义参数、事件修饰符）</el-divider>
         }
         <div onClick={click}>{name.value}，测试click事件</div>
         {/*通过withModifiers来添加事件修饰符（self、stop等）*/}
@@ -144,6 +150,7 @@ export default defineComponent({
         />
         {
           // -----------------------------------------------------------------------slot
+          <el-divider>slot</el-divider>
         }
         {/*--------------------------------获取父组件传递过来的slot*/}
         <h3>{slots.default ? slots.default() : 'WEB前端'}</h3>
@@ -173,6 +180,7 @@ export default defineComponent({
         </child>
         {
           // -----------------------------------------------------------------------指令（v-test、v-html、v-show、v-if/v-else、v-for、v-model、指令修饰符）
+          <el-divider>指令（v-test、v-html、v-show、v-if/v-else、v-for、v-model、指令修饰符）</el-divider>
         }
         {/*等同于<div>{name.value}</div>*/}
         <div v-text={name.value}></div>
