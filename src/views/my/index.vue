@@ -1,9 +1,9 @@
 <template>
   <div class="my">
-    <!-- <tmp /> -->
+    <tmp />
     <!-- <MyTableList /> -->
     <!-- <MyDialogForm /> -->
-    <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
+    <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
       <template #foo>
         <h3>具名slot-foo</h3>
@@ -11,7 +11,7 @@
       <template #listItem="slotProps">
         <div style="color: blue">作用域插槽：{{ slotProps.index }} - {{ slotProps.item }}</div>
       </template>
-    </JsxComp>
+    </JsxComp> -->
   </div>
 </template>
 
