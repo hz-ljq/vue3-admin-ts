@@ -2,7 +2,7 @@
 import * as Api from './api'
 import { ElMessage } from 'element-plus'
 
-export default function ({ validateHook }) {
+export default function ({ validateHook } = {}) {
   // -------------------------------------------------------------------校验相关
   // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
   let rules = reactive({
@@ -30,9 +30,15 @@ export default function ({ validateHook }) {
     // url
     url: [
       {
-        type: 'url',
         required: true,
         message: '请输入',
+        trigger: ['blur', 'change'],
+        transform: validateHook
+      },
+      {
+        type: 'url',
+        required: true,
+        message: '请输入正确的url地址',
         trigger: ['blur', 'change'],
         transform: validateHook
       }
@@ -40,9 +46,15 @@ export default function ({ validateHook }) {
     // email
     email: [
       {
-        type: 'email',
         required: true,
         message: '请输入',
+        trigger: ['blur', 'change'],
+        transform: validateHook
+      },
+      {
+        type: 'email',
+        required: true,
+        message: '请输入正确的邮箱地址',
         trigger: ['blur', 'change'],
         transform: validateHook
       }
