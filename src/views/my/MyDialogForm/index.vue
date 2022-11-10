@@ -229,7 +229,7 @@
                 <el-table-column label="操作" min-width="80">
                   <template #default="scope">
                     <el-button
-                      @click.native.prevent="delTableRow('表格', scope.$index)"
+                      @click.prevent="delTableRow('表格', scope.$index)"
                       type="primary"
                       link
                       :disabled="mode === 'view'"
@@ -244,7 +244,7 @@
                   type="primary"
                   link
                   icon="plus"
-                  @click.native.prevent="addTableRow('表格')"
+                  @click.prevent="addTableRow('表格')"
                   :disabled="mode === 'view'"
                 >
                   新增

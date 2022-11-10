@@ -1,2 +1,10 @@
 .tmp {
+  // background: pink;
+  #abc {
+    fill: pink;
+
+    &:hover {
+      fill: blue;
+    }
+  }
 }
