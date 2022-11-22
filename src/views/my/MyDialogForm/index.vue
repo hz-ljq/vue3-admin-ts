@@ -119,7 +119,7 @@
                 v-model="form.val7"
                 type="date"
                 placeholder="请选择"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="YYYY-MM-DD HH:mm:ss"
                 :disabled="mode === 'view'"
               ></el-date-picker>
             </el-form-item>
