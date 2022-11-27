@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElSvgIcon: typeof import('./src/components/ElSvgIcon.vue')['default']
+    LForm: typeof import('./src/components/LForm/LForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

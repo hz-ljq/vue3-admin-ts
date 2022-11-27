@@ -1,0 +1,9 @@
+.LForm {
+  width: 100%;
+  :deep(.el-form-item__content) {
+    > .el-input,
+    .el-select {
+      width: 100%;
+    }
+  }
+}
