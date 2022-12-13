@@ -29,104 +29,104 @@ function myEmit(payload: any) {
 }
 
 // todo-ljq
-let { rules } = elFormHook()
-
-const LFormRef = ref()
-const form = ref({
-  input: null,
-  select: 1,
-  radio: 1
-})
-const formOption = ref({
-  form,
-  formParams: {
-    // model: form,
-    rules,
-    labelWidth: '120px'
-  },
-  elRowGutter: '20',
-  itemArr: [
-    {
-      compName: 'el-input',
-      compParams: {
-        placeholder: '请输入'
-      },
-      key: 'input',
-      elFormItemParams: {
-        label: 'el-input',
-        prop: 'input',
-        rules: rules.input
-      },
-      elColSpan: 8
-    },
-    {
-      compName: 'el-select',
-      compParams: {
-        placeholder: '请选择'
-      },
-      key: 'select',
-      elFormItemParams: {
-        label: 'el-select',
-        prop: 'select',
-        rules: rules.singleSelect
-      },
-      elColSpan: 8,
-      options: [
-        {
-          label: 11,
-          value: 1
-        },
-        {
-          label: 22,
-          value: 2
-        },
-        {
-          label: 33,
-          value: 3,
-          disabled: true
-        }
-      ]
-    },
-    {
-      compName: 'el-radio-group',
-      compParams: {
-        placeholder: '请选择'
-      },
-      key: 'radio',
-      elFormItemParams: {
-        label: 'el-radio-group',
-        prop: 'radio',
-        rules: rules.singleSelect
-      },
-      elColSpan: 8,
-      options: [
-        {
-          label: 1,
-          value: '是'
-        },
-        {
-          label: 2,
-          value: '否'
-        }
-      ]
-    }
-  ],
-  btnArr: [
-    {
-      name: '确定',
-      clickHandler: () => {
-        LFormRef.value.formRef.validate((valid, fields) => {
-          if (valid) {
-            console.log('submit!')
-          } else {
-            console.log('error submit!', fields)
-          }
-        })
-      },
-      elButtonType: 'primary'
-    }
-  ]
-})
+// let { rules } = elFormHook()
+//
+// const LFormRef = ref()
+// const form = ref({
+//   input: null,
+//   select: 1,
+//   radio: 1
+// })
+// const formOption = ref({
+//   form,
+//   formParams: {
+//     // model: form,
+//     rules,
+//     labelWidth: '120px'
+//   },
+//   elRowGutter: '20',
+//   itemArr: [
+//     {
+//       compName: 'el-input',
+//       compParams: {
+//         placeholder: '请输入'
+//       },
+//       key: 'input',
+//       elFormItemParams: {
+//         label: 'el-input',
+//         prop: 'input',
+//         rules: rules.input
+//       },
+//       elColSpan: 8
+//     },
+//     {
+//       compName: 'el-select',
+//       compParams: {
+//         placeholder: '请选择'
+//       },
+//       key: 'select',
+//       elFormItemParams: {
+//         label: 'el-select',
+//         prop: 'select',
+//         rules: rules.singleSelect
+//       },
+//       elColSpan: 8,
+//       options: [
+//         {
+//           label: 11,
+//           value: 1
+//         },
+//         {
+//           label: 22,
+//           value: 2
+//         },
+//         {
+//           label: 33,
+//           value: 3,
+//           disabled: true
+//         }
+//       ]
+//     },
+//     {
+//       compName: 'el-radio-group',
+//       compParams: {
+//         placeholder: '请选择'
+//       },
+//       key: 'radio',
+//       elFormItemParams: {
+//         label: 'el-radio-group',
+//         prop: 'radio',
+//         rules: rules.singleSelect
+//       },
+//       elColSpan: 8,
+//       options: [
+//         {
+//           label: 1,
+//           value: '是'
+//         },
+//         {
+//           label: 2,
+//           value: '否'
+//         }
+//       ]
+//     }
+//   ],
+//   btnArr: [
+//     {
+//       name: '确定',
+//       clickHandler: () => {
+//         LFormRef.value.formRef.validate((valid, fields) => {
+//           if (valid) {
+//             console.log('submit!')
+//           } else {
+//             console.log('error submit!', fields)
+//           }
+//         })
+//       },
+//       elButtonType: 'primary'
+//     }
+//   ]
+// })
 </script>
 
 <style lang="scss" scoped>
@@ -134,5 +134,6 @@ const formOption = ref({
   width: 100%;
   height: calc(100vh - 140px);
   overflow: auto;
+  color: #40ff00;
 }
 </style>

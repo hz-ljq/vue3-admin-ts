@@ -7,6 +7,9 @@ export const convertToArray = (opt) => {
       if (['true', 'false'].includes(key)) {
         // 布尔值
         value = JSON.parse(key)
+      } else {
+        // 字符串
+        value = key
       }
     } else {
       // 数字
