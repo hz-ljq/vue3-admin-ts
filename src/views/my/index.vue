@@ -12,7 +12,7 @@
         <div style="color: blue">作用域插槽：{{ slotProps.index }} - {{ slotProps.item }}</div>
       </template>
     </JsxComp> -->
-    <LForm ref="LFormRef" :formOption="formOption"></LForm>
+    <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
   </div>
 </template>
 
