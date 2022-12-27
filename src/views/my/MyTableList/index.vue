@@ -1,21 +1,27 @@
 <template>
   <div class="MyTableList">
     <div class="filter">
-      <div class="name">应用名称：</div>
-      <el-input v-model="filter.inputVal" placeholder="请输入"></el-input>
+      <div class="item">
+        <div class="name">应用名称：</div>
+        <el-input v-model="filter.inputVal" placeholder="请输入" clearable></el-input>
+      </div>
 
-      <div class="name">状态：</div>
-      <el-select v-model="filter.selectVal1" placeholder="请选择">
-        <el-option
-          v-for="item in Sel.convertToArray(Sel.opt101)"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+      <div class="item">
+        <div class="name">状态：</div>
+        <el-select v-model="filter.selectVal1" placeholder="请选择" clearable>
+          <el-option
+            v-for="item in Sel.convertToArray(Sel.opt101)"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
 
-      <el-button type="primary" @click="search">查询</el-button>
-      <el-button type="primary" @click="reset">重置</el-button>
+      <div class="item btns">
+        <el-button type="primary" @click="search">查询</el-button>
+        <el-button @click="reset">重置</el-button>
+      </div>
     </div>
 
     <div class="operation-btns">
@@ -36,7 +42,7 @@
       v-loading="loading"
       max-height="calc(100vh - 300px)"
     >
-      <el-table-column type="selection" width="40"></el-table-column>
+      <el-table-column type="selection" width="50"></el-table-column>
       <!-- <el-table-column label="序号" width="60">
         <template #default="scope">
           {{
@@ -46,7 +52,7 @@
           }}
         </template>
       </el-table-column> -->
-      <el-table-column type="index" width="60"></el-table-column>
+      <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column prop="val1" label="应用名称" min-width="200"></el-table-column>
       <el-table-column prop="val2" label="状态" min-width="200">
         <template #default="scope">
@@ -62,14 +68,15 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination
-      class="my-pagination"
-      v-model:currentPage="paginationOpt.currentPage"
-      v-model:page-size="paginationOpt.pageSize"
-      :page-sizes="[10, 20, 30, 40]"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="paginationOpt.total"
-    ></el-pagination>
+    <div class="my-pagination">
+      <el-pagination
+        v-model:currentPage="paginationOpt.currentPage"
+        v-model:page-size="paginationOpt.pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="paginationOpt.total"
+      ></el-pagination>
+    </div>
 
     <!-- 弹出框 -->
     <!-- <el-dialog :title="dialog.title" v-model="dialog.visible">
@@ -81,17 +88,17 @@
       </div>
     </el-dialog> -->
 
-    <detailForm ref="detailFormDialog" :id="detailFormDialogInfo.id" :mode="detailFormDialogInfo.mode"></detailForm>
+    <detailForm ref="detailFormDialog" :id="detailFormDialogInfo.id" :mode="detailFormDialogInfo.mode" />
   </div>
 </template>
 
 <script setup lang="ts" name="MyTableList">
-import * as Api from './api.ts'
-import * as Sel from './selectOpt.ts'
+import * as Api from './api'
+import * as Sel from './selectOpt'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import detailForm from './detailForm/index.vue'
 
-// -------------------------------------------------------------------data
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 let radio = ref('1')
 let filter = reactive({
   inputVal: null,
@@ -115,7 +122,7 @@ let detailFormDialogInfo = ref({
 
 let detailFormDialog = ref()
 
-// -------------------------------------------------------------------methods
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 打开弹出框（新增、查看、编辑）
 function openDialog(mode, id) {
   detailFormDialogInfo.value = {
@@ -195,12 +202,10 @@ function reset() {
   getData1()
 }
 
-// -------------------------------------------------------------------watch
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 watch(() => paginationOpt.currentPage, getData1)
-
 watch(() => paginationOpt.pageSize, getData1)
 
-// ------------------------------------------------------------------生命周期
 onBeforeMount(() => {
   getData1()
 })

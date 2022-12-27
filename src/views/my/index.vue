@@ -1,7 +1,7 @@
 <template>
   <div class="my">
     <!-- <tmp /> -->
-    <!-- <MyTableList /> -->
+    <MyTableList />
     <!-- <MyDialogForm /> -->
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
