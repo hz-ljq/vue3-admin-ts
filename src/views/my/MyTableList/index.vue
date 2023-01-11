@@ -56,7 +56,7 @@
       <el-table-column prop="val1" label="应用名称" min-width="200"></el-table-column>
       <el-table-column prop="val2" label="状态" min-width="200">
         <template #default="scope">
-          <span>{{ Sel.opt101[scope.row.val2] }}</span>
+          <span>{{ Sel.opt101.get(scope.row.val2) }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
