@@ -71,7 +71,7 @@
             <el-form-item label="下拉框(单选)" prop="val4" :rules="rules.singleSelect">
               <el-select v-model="form.val4" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
-                  v-for="item in selectOpt.convertToArray(selectOpt.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt101)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -90,7 +90,7 @@
                 :disabled="mode === 'view'"
               >
                 <el-option
-                  v-for="item in selectOpt.convertToArray(selectOpt.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt101)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -130,7 +130,7 @@
             <el-form-item label="radio" prop="val8" :rules="rules.singleSelect">
               <el-radio-group v-model="form.val8" :disabled="mode === 'view'">
                 <el-radio
-                  v-for="item in selectOpt.convertToArray(selectOpt.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt101)"
                   :key="item.value"
                   :label="item.value"
                 >
@@ -150,9 +150,9 @@
             <el-form-item label="checkbox" prop="val10" :rules="rules.multipleSelect">
               <el-checkbox-group v-model="form.val10" :disabled="mode === 'view'">
                 <el-checkbox
-                  :label="item.value"
-                  v-for="item in selectOpt.convertToArray(selectOpt.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt101)"
                   :key="item.value"
+                  :label="item.value"
                 >
                   {{ item.label }}
                 </el-checkbox>
@@ -347,7 +347,7 @@
 </template>
 
 <script lang="ts" setup name="MyDialogForm">
-import * as selectOpt from './selectOpt'
+import * as Sel from './selectOpt'
 import * as Api from './api'
 import elFormHook from './elFormHook'
 import { ElMessage } from 'element-plus'
