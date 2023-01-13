@@ -33,12 +33,12 @@
             <el-divider>（输入）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="字符串输入框(单行)" prop="val1" :rules="rules.input">
+            <el-form-item label="字符串输入框(单行)" prop="val1" :rules="rules.input()">
               <el-input v-model="form.val1" placeholder="请输入" clearable :disabled="mode === 'view'"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="数字输入框" prop="val2" :rules="rules.inputNumber">
+            <el-form-item label="数字输入框" prop="val2" :rules="rules.inputNumber()">
               <el-input-number
                 v-model="form.val2"
                 controls-position="right"
@@ -50,7 +50,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="字符串输入框(多行)" prop="val3" :rules="rules.input">
+            <el-form-item label="字符串输入框(多行)" prop="val3" :rules="rules.input()">
               <el-input
                 type="textarea"
                 :rows="1"
@@ -68,7 +68,7 @@
             <el-divider>（选择）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(单选)" prop="val4" :rules="rules.singleSelect">
+            <el-form-item label="下拉框(单选)" prop="val4" :rules="rules.singleSelect()">
               <el-select v-model="form.val4" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
                   v-for="item in Sel.convertToArray(Sel.opt101)"
@@ -80,7 +80,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(多选)" prop="val5" :rules="rules.multipleSelect">
+            <el-form-item label="下拉框(多选)" prop="val5" :rules="rules.multipleSelect()">
               <el-select
                 v-model="form.val5"
                 placeholder="请选择"
@@ -100,7 +100,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="级联选择器(单选)" prop="val6" :rules="rules.singleSelect">
+            <el-form-item label="级联选择器(单选)" prop="val6" :rules="rules.singleSelect()">
               <el-cascader
                 v-model="form.val6"
                 placeholder="请选择"
@@ -114,7 +114,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="时间选择器" prop="val7" :rules="rules.singleSelect">
+            <el-form-item label="时间选择器" prop="val7" :rules="rules.singleSelect()">
               <el-date-picker
                 v-model="form.val7"
                 type="date"
@@ -127,13 +127,9 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="radio" prop="val8" :rules="rules.singleSelect">
+            <el-form-item label="radio" prop="val8" :rules="rules.singleSelect()">
               <el-radio-group v-model="form.val8" :disabled="mode === 'view'">
-                <el-radio
-                  v-for="item in Sel.convertToArray(Sel.opt101)"
-                  :key="item.value"
-                  :label="item.value"
-                >
+                <el-radio v-for="item in Sel.convertToArray(Sel.opt101)" :key="item.value" :label="item.value">
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
@@ -141,19 +137,15 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="switch" prop="val9" :rules="rules.singleSelect">
+            <el-form-item label="switch" prop="val9" :rules="rules.singleSelect()">
               <el-switch v-model="form.val9" :active-value="1" :inactive-value="2"></el-switch>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="checkbox" prop="val10" :rules="rules.multipleSelect">
+            <el-form-item label="checkbox" prop="val10" :rules="rules.multipleSelect()">
               <el-checkbox-group v-model="form.val10" :disabled="mode === 'view'">
-                <el-checkbox
-                  v-for="item in Sel.convertToArray(Sel.opt101)"
-                  :key="item.value"
-                  :label="item.value"
-                >
+                <el-checkbox v-for="item in Sel.convertToArray(Sel.opt101)" :key="item.value" :label="item.value">
                   {{ item.label }}
                 </el-checkbox>
               </el-checkbox-group>
@@ -168,11 +160,11 @@
           </el-col>
 
           <el-col :span="24">
-            <el-form-item label="表格" prop="tableList" :rules="rules.multipleTableRow">
+            <el-form-item label="表格" prop="tableList" :rules="rules.multipleTableRow()">
               <el-table border :data="form.tableList" style="width: 100%" max-height="240">
                 <el-table-column label="姓名" min-width="300px">
                   <template #default="scope">
-                    <el-form-item :prop="`tableList.${scope.$index}.name`" :rules="rules.input" :show-message="false">
+                    <el-form-item :prop="`tableList.${scope.$index}.name`" :rules="rules.input()" :show-message="false">
                       <el-input
                         v-model="scope.row.name"
                         placeholder="请输入"
@@ -186,7 +178,7 @@
                   <template #default="scope">
                     <el-form-item
                       :prop="`tableList.${scope.$index}.files`"
-                      :rules="rules.multipleUpload"
+                      :rules="rules.multipleUpload()"
                       :inline-message="true"
                     >
                       <el-upload
@@ -278,7 +270,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="输入框0" prop="stepInfo.val100" :rules="rules.input">
+            <el-form-item label="输入框0" prop="stepInfo.val100" :rules="rules.input()">
               <el-input
                 v-model="form2.stepInfo.val100"
                 placeholder="请输入"
@@ -294,7 +286,7 @@
             <el-divider>第1步</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="输入框1" prop="stepInfo.val101" :rules="rules.input">
+            <el-form-item label="输入框1" prop="stepInfo.val101" :rules="rules.input()">
               <el-input
                 v-model="form2.stepInfo.val101"
                 placeholder="请输入"
@@ -310,7 +302,7 @@
             <el-divider>第2步</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="输入框2" prop="stepInfo.val102" :rules="rules.input">
+            <el-form-item label="输入框2" prop="stepInfo.val102" :rules="rules.input()">
               <el-input
                 v-model="form2.stepInfo.val102"
                 placeholder="请输入"

@@ -1,8 +1,8 @@
 <template>
   <div class="my">
     <!-- <tmp /> -->
-    <MyTableList />
-    <!-- <MyDialogForm /> -->
+    <!-- <MyTableList ref="MyTableListRef" /> -->
+    <MyDialogForm />
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
       <template #foo>
@@ -27,6 +27,8 @@ import elFormHook from '@/views/my/MyDialogForm/elFormHook'
 function myEmit(payload: any) {
   console.log('来自JsxComp的事件', payload)
 }
+
+onMounted(() => {})
 
 // todo-ljq
 // let { rules } = elFormHook()
