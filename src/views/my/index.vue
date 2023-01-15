@@ -2,7 +2,7 @@
   <div class="my">
     <!-- <tmp /> -->
     <!-- <MyTableList ref="MyTableListRef" /> -->
-    <MyDialogForm />
+    <!-- <MyDialogForm /> -->
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
       <template #foo>
@@ -13,21 +13,32 @@
       </template>
     </JsxComp> -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
+    <LSearchLayoutDemo></LSearchLayoutDemo>
   </div>
 </template>
 
 <script setup lang="tsx" name="my">
+// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共hooks
+import elFormHook from '@/views/my/MyDialogForm/elFormHook'
+
+// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件
+import LForm from '@/components/LForm/LForm.vue'
+import LSearchLayoutDemo from './LSearchLayoutDemo/index.vue'
+
+// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板
 import tmp from './tmp/index.vue'
 import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
 import JsxComp from './JsxComp/JsxComp.vue'
-import LForm from '@/components/LForm/LForm.vue'
-import elFormHook from '@/views/my/MyDialogForm/elFormHook'
 
+// ------------------------------------------------------------------- data
+
+// ------------------------------------------------------------------- methods
 function myEmit(payload: any) {
   console.log('来自JsxComp的事件', payload)
 }
 
+// ------------------------------------------------------------------- other
 onMounted(() => {})
 
 // todo-ljq
@@ -136,6 +147,8 @@ onMounted(() => {})
   width: 100%;
   height: calc(100vh - 140px);
   overflow: auto;
-  color: #40ff00;
+  // color: #40ff00;
+  border: 1px solid;
+  padding: 20px;
 }
 </style>
