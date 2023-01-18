@@ -49,17 +49,10 @@ const props = defineProps({
     default: () => ({})
   }
 })
-
 // ● emits
 const emits = defineEmits(['search', 'reset'])
-
 // ● slots
 const slots = useSlots()
-console.log(988, slots[0])
-
-// // ● attrs
-// const attrs = useAttrs()
-// console.log(attrs)
 
 // 默认配置
 const defaultOptions = {
@@ -101,7 +94,7 @@ const defaultOptions = {
 // ● computed
 // 用户配置（props.options）与组件默认配置（defaultOptions）合并后的配置
 const mergedOptions = computed(() => {
-  let opt = deepAssign({}, defaultOptions, props.options)
+  const opt = deepAssign({}, defaultOptions, props.options)
   return opt
 })
 // ------------------------------------------------------------------- methods
@@ -110,14 +103,14 @@ function isPlainObject(obj) {
   return typeof obj === 'object' && Object.prototype.toString.call(obj) === '[object Object]'
 }
 // 深度合并多个对象的方法
-function deepAssign() {
-  let len = arguments.length,
-    target = arguments[0]
+function deepAssign(...rest) {
+  const len = rest.length
+  let target = rest[0]
   if (!isPlainObject(target)) {
     target = {}
   }
   for (let i = 1; i < len; i++) {
-    let source = arguments[i]
+    let source = rest[i]
     if (isPlainObject(source)) {
       for (let s in source) {
         if (s === '__proto__' || target === source[s]) {
@@ -134,9 +127,6 @@ function deepAssign() {
   return target
 }
 // ------------------------------------------------------------------- other
-// // ● defineExpose（暴露到组件外部）
-// defineExpose({
-// })
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

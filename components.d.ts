@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElSvgIcon: typeof import('./src/components/ElSvgIcon.vue')['default']
     LForm: typeof import('./src/components/LForm/LForm.vue')['default']
+    LNaviAnchor: typeof import('./src/components/LNaviAnchor/LNaviAnchor.vue')['default']
     LSearch: typeof import('./src/components/LSearch/LSearch.vue')['default']
     'LSearch copy': typeof import('./src/components/LSearch/LSearch copy.vue')['default']
     LSearchItem: typeof import('./src/components/LSearch/LSearchItem.vue')['default']

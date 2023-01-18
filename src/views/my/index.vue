@@ -13,7 +13,8 @@
       </template>
     </JsxComp> -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
-    <LSearchLayoutDemo></LSearchLayoutDemo>
+    <!-- <LSearchLayoutDemo /> -->
+    <LNaviAnchorDemo />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import elFormHook from '@/views/my/MyDialogForm/elFormHook'
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件
 import LForm from '@/components/LForm/LForm.vue'
 import LSearchLayoutDemo from './LSearchLayoutDemo/index.vue'
+import LNaviAnchorDemo from './LNaviAnchorDemo/index.vue'
 
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板
 import tmp from './tmp/index.vue'
@@ -31,6 +33,8 @@ import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
 import JsxComp from './JsxComp/JsxComp.vue'
 
+// import $ from 'jquery'
+// console.log(333, $);
 // ------------------------------------------------------------------- data
 
 // ------------------------------------------------------------------- methods

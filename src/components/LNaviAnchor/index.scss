@@ -1,0 +1,27 @@
+.LNaviAnchor {
+  position: fixed;
+  // top: 100px;
+  // right: 90px;
+  // z-index: 10;
+  background-color: white;
+  box-shadow: 0 0 20px lightgray;
+  padding: 10px 0;
+  // max-height: calc(100% - 140px);
+  // overflow-y: auto;
+  // width: 240px;
+
+  .item {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px;
+    padding: 0 25px;
+    cursor: pointer;
+    color: #575757;
+    border-left: 2px solid #e6e8ed;
+
+    &.active {
+      color: #3f8bff;
+      border-left: 2px solid #3f8bff;
+    }
+  }
+}

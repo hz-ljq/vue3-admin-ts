@@ -1,5 +1,5 @@
 <template>
-  <LSearchLayout :options="options" @search="search" @reset="reset">
+  <LSearchLayout :options="searchOptions" @search="search" @reset="reset">
     <template #0>
       <el-input v-model="filter.val0" placeholder="输入后，条件1会隐藏"></el-input>
     </template>
@@ -35,7 +35,7 @@
 <script setup lang="tsx">
 import LSearchLayout from '@/components/LSearchLayout/LSearchLayout.vue'
 // ------------------------------------------------------------------- data
-const options = ref({
+const searchOptions = ref({
   btns: {
     // disabled: true,
     span: 8
@@ -108,7 +108,7 @@ function reset() {
 watch(
   () => filter.value.val4,
   () => {
-    options.value.items[3].disabled = !!filter.value.val4
+    searchOptions.value.items[3].disabled = !!filter.value.val4
   }
 )
 </script>
