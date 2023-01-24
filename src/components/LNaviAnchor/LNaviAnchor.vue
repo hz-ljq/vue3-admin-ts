@@ -4,7 +4,7 @@
       <div @click="scrollTo(item.id)">
         <slot name="list-item" :item="item" :index="index">
           <!-- slot默认值 -->
-          <div class="item" :class="{ active: item.id === currentId }">
+          <div class="navi-item" :class="{ active: item.id === currentId }">
             <span>{{ item.title }}</span>
           </div>
         </slot>
@@ -39,7 +39,7 @@ let parentDom = null // 容器dom（也就是父节点）
 const LNaviAnchorRef = ref()
 const listConfirmed = ref([]) // list经过验证dom是否存在后的数据
 const currentId = ref(null) // 当前高亮菜单的id
-// throttleTimer: null, // 定时器（节流）
+// const throttleTimer = ref(null) // 定时器（节流）
 
 // ------------------------------------------------------------------- methods
 // 处理 菜单
@@ -87,41 +87,45 @@ function scrollTo(id) {
   )
 }
 
+// scroll事件的回调
+function scrollHander() {
+  // // 节流（会缺失高亮菜单项切换的轮动效果）
+  // clearTimeout(throttleTimer.value)
+  // throttleTimer.value = setTimeout(() => {
+  //   for (let i = 0; i < listConfirmed.value.length; i++) {
+  //     let dom = document.getElementById(listConfirmed.value[i].id)
+  //     if (dom) {
+  //       if (dom.offsetTop > parentDom.scrollTop) {
+  //         // 【dom相对父节点的距离 > 滑块相对父节点的距离】，说明当前视口的顶部处于上一个dom的内容中
+  //         currentId.value = listConfirmed.value[i - 1].id
+  //         break
+  //       } else if (i === listConfirmed.value.length - 1) {
+  //         // 如果是最后一项，则高亮最后一项的id
+  //         currentId.value = listConfirmed.value[i].id
+  //       }
+  //     }
+  //   }
+  // }, 50)
+
+  for (let i = 0; i < listConfirmed.value.length; i++) {
+    let dom = document.getElementById(listConfirmed.value[i].id)
+    if (dom) {
+      if (dom.offsetTop > parentDom.scrollTop) {
+        // 【dom相对父节点的距离 > 滑块相对父节点的距离】，说明当前视口的顶部处于上一个dom的内容中
+        currentId.value = listConfirmed.value[i - 1].id
+        break
+      } else if (i === listConfirmed.value.length - 1) {
+        // 如果是最后一项，则高亮最后一项的id
+        currentId.value = listConfirmed.value[i].id
+      }
+    }
+  }
+}
+
 // 父节点监听scroll
 function scrollListen() {
   if (parentDom) {
-    parentDom.onscroll = () => {
-      // // 节流（会缺失高亮菜单项切换的轮动效果）
-      // clearTimeout(this.throttleTimer)
-      // this.throttleTimer = setTimeout(() => {
-      //   for (let i = 0; i < listConfirmed.value.length; i++) {
-      //     let dom = document.getElementById(listConfirmed.value[i].id)
-      //     if (dom) {
-      //       if (dom.offsetTop > parentDom.scrollTop) {
-      //         currentId.value = listConfirmed.value[i - 1].id
-      //         break
-      //       } else if (i === listConfirmed.value.length - 1) {
-      //         // 如果是最后一项，则高亮最后一项的id
-      //         currentId.value = listConfirmed.value[i].id
-      //       }
-      //     }
-      //   }
-      // }, 50)
-
-      for (let i = 0; i < listConfirmed.value.length; i++) {
-        let dom = document.getElementById(listConfirmed.value[i].id)
-        if (dom) {
-          if (dom.offsetTop > parentDom.scrollTop) {
-            // 【dom相对父节点的距离 > 滑块相对父节点的距离】，说明当前视口的顶部处于上一个dom的内容中
-            currentId.value = listConfirmed.value[i - 1].id
-            break
-          } else if (i === listConfirmed.value.length - 1) {
-            // 如果是最后一项，则高亮最后一项的id
-            currentId.value = listConfirmed.value[i].id
-          }
-        }
-      }
-    }
+    parentDom.onscroll = scrollHander
   }
 }
 // ------------------------------------------------------------------- other
@@ -149,10 +153,18 @@ function init() {
   refresh()
 }
 
+onBeforeUnmount(() => {
+  if (parentDom) {
+    // 解绑
+    parentDom.onscroll = null
+  }
+})
+
 defineExpose({
   currentId,
   init
 })
+
 // ------------------------------------------------------------------- todo
 // scrollTo前、scrollTo后的回调；
 </script>

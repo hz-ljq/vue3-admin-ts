@@ -1,6 +1,6 @@
 <template>
   <div class="LNaviAnchorDemo">
-    <LNaviAnchor ref="LNaviAnchorRef" class="myLNaviAnchor" :list="naviList" :pad="true" :scroll-speed="800">
+    <LNaviAnchor ref="LNaviAnchorRef" class="myLNaviAnchor" :list="naviList" :pad="true" :scroll-speed="300">
       <!-- 可以不设置slot，因为存在slot默认值 -->
       <template #list-item="{ item, index }">
         <div class="item" :class="{ active: LNaviAnchorRef.currentId === item.id }">
