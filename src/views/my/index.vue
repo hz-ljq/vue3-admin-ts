@@ -1,5 +1,11 @@
 <template>
   <div class="my">
+    <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
+    <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
+    <!-- <LSearchLayoutDemo /> -->
+    <!-- <LNaviAnchorDemo /> -->
+
+    <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp /> -->
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
@@ -12,9 +18,7 @@
         <div style="color: blue">作用域插槽：{{ slotProps.index }} - {{ slotProps.item }}</div>
       </template>
     </JsxComp> -->
-    <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
-    <!-- <LSearchLayoutDemo /> -->
-    <LNaviAnchorDemo />
+    <Steps />
   </div>
 </template>
 
@@ -32,6 +36,7 @@ import tmp from './tmp/index.vue'
 import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
 import JsxComp from './JsxComp/JsxComp.vue'
+import Steps from './Steps/Steps.vue'
 
 // import $ from 'jquery'
 // console.log(333, $);
