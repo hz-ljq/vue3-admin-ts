@@ -18,6 +18,7 @@ import $jq from 'jquery'
 // ------------------------------------------------------------------- data
 // ● props
 const props = defineProps({
+  // 菜单数据
   list: {
     type: Array,
     default: () => []
