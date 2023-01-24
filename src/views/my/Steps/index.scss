@@ -1,0 +1,53 @@
+.Steps {
+  border-left: 1px solid #e9e9eb;
+  color: black;
+
+  .item {
+    position: relative;
+    margin: 20px 0;
+
+    .icon {
+      position: absolute;
+      top: 11px;
+      left: -11px;
+      background-color: white;
+      font-size: 20px;
+
+      &.done {
+        color: #67c23a;
+      }
+
+      &.todo {
+        color: #e6a23c;
+      }
+
+      &.reject {
+        color: #f56c6c;
+      }
+
+      &.waiting {
+        color: #909399;
+      }
+    }
+
+    .step-content {
+      margin-left: 30px;
+      padding: 10px 20px;
+      background-color: #d9ecff;
+      border-radius: 6px;
+      line-height: 24px;
+
+      .title {
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .desc {
+        font-size: 14px;
+      }
+      .time {
+        color: #909399;
+        font-size: 14px;
+      }
+    }
+  }
+}
