@@ -99,28 +99,28 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import detailForm from './detailForm/index.vue'
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
-let radio = ref('1')
-let filter = reactive({
+const radio = ref('1')
+const filter = reactive({
   inputVal: null,
   selectVal1: null
 })
-let tableData = ref([])
-let loading = ref(false)
-let multipleSelection = ref([])
+const tableData = ref([])
+const loading = ref(false)
+const multipleSelection = ref([])
 
-let paginationOpt = reactive({
+const paginationOpt = reactive({
   currentPage: 1,
   pageSize: 10,
   total: 0
 })
 
 // 弹出框
-let detailFormDialogInfo = ref({
+const detailFormDialogInfo = ref({
   mode: 'add',
   id: null
 })
 
-let detailFormDialog = ref()
+const detailFormDialog = ref()
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 打开弹出框（新增、查看、编辑）

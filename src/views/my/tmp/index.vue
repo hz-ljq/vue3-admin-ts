@@ -2,6 +2,7 @@
   <div class="tmp">
     <h1>tmp</h1>
   </div>
+  <div>123</div>
 </template>
 
 <script setup lang="tsx">
