@@ -6,7 +6,7 @@
     <!-- <LNaviAnchorDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
-    <tmp ref="tmpRef" />
+    <!-- <tmp ref="tmpRef" /> -->
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
@@ -19,6 +19,7 @@
       </template>
     </JsxComp> -->
     <!-- <Steps /> -->
+    <MyGaodeMap />
   </div>
 </template>
 
@@ -37,6 +38,7 @@ import MyTableList from './MyTableList/index.vue'
 import MyDialogForm from './MyDialogForm/index.vue'
 import JsxComp from './JsxComp/JsxComp.vue'
 import Steps from './Steps/Steps.vue'
+import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue'
 
 // import $ from 'jquery'
 // console.log(333, $);

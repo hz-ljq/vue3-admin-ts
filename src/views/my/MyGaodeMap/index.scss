@@ -1,0 +1,75 @@
+.MyGaodeMap {
+  :deep(#gaode-map) {
+    width: 100vw;
+    height: 100vh;
+
+    .amap-marker-label {
+      border: 0;
+      padding: 0;
+      border-radius: 3px;
+      overflow: hidden;
+
+      .marker-label {
+        padding: 4px 8px;
+        background-color: pink;
+      }
+    }
+
+    .marker {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: yellow;
+    }
+
+    .indi-wrapper {
+      // min-width: 200px;
+      // min-height: 150px;
+      padding: 10px 20px;
+
+      .indi {
+        font-size: 14px;
+        font-weight: 900;
+        color: blue;
+      }
+    }
+
+    .infoWindow1 {
+      padding: 8px;
+      font-weight: 900;
+      font-size: 14px;
+
+      .item {
+        color: red;
+        cursor: pointer;
+        margin-top: 5px;
+
+        &:hover {
+          background-color: pink;
+        }
+      }
+    }
+
+    .infoWindow2 {
+      color: red;
+      padding: 10px;
+      background: white;
+
+      .title {
+        font-size: 16px;
+        font-weight: 900;
+        margin-bottom: 10px;
+      }
+      .content {
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 10px;
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    }
+  }
+}
