@@ -75,7 +75,6 @@ const infoOfInfoWindow2 = ref({
 })
 
 // ------------------------------------------------------------------- methods
-
 // 地图初始化
 function initMap() {
   addImageLayer()
@@ -120,16 +119,23 @@ function initMap() {
       isCustom: true // 是否自定义（是的话，信息窗体的外框框样式，以及右上角的关闭按钮都将不存在）
     })
 
-    // 模拟数据
-    let item = {
+    // marker1
+    const item1 = {
       lng: 120,
       lat: 30,
-      carNo: '浙A·123456',
       indi1: 'indi1',
       indi2: 'indi2'
     }
-    addMarker1(item)
-    addMarker2(item)
+    addMarker1(item1)
+
+    // marker2
+    const item2 = {
+      lng: 120.2,
+      lat: 30,
+      carNo: '浙A·123456',
+    }
+    addMarker2(item2)
+
     addMassMarks()
 
     addText()
@@ -170,7 +176,9 @@ function addMarker1(item) {
       content: `<div class="marker-label">我是marker1</div>`,
       direction: 'top',
       offset: [-20, 0]
-    }
+    },
+    // 用户自定义数据
+    extData: item
   })
   // marker.setSize([10, 10]);
 
@@ -199,7 +207,7 @@ function addMarker2(item) {
     content: `<div>
           <div class="marker" id="marker-${item.carNo}" />
         </div>`,
-    offset: [100, 0],
+    offset: [50, 0],
     position: [item.lng, item.lat],
     anchor: 'center',
     // 标注
@@ -207,18 +215,27 @@ function addMarker2(item) {
       content: `<div class="marker-label">我是marker2</div>`,
       direction: 'top',
       offset: [20, 0]
-    }
+    },
+    // 用户自定义数据
+    extData: item
   })
 
+  // 暂存 信息弹框的内容
+  marker.content = `
+        <div class="indi-wrapper">
+          <div class="indi">我是marker2：${item.carNo}</div>
+        </div>
+      `
+
   // 绑定click事件
-  marker.on('click', () => {})
+  marker.on('click', markerClick)
 
   markersArr.push(marker)
 }
 
 // marker的点击事件
 function markerClick(e) {
-  // console.log(e);
+  console.log(e.target.getExtData());
   infoWindow1.setContent(e.target.content)
   infoWindow1.open(map, e.target.getPosition())
 }
