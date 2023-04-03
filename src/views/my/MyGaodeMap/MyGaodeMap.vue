@@ -326,10 +326,24 @@ function addMassMarks() {
 
       infoWindow2.setContent(infoWindow2Ref.value)
       infoWindow2.open(map, e.data.lnglat)
+
+      switchMarker(e.data.name)
     })
     mass.on('mouseover', (e) => {})
   }
   // 设置数据
+  mass.setData(mockData.mass)
+}
+
+// 切换 打点的高亮状态
+function switchMarker(name) {
+  mockData.mass.map((x) => {
+    if (x.name === name) {
+      x.style = 8
+    } else {
+      x.style = x.originStyle
+    }
+  })
   mass.setData(mockData.mass)
 }
 

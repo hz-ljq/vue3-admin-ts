@@ -4,7 +4,8 @@ for (let i = 0; i < 60; i++) {
   data1.push({
     lnglat: [120 + 0.08 * (i % 20), 29.7 - 0.08 * Math.floor(i / 20)],
     name: 'name-' + i,
-    style: i % 8
+    originStyle: i % 8,
+    style: i % 8,
   })
 }
 

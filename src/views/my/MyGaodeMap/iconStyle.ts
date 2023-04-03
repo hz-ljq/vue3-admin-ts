@@ -24,6 +24,11 @@ let bigBlue = {
   size: new AMap.Size(59, 79),
   zIndex: 1
 }
+let activeIcon = {
+  anchor: new AMap.Pixel(32, 32),
+  size: new AMap.Size(63, 63),
+  zIndex: 1
+}
 
 // -----------------------------------------------------------------图标
 export const styles = [
@@ -94,6 +99,15 @@ export const styles = [
       name: 'blue'
     }),
     ...smallBlue
+  },
+
+  // 高亮图标
+  {
+    url: getUrl({
+      basePath: './images/',
+      name: 'activeIcon'
+    }),
+    ...activeIcon
   }
 ]
 
@@ -108,6 +122,8 @@ function getUrl({ basePath = './', name }) {
     modules = import.meta.glob('./images/icon-big/blue/*', { eager: true })
   } else if (basePath === './images/icon-small/') {
     modules = import.meta.glob('./images/icon-small/*', { eager: true })
+  } else if (basePath === './images/') {
+    modules = import.meta.glob('./images/*', { eager: true })
   }
 
   const mod = modules[url] as { default: string }
