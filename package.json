@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
+    "@highlightjs/vue-plugin": "^2.1.0",
     "axios": "0.21.3",
     "echarts": "5.3.2",
     "element-plus": "^2.2.9",
+    "highlight.js": "^11.7.0",
     "jquery": "^3.6.3",
     "js-error-collection": "^1.0.7",
     "mitt": "^3.0.0",

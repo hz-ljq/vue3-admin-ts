@@ -20,7 +20,7 @@
       </template>
     </JsxComp> -->
     <!-- <Steps /> -->
-    <MyGaodeMap />
+    <!-- <MyGaodeMap /> -->
   </div>
 </template>
 
@@ -49,7 +49,6 @@ import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue'
 function myEmit(payload: any) {
   console.log('来自JsxComp的事件', payload)
 }
-
 // ------------------------------------------------------------------- other
 onMounted(() => {})
 

@@ -55,6 +55,12 @@ import 'uno.css'
 import errorLog from '@/hooks/useErrorLog'
 errorLog()
 
+// highlight
+import 'highlight.js/styles/a11y-light.css' // 语法高亮样式
+import 'highlight.js/lib/common'
+import hljsVuePlugin from '@highlightjs/vue-plugin'
+app.use(hljsVuePlugin) // 全局注册
+
 //pinia
 import { createPinia } from 'pinia'
 

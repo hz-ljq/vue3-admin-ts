@@ -33,8 +33,8 @@
 // }
 
 // Map转Array
-export const convertToArray = (map) => {
-  const arr = []
+export function convertToArray(map: Map<any, any>): any[] {
+  const arr: any[] = []
   for (const x of map) {
     arr.push({
       label: x[1],
