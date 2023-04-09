@@ -6,7 +6,7 @@
     <!-- <LNaviAnchorDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
-    <tmp ref="tmpRef" />
+    <!-- <tmp ref="tmpRef" /> -->
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
@@ -21,6 +21,7 @@
     </JsxComp> -->
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
+    <TsDemo />
   </div>
 </template>
 
@@ -40,6 +41,7 @@ import MyDialogForm from './MyDialogForm/index.vue'
 import JsxComp from './JsxComp/JsxComp.vue'
 import Steps from './Steps/Steps.vue'
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue'
+import TsDemo from './TsDemo/index.vue'
 
 // import $ from 'jquery'
 // console.log(333, $);

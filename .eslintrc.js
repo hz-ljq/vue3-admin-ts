@@ -5,7 +5,7 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
   },
 
   globals: {
@@ -17,7 +17,7 @@ module.exports = {
     defineProps: true,
     defineExpose: true,
     defineOptions: true,
-    $ref: true
+    $ref: true,
   },
   plugins: ['@typescript-eslint', 'prettier', 'import'],
   extends: [
@@ -25,7 +25,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-recommended',
     'prettier',
-    './.eslintrc-auto-import.json'
+    './.eslintrc-auto-import.json',
     // './tests/.eslintrc-unit-test.json'
   ],
   parserOptions: {
@@ -33,8 +33,8 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
-      tsx: true
-    }
+      tsx: true,
+    },
   },
   rules: {
     //close lf error
@@ -59,6 +59,6 @@ module.exports = {
     'vue/script-setup-uses-vars': ['off'],
     //can config  to 2 if need more then required
     '@typescript-eslint/no-unused-vars': [0],
-    'no-param-reassign': ['off']
-  }
-}
+    'no-param-reassign': ['off'],
+  },
+};
