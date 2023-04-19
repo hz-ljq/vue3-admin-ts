@@ -1,18 +1,18 @@
 <template>
   <div class="MyDialogForm">
     <el-dialog
+      v-model="visible"
       class="my-dialog"
       title="我是标题（弹出框）"
-      v-model="visible"
-      @open="open"
-      @closed="init"
       align-center
       :destroy-on-close="true"
+      @open="open"
+      @closed="init"
     >
-      <el-form class="my-form" :model="form" :rules="rules" ref="ruleForm" label-width="180px">
+      <el-form ref="ruleForm" class="my-form" :model="form" :rules="rules" label-width="180px">
         <div
-          @click="setFormData"
           style="position: absolute; right: 80px; top: 20px; color: red; font-size: 20px; cursor: pointer"
+          @click="setFormData"
         >
           一键填充
         </div>
@@ -52,9 +52,9 @@
           <el-col :span="8">
             <el-form-item label="字符串输入框(多行)" prop="val3" :rules="rules.input()">
               <el-input
+                v-model="form.val3"
                 type="textarea"
                 :rows="1"
-                v-model="form.val3"
                 placeholder="请输入"
                 :disabled="mode === 'view'"
               ></el-input>
@@ -192,7 +192,7 @@
                             obj: scope.row,
                             key: 'files',
                             propName: `tableList.${scope.$index}.files`,
-                            formRef: ruleForm
+                            formRef: ruleForm,
                           })
                         "
                         :before-upload="beforeUpload.bind(null, 13)"
@@ -201,7 +201,7 @@
                             obj: scope.row,
                             key: 'files',
                             propName: `tableList.${scope.$index}.files`,
-                            formRef: ruleForm
+                            formRef: ruleForm,
                           })
                         "
                         :on-preview="handlePreview"
@@ -222,10 +222,10 @@
                 <el-table-column label="操作" min-width="80">
                   <template #default="scope">
                     <el-button
-                      @click.prevent="delTableRow('表格', scope.$index)"
                       type="primary"
                       link
                       :disabled="mode === 'view'"
+                      @click.prevent="delTableRow('表格', scope.$index)"
                     >
                       删除
                     </el-button>
@@ -237,8 +237,8 @@
                   type="primary"
                   link
                   icon="plus"
-                  @click.prevent="addTableRow('表格')"
                   :disabled="mode === 'view'"
+                  @click.prevent="addTableRow('表格')"
                 >
                   新增
                 </el-button>
@@ -249,14 +249,14 @@
 
         <!-- form按钮 -->
         <el-form-item>
-          <el-button type="primary" @click="submit" :loading="submitLoading">
+          <el-button type="primary" :loading="submitLoading" @click="submit">
             {{ submitLoading ? '正在提交...' : '提交' }}
           </el-button>
           <el-button @click="visible = false">取消</el-button>
         </el-form-item>
       </el-form>
 
-      <el-form class="my-form" :model="form2" :rules="rules" ref="ruleForm2" label-suffix="：" label-width="240px">
+      <el-form ref="ruleForm2" class="my-form" :model="form2" :rules="rules" label-suffix="：" label-width="240px">
         <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 步骤 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
         <el-steps :active="stepsActive" finish-status="success">
           <el-step title="第0步"></el-step>
@@ -339,19 +339,19 @@
 </template>
 
 <script lang="ts" setup name="MyDialogForm">
-import * as Sel from './selectOpt'
-import * as Api from './api'
-import elFormHook from './elFormHook'
-import { ElMessage } from 'element-plus'
+import * as Sel from './selectOpt';
+import * as Api from './api';
+import elFormHook from './elFormHook';
+import { ElMessage } from 'element-plus';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 // ● props
 const props = defineProps({
   mode: {
     type: [String],
-    default: 'add' // ["view", "add", "update"]
-  }
-})
+    default: 'add', // ["view", "add", "update"]
+  },
+});
 
 let {
   // 校验相关
@@ -363,22 +363,22 @@ let {
   uploadOnSuccess,
   uploadHandleRemove,
   beforeUpload,
-  handlePreview
-} = elFormHook({ validateHook })
+  handlePreview,
+} = elFormHook({ validateHook });
 
-const ruleForm = ref()
-const ruleForm2 = ref()
+const ruleForm = ref();
+const ruleForm2 = ref();
 
-let treeData = ref([])
+let treeData = ref<any[]>([]);
 let cascaderProps = reactive({
   expandTrigger: 'hover',
   emitPath: false,
-  checkStrictly: true
-})
+  checkStrictly: true,
+});
 
-let visible = ref(false)
-let form = ref(null)
-let form2 = ref(null)
+let visible = ref(false);
+let form = ref<any>(null);
+let form2 = ref<any>(null);
 let rules = reactive({
   name: [
     {
@@ -386,14 +386,14 @@ let rules = reactive({
       // message: "请输入",
       validator: asyncName,
       trigger: ['blur', 'change'],
-      transform: validateHook
-    }
+      transform: validateHook,
+    },
   ],
-  ...rulesFromHook
-})
-let submitLoading = ref(false)
+  ...rulesFromHook,
+});
+let submitLoading = ref(false);
 
-let stepsActive = ref(0) // 当前步骤
+let stepsActive = ref(0); // 当前步骤
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 异步校验
 async function asyncName(rule, value, callback) {
@@ -402,25 +402,25 @@ async function asyncName(rule, value, callback) {
       setTimeout(() => {
         if (name === '123') {
           resolve({
-            result: false
-          })
+            result: false,
+          });
         } else {
           resolve({
-            result: true
-          })
+            result: true,
+          });
         }
-      }, 200)
-    })
-  }
+      }, 200);
+    });
+  };
 
   if (!value) {
-    callback(new Error('请输入'))
+    callback(new Error('请输入'));
   } else {
-    let res = await prom(value)
+    let res: any = await prom(value);
     if (res.result) {
-      callback()
+      callback();
     } else {
-      callback(new Error('该名称已存在，请重新输入。'))
+      callback(new Error('该名称已存在，请重新输入。'));
     }
   }
 }
@@ -444,91 +444,91 @@ function setFormData() {
         files: [
           {
             name: '5.png',
-            fileName: 'doc/199be6db30794180a9b8d2874f1b9b25.png'
-          }
-        ]
-      }
-    ]
-  }
+            fileName: 'doc/199be6db30794180a9b8d2874f1b9b25.png',
+          },
+        ],
+      },
+    ],
+  };
 
   nextTick(() => {
-    ruleForm.value.validate().catch((err) => false)
-  })
+    ruleForm.value.validate().catch((err) => false);
+  });
 }
 // 新增一行
 function addTableRow(tableOf) {
   if (tableOf === '表格') {
     form.value.tableList.push({
       name: null,
-      files: []
-    })
+      files: [],
+    });
   }
-  ruleForm.value.validate().catch((err) => false)
+  ruleForm.value.validate().catch((err) => false);
 }
 // 删除一行
 function delTableRow(tableOf, index) {
   if (tableOf === '表格') {
-    form.value.tableList.splice(index, 1)
+    form.value.tableList.splice(index, 1);
   }
-  ruleForm.value.validate().catch((err) => false)
+  ruleForm.value.validate().catch((err) => false);
 }
 // 校验钩子
 function validateHook(value) {
   // do something
-  return value
+  return value;
 }
 // 上一步
 function stepMinus() {
-  stepsActive.value--
+  stepsActive.value--;
 }
 // 下一步
 function stepPlus() {
   ruleForm2.value.validate((valid) => {
     if (valid) {
       if (stepsActive.value === 2) {
-        submitLoading.value = true
+        submitLoading.value = true;
         Api.submit()
           .then(() => {
-            stepsActive.value = 0
+            stepsActive.value = 0;
             ElMessage({
               // showClose: true,
               message: '提交成功！',
-              type: 'success'
-            })
+              type: 'success',
+            });
           })
           .catch((err) => {})
           .finally(() => {
-            submitLoading.value = false
-          })
+            submitLoading.value = false;
+          });
       } else {
-        stepsActive.value++
+        stepsActive.value++;
       }
     }
-  })
+  });
 }
 // 提交
 function submit() {
   ruleForm.value.validate((valid, errObj) => {
     if (valid) {
-      submitLoading.value = true
+      submitLoading.value = true;
       Api.submit()
         .then(() => {
           ElMessage({
             // showClose: true,
             message: '提交成功！',
-            type: 'success'
-          })
+            type: 'success',
+          });
         })
         .catch((err) => {})
         .finally(() => {
-          submitLoading.value = false
-        })
+          submitLoading.value = false;
+        });
     } else {
-      console.log('校验未通过！', errObj)
-      console.log('error submit!!')
-      return false
+      console.log('校验未通过！', errObj);
+      console.log('error submit!!');
+      return false;
     }
-  })
+  });
 }
 // 初始化
 function init() {
@@ -554,24 +554,24 @@ function init() {
       //   name: null,
       //   files: [],
       // },
-    ]
-  }
+    ],
+  };
 
   // 初始化表单
   form2.value = {
     stepInfo: {
       val100: null, // 第0步
       val101: null, // 第1步
-      val102: null // 第2步
-    }
-  }
+      val102: null, // 第2步
+    },
+  };
 
   // 重置当前步骤
-  stepsActive.value = 0
+  stepsActive.value = 0;
   // 清除校验
   nextTick(() => {
-    ruleForm.value?.clearValidate()
-  })
+    ruleForm.value?.clearValidate();
+  });
 }
 
 // 获取 tree
@@ -587,9 +587,9 @@ function getTreeData() {
           children: [
             {
               value: 'yizhi',
-              label: '一致'
-            }
-          ]
+              label: '一致',
+            },
+          ],
         },
         {
           value: 'daohang',
@@ -597,11 +597,11 @@ function getTreeData() {
           children: [
             {
               value: 'cexiangdaohang',
-              label: '侧向导航'
-            }
-          ]
-        }
-      ]
+              label: '侧向导航',
+            },
+          ],
+        },
+      ],
     },
     {
       value: 'zujian',
@@ -609,27 +609,27 @@ function getTreeData() {
       children: [
         {
           value: 'basic',
-          label: 'Basic'
-        }
-      ]
-    }
-  ]
+          label: 'Basic',
+        },
+      ],
+    },
+  ];
 }
 
 function open() {
   nextTick(() => {
-    ruleForm.value?.validate().catch((err) => false)
-  })
+    ruleForm.value?.validate().catch((err) => false);
+  });
 }
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 onBeforeMount(() => {
-  init()
-  getTreeData()
-})
+  init();
+  getTreeData();
+});
 onMounted(() => {
-  visible.value = true
-})
+  visible.value = true;
+});
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
