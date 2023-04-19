@@ -74,13 +74,13 @@ const props = defineProps({
 // ● emits
 const emits = defineEmits(['submited'])
 
-let { xxx } = elFormHook()
+const { xxx } = elFormHook()
 console.log(xxx)
-let visible = ref(false)
-let form = ref(null)
-let loading = ref(false)
-let submitLoading = ref(false)
-let ruleForm = ref()
+const visible = ref<boolean>(false)
+const form = ref<any>(null)
+const loading = ref<boolean>(false)
+const submitLoading = ref<boolean>(false)
+const ruleForm = ref()
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 提交
@@ -113,12 +113,12 @@ function submit() {
 function open() {
   if (props.mode !== 'add' && props.id !== null) {
     loading.value = true
-    let param = { id: props.id }
-    Api.getDetail(param).then((res) => {
+    const param = { id: props.id }
+    Api.getDetail(param).then((res: any) => {
       loading.value = false
       form.value = res.result
       nextTick(() => {
-        ruleForm.value?.validate().catch((err) => false)
+        ruleForm.value?.validate().catch((err: any) => false)
       })
     })
   }

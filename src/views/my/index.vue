@@ -19,9 +19,9 @@
         <div style="color: blue">作用域插槽：{{ slotProps.index }} - {{ slotProps.item }}</div>
       </template>
     </JsxComp> -->
-    <!-- <Steps /> -->
+    <Steps />
     <!-- <MyGaodeMap /> -->
-    <TsDemo />
+    <!-- <TsDemo /> -->
   </div>
 </template>
 

@@ -35,12 +35,12 @@
 
     <el-table
       ref="multipleTable"
+      v-loading="loading"
       class="my-table"
       :data="tableData"
       border
-      @selection-change="handleSelectionChange"
-      v-loading="loading"
       max-height="calc(100vh - 300px)"
+      @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="50"></el-table-column>
       <!-- <el-table-column label="序号" width="60">
@@ -61,9 +61,9 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template #default="scope">
-          <el-button @click="openDialog('view', scope.row.id)" type="primary" link>查看</el-button>
-          <el-button @click="openDialog('update', scope.row.id)" type="primary" link>编辑</el-button>
-          <el-button @click="del(scope.row.id)" type="primary" link>删除</el-button>
+          <el-button type="primary" link @click="openDialog('view', scope.row.id)">查看</el-button>
+          <el-button type="primary" link @click="openDialog('update', scope.row.id)">编辑</el-button>
+          <el-button type="primary" link @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,44 +93,44 @@
 </template>
 
 <script setup lang="ts" name="MyTableList">
-import * as Api from './api'
-import * as Sel from './selectOpt'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import detailForm from './detailForm/index.vue'
+import * as Api from './api';
+import * as Sel from './selectOpt';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import detailForm from './detailForm/index.vue';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
-const radio = ref('1')
+const radio = ref('1');
 const filter = reactive({
   inputVal: null,
-  selectVal1: null
-})
-const tableData = ref([])
-const loading = ref(false)
-const multipleSelection = ref([])
+  selectVal1: null,
+});
+const tableData = ref([]);
+const loading = ref(false);
+const multipleSelection = ref([]);
 
 const paginationOpt = reactive({
   currentPage: 1,
   pageSize: 10,
-  total: 0
-})
+  total: 0,
+});
 
 // 弹出框
 const detailFormDialogInfo = ref({
   mode: 'add',
-  id: null
-})
+  id: null,
+});
 
-const detailFormDialog = ref()
+const detailFormDialog = ref();
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 打开弹出框（新增、查看、编辑）
-function openDialog(mode, id) {
+function openDialog(mode: string, id?: any) {
   detailFormDialogInfo.value = {
     mode,
-    id
-  }
+    id,
+  };
 
-  detailFormDialog.value.visible = true
+  detailFormDialog.value.visible = true;
 }
 
 // 删除
@@ -138,77 +138,77 @@ function del(id) {
   ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
-    type: 'warning'
+    type: 'warning',
   })
     .then(() => {
       Api.del({ id }).then((res) => {
-        getData1()
+        getData1();
 
         ElMessage({
           // showClose: true,
           message: '删除成功！',
-          type: 'success'
-        })
-      })
+          type: 'success',
+        });
+      });
     })
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: '已取消删除'
-      })
-    })
+        message: '已取消删除',
+      });
+    });
 }
 
 function handleSelectionChange(val) {
-  multipleSelection.value = val
+  multipleSelection.value = val;
 }
 
 // 获取 列表数据
 function getData1() {
-  let param = {
+  const param = {
     pageNum: paginationOpt.currentPage,
     pageSize: paginationOpt.pageSize,
 
     val1: filter.inputVal,
-    val2: filter.selectVal1
-  }
+    val2: filter.selectVal1,
+  };
 
-  loading.value = true
+  loading.value = true;
   Api.getListData(param)
     .then((res) => {
-      paginationOpt.total = res.result.total
-      tableData.value = res.result.listData
+      paginationOpt.total = res.result.total;
+      tableData.value = res.result.listData;
     })
     .catch(() => {
-      tableData.value = []
-      paginationOpt.total = 0
+      tableData.value = [];
+      paginationOpt.total = 0;
     })
     .finally(() => {
-      loading.value = false
-    })
+      loading.value = false;
+    });
 }
 
 // 查询
 function search() {
-  paginationOpt.currentPage = 1
-  getData1()
+  paginationOpt.currentPage = 1;
+  getData1();
 }
 
 // 重置
 function reset() {
-  filter.inputVal = null
-  filter.selectVal1 = null
-  paginationOpt.currentPage = 1
-  getData1()
+  filter.inputVal = null;
+  filter.selectVal1 = null;
+  paginationOpt.currentPage = 1;
+  getData1();
 }
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
-watch(() => paginationOpt.currentPage, getData1)
-watch(() => paginationOpt.pageSize, getData1)
+watch(() => paginationOpt.currentPage, getData1);
+watch(() => paginationOpt.pageSize, getData1);
 
 onBeforeMount(() => {
-  getData1()
-})
+  getData1();
+});
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
