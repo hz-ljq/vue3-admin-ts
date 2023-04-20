@@ -19,7 +19,7 @@
 import LNaviAnchor from '@/components/LNaviAnchor/LNaviAnchor.vue'
 // ------------------------------------------------------------------- data
 const LNaviAnchorRef = ref()
-const naviList = ref([
+const naviList = ref<any[]>([
   { id: '菜单0', title: '菜单99', prefixFlag: true, suffixFlag: true },
   { id: '菜单1' },
   { id: '菜单2' },

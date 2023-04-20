@@ -3,7 +3,7 @@
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
     <!-- <LSearchLayoutDemo /> -->
-    <!-- <LNaviAnchorDemo /> -->
+    <LNaviAnchorDemo />
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp ref="tmpRef" /> -->
@@ -19,7 +19,7 @@
         <div style="color: blue">作用域插槽：{{ slotProps.index }} - {{ slotProps.item }}</div>
       </template>
     </JsxComp> -->
-    <Steps />
+    <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
   </div>

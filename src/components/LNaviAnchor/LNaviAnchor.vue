@@ -38,7 +38,7 @@ const props = defineProps({
 
 let parentDom = null // 容器dom（也就是父节点）
 const LNaviAnchorRef = ref()
-const listConfirmed = ref([]) // list经过验证dom是否存在后的数据
+const listConfirmed = ref<any[]>([]) // list经过验证dom是否存在后的数据
 const currentId = ref(null) // 当前高亮菜单的id
 // const throttleTimer = ref(null) // 定时器（节流）
 
