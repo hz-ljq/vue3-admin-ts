@@ -1,6 +1,6 @@
 <template>
   <div class="LNaviAnchorDemo">
-    <LNaviAnchor ref="LNaviAnchorRef" class="myLNaviAnchor" :list="naviList" :pad="true" :scroll-speed="300">
+    <LNaviAnchor ref="LNaviAnchorRef" class="myLNaviAnchor" :list="naviList" pad :scroll-speed="300">
       <!-- 可以不设置slot，因为存在slot默认值 -->
       <template #list-item="{ item, index }">
         <div class="item" :class="{ active: LNaviAnchorRef.currentId === item.id }">
@@ -17,7 +17,7 @@
 
 <script setup lang="tsx">
 import LNaviAnchor from '@/components/LNaviAnchor/LNaviAnchor.vue'
-// ------------------------------------------------------------------- data
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 const LNaviAnchorRef = ref()
 const naviList = ref<any[]>([
   { id: '菜单0', title: '菜单99', prefixFlag: true, suffixFlag: true },
@@ -34,8 +34,8 @@ setTimeout(() => {
 setTimeout(() => {
   naviList.value.at(-1).suffixFlag = true
 }, 2000)
-// ------------------------------------------------------------------- methods
-// ------------------------------------------------------------------- other
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
+// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 onMounted(() => {
   nextTick(() => {
     LNaviAnchorRef.value.init()
