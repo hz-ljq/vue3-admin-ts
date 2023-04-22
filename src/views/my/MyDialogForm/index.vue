@@ -204,7 +204,7 @@
                             formRef: ruleForm,
                           })
                         "
-                        :on-preview="handlePreview"
+                        :on-preview="downloadFile"
                         :limit="10"
                         :disabled="mode === 'view'"
                       >
@@ -363,7 +363,8 @@ let {
   uploadOnSuccess,
   uploadHandleRemove,
   beforeUpload,
-  handlePreview,
+  previewFile,
+  downloadFile,
 } = elFormHook({ validateHook });
 
 const ruleForm = ref();

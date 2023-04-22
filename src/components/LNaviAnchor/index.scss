@@ -19,9 +19,13 @@
     color: #575757;
     border-left: 2px solid #e6e8ed;
 
+    &:hover {
+      color: #77b9ff;
+    }
+
     &.active {
-      color: #3f8bff;
-      border-left: 2px solid #3f8bff;
+      color: #4290ff;
+      border-left: 2px solid #4290ff;
     }
   }
 }

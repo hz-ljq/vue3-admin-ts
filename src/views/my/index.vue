@@ -2,8 +2,8 @@
   <div class="my">
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
-    <!-- <LSearchLayoutDemo /> -->
-    <LNaviAnchorDemo />
+    <LSearchLayoutDemo />
+    <!-- <LNaviAnchorDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp ref="tmpRef" /> -->

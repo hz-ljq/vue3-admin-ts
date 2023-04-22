@@ -11,7 +11,7 @@
               class="label"
               :style="{
                 'min-width': item.labelWidth ?? mergedOptions.common.labelWidth,
-                'text-align': item.labelPosition ?? mergedOptions.common.labelPosition
+                'text-align': item.labelPosition ?? mergedOptions.common.labelPosition,
               }"
             >
               <span>{{ item.label }}</span>
@@ -40,20 +40,51 @@
 </template>
 
 <script setup lang="tsx">
-import { useSlots } from 'vue'
+import { useSlots } from 'vue';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 // ● props
-const props = defineProps({
-  options: {
-    type: Object,
-    default: () => ({})
-  }
-})
+export interface IProps {
+  options: Partial<{
+    common: Partial<{
+      labelWidth: string;
+      labelPosition: string;
+      labelSuffix: string;
+      gutter: number;
+    }>;
+    items: {
+      [key: string | number]: Partial<{
+        label: string;
+        labelPosition: string;
+        span: number;
+        disabled: boolean;
+      }>;
+    };
+    btns: Partial<{
+      span: number;
+      position: string;
+      disabled: boolean;
+    }>;
+  }>;
+}
+
+const props = withDefaults(defineProps<IProps>(), {});
+// const props = defineProps({
+//   options: {
+//     type: Object,
+//     default: () => ({})
+//   }
+// })
+// const props = defineProps({
+//   options: {
+//     type: Object,
+//     default: () => ({})
+//   }
+// })
 // ● emits
-const emits = defineEmits(['search', 'reset'])
+const emits = defineEmits(['search', 'reset']);
 // ● slots
-const slots = useSlots()
+const slots = useSlots();
 
 // 默认配置
 const defaultOptions = {
@@ -66,7 +97,7 @@ const defaultOptions = {
     // 标签后缀，默认值：'：'
     labelSuffix: '：',
     // 间隔，默认值：20
-    gutter: 20
+    gutter: 20,
   },
   // ------------------------------ 搜索条件的单项配置（优先级高于【公共配置】）
   items: {
@@ -88,44 +119,44 @@ const defaultOptions = {
     // 对齐方式，默认值：'right'，可选值：就是text-align的可选值
     position: 'right',
     // 显隐flag，默认值：false
-    disabled: false
-  }
-}
+    disabled: false,
+  },
+};
 
 // ● computed
 // 用户配置（props.options）与组件默认配置（defaultOptions）合并后的配置
 const mergedOptions = computed(() => {
-  const opt = deepAssign({}, defaultOptions, props.options)
-  return opt
-})
+  const opt = deepAssign({}, defaultOptions, props.options);
+  return opt;
+});
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 判断对象是否是一个纯粹的对象
 function isPlainObject(obj) {
-  return typeof obj === 'object' && Object.prototype.toString.call(obj) === '[object Object]'
+  return typeof obj === 'object' && Object.prototype.toString.call(obj) === '[object Object]';
 }
 // 深度合并多个对象的方法
 function deepAssign(...rest) {
-  const len = rest.length
-  let target = rest[0]
+  const len = rest.length;
+  let target = rest[0];
   if (!isPlainObject(target)) {
-    target = {}
+    target = {};
   }
   for (let i = 1; i < len; i++) {
-    let source = rest[i]
+    let source = rest[i];
     if (isPlainObject(source)) {
       for (let s in source) {
         if (s === '__proto__' || target === source[s]) {
-          continue
+          continue;
         }
         if (isPlainObject(source[s])) {
-          target[s] = deepAssign(target[s], source[s])
+          target[s] = deepAssign(target[s], source[s]);
         } else {
-          target[s] = source[s]
+          target[s] = source[s];
         }
       }
     }
   }
-  return target
+  return target;
 }
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 </script>
