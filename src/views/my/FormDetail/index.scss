@@ -1,0 +1,40 @@
+.FormDetail {
+  position: relative;
+
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #323640;
+    padding: 36px 0 16px 0;
+  }
+
+  .wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .item {
+      width: 50%;
+      display: flex;
+      font-size: 14px;
+
+      .label {
+        width: 88px;
+        text-align: right;
+        color: #9098a9;
+      }
+
+      .value {
+        width: calc(100% - 100px);
+        flex-shrink: 10;
+        margin-left: 16px;
+        color: #323640;
+        margin-bottom: 16px;
+
+        > span {
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

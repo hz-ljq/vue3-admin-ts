@@ -238,28 +238,28 @@ export default function ({ validateHook } = {}) {
     }
   }
 
-  // 点击下载
-  async function downloadFile(file) {
-    // console.log(333, file);
-    // // 获取 文件地址
-    // let res = await Api.getFileDownloadUrl(file.fileName);
-    // window.open(res.result);
-
-    let param = {
-      name: file.name,
-      fileKey: file.fileName,
-    };
-    Api.zhenwuyunDownloadFile(param);
-  }
-
-  // // 点击下载
-  // function downloadFile({ name, url }) {
-  //   Api.fileDownload({ name, url });
-  // }
-
   // 点击预览（新开tab页）
   function previewFile(url) {
     window.open(url, '_blank');
+  }
+
+  // // 点击下载（通过fileKey，用接口获取该文件的二进制数据，并下载该文件）
+  // async function downloadFile(file) {
+  //   // console.log(333, file);
+  //   // // 获取 文件地址
+  //   // let res = await Api.getFileDownloadUrl(file.fileName);
+  //   // window.open(res.result);
+
+  //   let param = {
+  //     name: file.name,
+  //     fileKey: file.fileName,
+  //   };
+  //   Api.zhenwuyunDownloadFile(param);
+  // }
+
+  // 点击下载（根据url，直接下载该文件）
+  function downloadFile({ name, url }) {
+    Api.fileDownload({ name, url });
   }
 
   return {

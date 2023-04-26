@@ -2,7 +2,7 @@
   <div class="my">
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
-    <LSearchLayoutDemo />
+    <!-- <LSearchLayoutDemo /> -->
     <!-- <LNaviAnchorDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
@@ -22,6 +22,7 @@
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
+    <FormDetail />
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import JsxComp from './JsxComp/JsxComp.vue'
 import Steps from './Steps/Steps.vue'
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue'
 import TsDemo from './TsDemo/index.vue'
+import FormDetail from './FormDetail/index.vue'
 
 // import $ from 'jquery'
 // console.log(333, $);

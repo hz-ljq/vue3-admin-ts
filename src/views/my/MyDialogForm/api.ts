@@ -37,3 +37,21 @@ export function zhenwuyunDownloadFile(data) {
     window.URL.revokeObjectURL(url); // 释放
   });
 }
+
+// 文件下载（通过url）
+export async function fileDownload({
+  name,
+  url
+}: {
+  name: string
+  url: string
+}) {
+  const ele = document.createElement('a')
+  // 获取二进制文件流（blob）
+  const res = await fetch(url).then(response => response.blob())
+  const blobUrl = window.URL.createObjectURL(res)
+  ele.href = blobUrl
+  ele.download = name // 设置文件名
+  ele.click() // 下载
+  window.URL.revokeObjectURL(blobUrl) // 释放
+}
