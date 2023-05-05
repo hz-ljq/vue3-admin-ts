@@ -111,9 +111,11 @@ function scrollTo(id: string) {
     },
     props.scrollSpeed,
     'swing',
-    // props.afterScrollTo
     () => {
-      console.log(123, currentId.value);
+      setTimeout(() => {
+        // 如果不进行延迟处理的话，当afterScrollTo里使用到currentId，会显示上一次的值
+        props.afterScrollTo?.();
+      }, 100);
     }
   );
 }

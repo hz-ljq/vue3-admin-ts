@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    _LNaviAnchor: typeof import('./src/components/LNaviAnchor/_LNaviAnchor.vue')['default']
     ElSvgIcon: typeof import('./src/components/ElSvgIcon.vue')['default']
     LForm: typeof import('./src/components/LForm/LForm.vue')['default']
     LNaviAnchor: typeof import('./src/components/LNaviAnchor/LNaviAnchor.vue')['default']
