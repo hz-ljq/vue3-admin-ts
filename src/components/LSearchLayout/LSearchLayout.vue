@@ -41,31 +41,35 @@
 
 <script setup lang="tsx">
 import { useSlots } from 'vue';
+import { O } from 'ts-toolbelt';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 // ● props
 export interface IProps {
-  options: Partial<{
-    common: Partial<{
-      labelWidth: string;
-      labelPosition: string;
-      labelSuffix: string;
-      gutter: number;
-    }>;
-    items: {
-      [key: string | number]: Partial<{
-        label: string;
+  options: O.Partial<
+    {
+      common: {
+        labelWidth: string;
         labelPosition: string;
+        labelSuffix: string;
+        gutter: number;
+      };
+      items: {
+        [key: string | number]: {
+          label: string;
+          labelPosition: string;
+          span: number;
+          disabled: boolean;
+        };
+      };
+      btns: {
         span: number;
+        position: string;
         disabled: boolean;
-      }>;
-    };
-    btns: Partial<{
-      span: number;
-      position: string;
-      disabled: boolean;
-    }>;
-  }>;
+      };
+    },
+    'deep'
+  >;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});

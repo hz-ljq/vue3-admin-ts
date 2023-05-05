@@ -60,5 +60,6 @@ module.exports = {
     //can config  to 2 if need more then required
     '@typescript-eslint/no-unused-vars': [0],
     'no-param-reassign': ['off'],
+    'vue/attribute-hyphenation': 0,
   },
 };

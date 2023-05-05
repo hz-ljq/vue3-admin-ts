@@ -33,12 +33,14 @@
 </template>
 
 <script setup lang="tsx">
-import LSearchLayout from '@/components/LSearchLayout/LSearchLayout.vue'
+// import LSearchLayout from '@/components/LSearchLayout/LSearchLayout.vue'
+import { LSearchLayout } from '@/components/index';
+
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 const searchOptions = ref({
   btns: {
     // disabled: true,
-    span: 8
+    span: 8,
     // position: 'right'
   },
   common: {
@@ -52,65 +54,65 @@ const searchOptions = ref({
       label: '条件0',
       labelPosition: 'left',
       labelWidth: '60px',
-      span: 4
+      span: 4,
     },
     1: {
       label: '条件1',
       labelWidth: '80px',
-      span: 4
+      span: 4,
     },
     2: {
       label: '条件2',
       labelWidth: '100px',
-      span: 10
+      span: 10,
     },
     3: {
       label: '条件3',
       labelPosition: 'left',
       labelWidth: '120px',
-      span: 8
+      span: 8,
       // disabled: true
     },
     4: {
       label: '条件4',
       labelWidth: '140px',
-      span: 8
-    }
-  }
-})
+      span: 8,
+    },
+  },
+});
 
 const filter = ref({
   val0: null,
   val1: null,
   val2: null,
   val3: null,
-  val4: null
-})
+  val4: null,
+});
 
 const opt = [
   {
     label: 1,
-    value: 1
+    value: 1,
   },
   {
     label: 2,
-    value: 2
-  }
-]
+    value: 2,
+  },
+];
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 function search() {
-  console.log('search', filter.value)
+  console.log('search', filter.value);
 }
 function reset() {
-  console.log('reset', filter.value)
+  console.log('reset', filter.value);
 }
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 watch(
   () => filter.value.val4,
   () => {
-    searchOptions.value.items[3].disabled = !!filter.value.val4
+    searchOptions.value.items[3].disabled = !!filter.value.val4;
   }
-)
+);
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

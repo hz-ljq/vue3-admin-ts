@@ -33,19 +33,19 @@
 
 // Map转Array
 export function convertToArray(map: Map<any, any>): any[] {
-  const arr: any[] = []
+  const arr: any[] = [];
   for (const x of map) {
     arr.push({
       label: x[1],
-      value: x[0]
-    })
+      value: x[0],
+    });
   }
-  return arr
+  return arr;
 }
 
 // 下拉框（key可以是任意类型）
-export const opt101 = new Map([
+export const opt101: Map<any, any> = new Map([
   [1, '选项一'],
   [2, '选项二'],
-  [3, '选项三']
-])
+  [3, '选项三'],
+]);
