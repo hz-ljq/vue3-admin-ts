@@ -5,29 +5,22 @@
 </template>
 
 <script setup lang="ts">
-import { O } from 'ts-toolbelt';
+// // // 没有ThisType情况下
+// // const foo = {
+// //   bar() {
+// //     console.log(this.a); // error，在foo中只有bar一个函数，不存在a
+// //   },
+// // };
 
-type TTest = {
-  a1: string;
-  a2: number;
-  a3: {
-    a31: string;
-    a32: number;
-    a33: {
-      a331: string;
-      a332: number;
-    };
-  };
-};
+// // 使用ThisType
+// const foo: { bar: any } & ThisType<{ a: number }> = {
+//   bar() {
+//     console.log(this.bar); // error，因为没有在ThisType中定义
+//     console.log(this.a); // ok
+//   },
+// };
 
-// type test1 = O.Partial<TTest, 'deep'>
-const b: O.Partial<TTest, 'deep'> = {
-  a1: '1',
-  a3: {
-    a31: '1',
-    a33: {
-      a331: '1',
-    },
-  },
-};
+// foo.bar; // ok
+// foo.a; // error，在外面的话，就跟ThisType没有关系了
+
 </script>

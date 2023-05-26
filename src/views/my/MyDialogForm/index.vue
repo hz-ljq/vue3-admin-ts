@@ -353,7 +353,7 @@ const props = defineProps({
   },
 });
 
-let {
+const {
   // 校验相关
   rules: rulesFromHook,
   // 文件上传
@@ -370,17 +370,17 @@ let {
 const ruleForm = ref();
 const ruleForm2 = ref();
 
-let treeData = ref<any[]>([]);
-let cascaderProps = reactive({
+const treeData = ref<any[]>([]);
+const cascaderProps = reactive({
   expandTrigger: 'hover',
   emitPath: false,
   checkStrictly: true,
 });
 
-let visible = ref(false);
-let form = ref<any>(null);
-let form2 = ref<any>(null);
-let rules = reactive({
+const visible = ref(false);
+const form = ref<any>(null);
+const form2 = ref<any>(null);
+const rules = reactive({
   name: [
     {
       required: true,
@@ -392,13 +392,13 @@ let rules = reactive({
   ],
   ...rulesFromHook,
 });
-let submitLoading = ref(false);
+const submitLoading = ref(false);
 
-let stepsActive = ref(0); // 当前步骤
+const stepsActive = ref(0); // 当前步骤
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 异步校验
 async function asyncName(rule, value, callback) {
-  let prom = (name) => {
+  const prom = (name) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (name === '123') {
@@ -417,7 +417,7 @@ async function asyncName(rule, value, callback) {
   if (!value) {
     callback(new Error('请输入'));
   } else {
-    let res: any = await prom(value);
+    const res: any = await prom(value);
     if (res.result) {
       callback();
     } else {
