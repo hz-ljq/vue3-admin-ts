@@ -71,7 +71,7 @@
             <el-form-item label="下拉框(单选)" prop="val4" :rules="rules.singleSelect()">
               <el-select v-model="form.val4" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
-                  v-for="item in Sel.convertToArray(Sel.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt100)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -90,7 +90,7 @@
                 :disabled="mode === 'view'"
               >
                 <el-option
-                  v-for="item in Sel.convertToArray(Sel.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt100)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -129,7 +129,7 @@
           <el-col :span="8">
             <el-form-item label="radio" prop="val8" :rules="rules.singleSelect()">
               <el-radio-group v-model="form.val8" :disabled="mode === 'view'">
-                <el-radio v-for="item in Sel.convertToArray(Sel.opt101)" :key="item.value" :label="item.value">
+                <el-radio v-for="item in Sel.convertToArray(Sel.opt100)" :key="item.value" :label="item.value">
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
@@ -145,7 +145,7 @@
           <el-col :span="8">
             <el-form-item label="checkbox" prop="val10" :rules="rules.multipleSelect()">
               <el-checkbox-group v-model="form.val10" :disabled="mode === 'view'">
-                <el-checkbox v-for="item in Sel.convertToArray(Sel.opt101)" :key="item.value" :label="item.value">
+                <el-checkbox v-for="item in Sel.convertToArray(Sel.opt100)" :key="item.value" :label="item.value">
                   {{ item.label }}
                 </el-checkbox>
               </el-checkbox-group>

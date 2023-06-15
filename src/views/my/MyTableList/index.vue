@@ -10,7 +10,7 @@
         <div class="name">状态：</div>
         <el-select v-model="filter.selectVal1" placeholder="请选择" clearable>
           <el-option
-            v-for="item in Sel.convertToArray(Sel.opt101)"
+            v-for="item in Sel.convertToArray(Sel.opt100)"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -56,7 +56,7 @@
       <el-table-column prop="val1" label="应用名称" min-width="200"></el-table-column>
       <el-table-column prop="val2" label="状态" min-width="200">
         <template #default="scope">
-          <span>{{ Sel.opt101.get(scope.row.val2) }}</span>
+          <span>{{ Sel.opt100.get(scope.row.val2) }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">

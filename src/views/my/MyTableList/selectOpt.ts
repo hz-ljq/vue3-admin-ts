@@ -45,7 +45,7 @@ export function convertToArray(map: Map<any, any>): any[] {
 }
 
 // 下拉框（key可以是任意类型）
-export const opt101 = new Map([
+export const opt100 = new Map([
   [1, '建设中'],
   [2, '运行中'],
   [3, '停用'],

@@ -19,7 +19,7 @@
             <el-form-item label="状态" prop="val2" required>
               <el-select v-model="form.val2" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
-                  v-for="item in Sel.convertToArray(Sel.opt101)"
+                  v-for="item in Sel.convertToArray(Sel.opt100)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
