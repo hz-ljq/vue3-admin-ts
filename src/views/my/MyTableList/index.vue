@@ -175,7 +175,7 @@ function getData1() {
 
   loading.value = true;
   Api.getListData(param)
-    .then((res) => {
+    .then((res: any) => {
       paginationOpt.total = res.result.total;
       tableData.value = res.result.listData;
     })

@@ -1,5 +1,5 @@
 // mock数据（MassMarks）
-let data1 = []
+const data1: any[] = []
 for (let i = 0; i < 60; i++) {
   data1.push({
     lnglat: [120 + 0.08 * (i % 20), 29.7 - 0.08 * Math.floor(i / 20)],
@@ -10,7 +10,7 @@ for (let i = 0; i < 60; i++) {
 }
 
 // mock数据（热力图）
-let data2 = []
+const data2: any[] = []
 for (let i = 0; i < 100; i++) {
   data2.push({
     lng: 120.5 + 0.02 * (i % 10),

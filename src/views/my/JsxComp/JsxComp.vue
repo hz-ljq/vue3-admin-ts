@@ -14,7 +14,7 @@ export default defineComponent({
     },
     listFromParent: {
       type: Array,
-      default: []
+      default: () => []
     }
   },
   // 定义emits
