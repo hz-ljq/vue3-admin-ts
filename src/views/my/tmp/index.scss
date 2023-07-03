@@ -1,11 +1,5 @@
 .tmp {
   position: relative;
-  // background: pink;
-  #abc {
-    fill: pink;
-
-    &:hover {
-      fill: blue;
-    }
-  }
+  width: 100%;
+  height: 100%;
 }

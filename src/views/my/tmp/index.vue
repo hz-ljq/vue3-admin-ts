@@ -1,6 +1,6 @@
 <template>
   <div class="tmp">
-    <h1>tmp</h1>
+    tmpppp
   </div>
 </template>
 
@@ -40,7 +40,6 @@
 //   // 卸载前
 //   onBeforeUnmount
 // } from 'vue'
-
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

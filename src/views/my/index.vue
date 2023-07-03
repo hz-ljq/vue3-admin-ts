@@ -3,7 +3,7 @@
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
     <!-- <LSearchLayoutDemo /> -->
-    <LNaviAnchorDemo />
+    <!-- <LNaviAnchorDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp ref="tmpRef" /> -->
@@ -20,7 +20,7 @@
       </template>
     </JsxComp> -->
     <!-- <Steps /> -->
-    <!-- <MyGaodeMap /> -->
+    <MyGaodeMap />
     <!-- <TsDemo /> -->
     <!-- <FormDetail /> -->
   </div>

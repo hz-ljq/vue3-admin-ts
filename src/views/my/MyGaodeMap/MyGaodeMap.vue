@@ -31,30 +31,30 @@ import * as mockData from './mock'
 import myIcon from './images/1.png'
 
 // ------------------------------------------------------------------- data
-const AMap = window.AMap
+const AMap = (window as any).AMap
 
 const center = [120.8, 29.9] // 默认中心点
 const zoom = 9.5 // 默认zoom
 const zooms = [2, 20] // zoom范围
-let map = null
+let map: any = null
 
 // 普通marker实例
-let markersArr = []
+let markersArr: any[] = []
 // MassMarks实例
-let mass = null
+let mass: any = null
 // 多边形实例
-let polygon1 = []
+let polygon1: any[] = []
 // 街道的多边形实例
-let polygon2 = {}
+let polygon2: any = {}
 // 折线图层
-let polyline = null
+let polyline: any = null
 // 热力图实例
-let heatmap = null
+let heatmap: any = null
 // 图片图层实例
-let imageLayer = null
+let imageLayer: any = null
 // infoWindow实例
-let infoWindow1 = null
-let infoWindow2 = null
+let infoWindow1: any = null
+let infoWindow2: any = null
 const infoWindow1Ref = ref()
 const infoWindow2Ref = ref()
 
@@ -337,7 +337,7 @@ function addMassMarks() {
 
 // 切换 打点的高亮状态
 function switchMarker(name) {
-  mockData.mass.map((x) => {
+  mockData.mass.map((x: any) => {
     if (x.name === name) {
       x.style = 8
     } else {
@@ -475,7 +475,7 @@ onBeforeUnmount(() => {
   // 销毁 多边形1
   for (let x of polygon1) {
     if (x) {
-      x.destroy()
+      (x as any).destroy()
     }
   }
 
