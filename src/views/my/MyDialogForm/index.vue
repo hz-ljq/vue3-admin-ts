@@ -9,7 +9,7 @@
       @open="open"
       @closed="init"
     >
-      <el-form ref="ruleForm" class="my-form" :model="form" :rules="rules" label-width="180px">
+      <el-form ref="formRef" class="my-form" :model="form" :rules="rules" label-width="180px">
         <div
           style="position: absolute; right: 80px; top: 20px; color: red; font-size: 20px; cursor: pointer"
           @click="setFormData"
@@ -192,7 +192,7 @@
                             obj: scope.row,
                             key: 'files',
                             propName: `tableList.${scope.$index}.files`,
-                            formRef: ruleForm,
+                            formRef: formRef,
                           })
                         "
                         :before-upload="beforeUpload.bind(null, 13)"
@@ -201,7 +201,7 @@
                             obj: scope.row,
                             key: 'files',
                             propName: `tableList.${scope.$index}.files`,
-                            formRef: ruleForm,
+                            formRef: formRef,
                           })
                         "
                         :on-preview="downloadFile"
@@ -256,7 +256,7 @@
         </el-form-item>
       </el-form>
 
-      <el-form ref="ruleForm2" class="my-form" :model="form2" :rules="rules" label-suffix="：" label-width="240px">
+      <el-form ref="formRef2" class="my-form" :model="form2" :rules="rules" label-suffix="：" label-width="240px">
         <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 步骤 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
         <el-steps :active="stepsActive" finish-status="success">
           <el-step title="第0步"></el-step>
@@ -367,8 +367,8 @@ const {
   downloadFile,
 } = elFormHook({ validateHook });
 
-const ruleForm = ref();
-const ruleForm2 = ref();
+const formRef = ref();
+const formRef2 = ref();
 
 const treeData = ref<any[]>([]);
 const cascaderProps = reactive({
@@ -453,7 +453,7 @@ function setFormData() {
   };
 
   nextTick(() => {
-    ruleForm.value.validate().catch((err) => false);
+    formRef.value.validate().catch((err) => false);
   });
 }
 // 新增一行
@@ -464,14 +464,14 @@ function addTableRow(tableOf) {
       files: [],
     });
   }
-  ruleForm.value.validate().catch((err) => false);
+  formRef.value.validate().catch((err) => false);
 }
 // 删除一行
 function delTableRow(tableOf, index) {
   if (tableOf === '表格') {
     form.value.tableList.splice(index, 1);
   }
-  ruleForm.value.validate().catch((err) => false);
+  formRef.value.validate().catch((err) => false);
 }
 // 校验钩子
 function validateHook(value) {
@@ -484,7 +484,7 @@ function stepMinus() {
 }
 // 下一步
 function stepPlus() {
-  ruleForm2.value.validate((valid) => {
+  formRef2.value.validate((valid) => {
     if (valid) {
       if (stepsActive.value === 2) {
         submitLoading.value = true;
@@ -509,7 +509,7 @@ function stepPlus() {
 }
 // 提交
 function submit() {
-  ruleForm.value.validate((valid, errObj) => {
+  formRef.value.validate((valid, errObj) => {
     if (valid) {
       submitLoading.value = true;
       Api.submit()
@@ -571,7 +571,7 @@ function init() {
   stepsActive.value = 0;
   // 清除校验
   nextTick(() => {
-    ruleForm.value?.clearValidate();
+    formRef.value?.clearValidate();
   });
 }
 
@@ -619,7 +619,7 @@ function getTreeData() {
 
 function open() {
   nextTick(() => {
-    ruleForm.value?.validate().catch((err) => false);
+    formRef.value?.validate().catch((err) => false);
   });
 }
 
