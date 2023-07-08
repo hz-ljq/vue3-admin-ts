@@ -9,7 +9,7 @@
       @open="open"
       @closed="init"
     >
-      <el-form ref="formRef" class="my-form" :model="form" :rules="rules" label-width="180px">
+      <el-form ref="formRef" id="my-form" class="my-form" :model="form" :rules="rules" label-width="180px">
         <div
           style="position: absolute; right: 80px; top: 20px; color: red; font-size: 20px; cursor: pointer"
           @click="setFormData"
@@ -55,6 +55,8 @@
                 v-model="form.val3"
                 type="textarea"
                 :rows="1"
+                maxlength="200"
+                show-word-limit
                 placeholder="请输入"
                 :disabled="mode === 'view'"
               ></el-input>
