@@ -9,7 +9,7 @@
       @open="open"
       @closed="init"
     >
-      <el-form ref="formRef" id="my-form" class="my-form" :model="form" :rules="rules" label-width="180px">
+      <el-form ref="formRef" id="my-form" class="my-form" :model="form" :rules="rules" label-width="240px">
         <div
           style="position: absolute; right: 80px; top: 20px; color: red; font-size: 20px; cursor: pointer"
           @click="setFormData"
@@ -22,7 +22,7 @@
             <el-divider>（异步校验）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="字符串输入框(单行)" prop="name">
+            <el-form-item label="输入框(异步校验)" prop="name">
               <el-input v-model="form.name" placeholder="请输入" clearable :disabled="mode === 'view'"></el-input>
             </el-form-item>
           </el-col>
@@ -32,34 +32,45 @@
           <el-col :span="24">
             <el-divider>（输入）类型</el-divider>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="字符串输入框(单行)" prop="val1" :rules="rules.input()">
-              <el-input v-model="form.val1" placeholder="请输入" clearable :disabled="mode === 'view'"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="数字输入框" prop="val2" :rules="rules.inputNumber()">
-              <el-input-number
-                v-model="form.val2"
-                controls-position="right"
-                :min="0"
-                :precision="4"
-                :step="1"
-                :disabled="mode === 'view'"
-              ></el-input-number>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="字符串输入框(多行)" prop="val3" :rules="rules.input()">
-              <el-input
-                v-model="form.val3"
-                type="textarea"
-                :rows="1"
-                maxlength="200"
-                show-word-limit
-                placeholder="请输入"
-                :disabled="mode === 'view'"
-              ></el-input>
+          <el-col :span="24">
+            <el-form-item label="输入框-绑定多字段" :required="true">
+              <el-row :gutter="40" style="width: 100%">
+                <el-col :span="8">
+                  <el-form-item label="" prop="val1" :rules="rules.input()">
+                    <el-input
+                      v-model="form.val1"
+                      placeholder="请输入(单行)"
+                      clearable
+                      :disabled="mode === 'view'"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="" prop="val3" :rules="rules.input()">
+                    <el-input
+                      v-model="form.val3"
+                      type="textarea"
+                      :rows="3"
+                      maxlength="200"
+                      show-word-limit
+                      placeholder="请输入(多行)"
+                      :disabled="mode === 'view'"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="" prop="val2" :rules="rules.input()">
+                    <el-input-number
+                      v-model="form.val2"
+                      controls-position="right"
+                      :min="0"
+                      :precision="4"
+                      :step="1"
+                      :disabled="mode === 'view'"
+                    ></el-input-number>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </el-form-item>
           </el-col>
         </el-row>

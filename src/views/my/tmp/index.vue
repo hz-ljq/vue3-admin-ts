@@ -1,7 +1,5 @@
 <template>
-  <div class="tmp">
-    tmpppp
-  </div>
+  <div class="tmp">tmpppp</div>
 </template>
 
 <script setup lang="tsx">
