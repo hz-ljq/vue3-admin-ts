@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus';
 export default function ({ validateHook } = {}) {
   // -------------------------------------------------------------------校验相关
   // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
-  let rules = reactive({
+  const rules = reactive({
     // --------------------------------------特殊规则
     // 固话号码
     telephone: (errorText1 = '请输入', errorText2 = '请输入正确的固话号码，例如：0571-12345678。') => [
