@@ -209,6 +209,7 @@
                         "
                         :on-preview="downloadFile"
                         :limit="10"
+                        multiple
                         :disabled="mode === 'view'"
                       >
                         <template #trigger>

@@ -53,6 +53,10 @@ const { previewFile, downloadFile } = elFormHook();
 const detailInfo = reactive<any>({
   info1: [
     {
+      label: '数字',
+      value: '81938938439840',
+    },
+    {
       label: '资源类型',
       value: '资源类型',
     },
@@ -63,7 +67,7 @@ const detailInfo = reactive<any>({
     },
     {
       label: '关键字',
-      value: [1, 2, 3],
+      value: ['tag-1', 'tag-2', 'tag-3'],
     },
     {
       label: '图片',
