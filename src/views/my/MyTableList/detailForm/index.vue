@@ -93,7 +93,7 @@ function submit() {
           visible.value = false
           ElMessage({
             // showClose: true,
-            message: '提交成功！',
+            message: '操作成功！',
             type: 'success'
           })
           emits('submited')

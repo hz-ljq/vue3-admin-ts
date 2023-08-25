@@ -146,7 +146,7 @@ function del(id) {
 
         ElMessage({
           // showClose: true,
-          message: '删除成功！',
+          message: '操作成功！',
           type: 'success',
         });
       });
@@ -154,7 +154,7 @@ function del(id) {
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: '已取消删除',
+        message: '已取消',
       });
     });
 }

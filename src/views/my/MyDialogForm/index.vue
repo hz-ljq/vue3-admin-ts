@@ -5,7 +5,7 @@
       class="my-dialog"
       title="我是标题（弹出框）"
       align-center
-      :destroy-on-close="true"
+      destroy-on-close
       @open="open"
       @closed="init"
     >
@@ -229,7 +229,7 @@
                       type="primary"
                       link
                       :disabled="mode === 'view'"
-                      @click.prevent="delTableRow('表格', scope.$index)"
+                      @click.prevent="delOne('表格', scope.$index)"
                     >
                       删除
                     </el-button>
@@ -242,7 +242,7 @@
                   link
                   icon="plus"
                   :disabled="mode === 'view'"
-                  @click.prevent="addTableRow('表格')"
+                  @click.prevent="addOne('表格')"
                 >
                   新增
                 </el-button>
@@ -528,8 +528,8 @@ function setFormData() {
     formRef.value.validate().catch((err) => false);
   });
 }
-// 新增一行
-function addTableRow(tableOf) {
+// 新增一条
+function addOne(tableOf) {
   if (tableOf === '表格') {
     form.value.tableList.push({
       name: null,
@@ -538,8 +538,8 @@ function addTableRow(tableOf) {
   }
   formRef.value.validate().catch((err) => false);
 }
-// 删除一行
-function delTableRow(tableOf, index) {
+// 删除一条
+function delOne(tableOf, index) {
   if (tableOf === '表格') {
     form.value.tableList.splice(index, 1);
   }
@@ -565,7 +565,7 @@ function stepPlus() {
             stepsActive.value = 0;
             ElMessage({
               // showClose: true,
-              message: '提交成功！',
+              message: '操作成功！',
               type: 'success',
             });
           })
@@ -588,7 +588,7 @@ function submit() {
         .then(() => {
           ElMessage({
             // showClose: true,
-            message: '提交成功！',
+            message: '操作成功！',
             type: 'success',
           });
         })
