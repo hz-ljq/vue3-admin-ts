@@ -156,6 +156,56 @@
           </el-col>
         </el-row>
 
+        <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 新建 下拉框选项 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
+        <el-row>
+          <el-col :span="24">
+            <el-divider>新建 下拉框选项</el-divider>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="单选" prop="val20" :rules="rules.singleSelect()">
+              <el-select
+                v-model="form.val20"
+                placeholder="请选择（可新建）"
+                filterable
+                clearable
+                allow-create
+                default-first-option
+                :reserve-keyword="false"
+                @change="
+                  (val) => {
+                    selectValChange('单选', val);
+                  }
+                "
+              >
+                <el-option v-for="item in opt1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item label="多选" prop="val21" :rules="rules.multipleSelect()">
+              <el-select
+                ref="keywordSelRef"
+                v-model="form.val21"
+                placeholder="请选择（可新建）"
+                filterable
+                clearable
+                multiple
+                allow-create
+                default-first-option
+                :reserve-keyword="false"
+                @change="
+                  (val) => {
+                    selectValChange('多选', val);
+                  }
+                "
+              >
+                <el-option v-for="item in opt2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ （复杂）类型 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
         <el-row>
           <el-col :span="24">
@@ -237,13 +287,7 @@
                 </el-table-column>
               </el-table>
               <div class="add-btn">
-                <el-button
-                  type="primary"
-                  link
-                  icon="plus"
-                  :disabled="mode === 'view'"
-                  @click.prevent="addOne('表格')"
-                >
+                <el-button type="primary" link icon="plus" :disabled="mode === 'view'" @click.prevent="addOne('表格')">
                   新增
                 </el-button>
               </div>
@@ -390,6 +434,35 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 新建选项dialog -->
+    <el-dialog v-model="addOptFormVisible" title="新建选项" destroy-on-close @closed="initAddOptForm">
+      <el-form :model="addOptForm" label-width="140px">
+        <el-form-item label="名称" prop="name" :rules="rules.input()">
+          <el-input v-model="addOptForm.name" placeholder="请输入" clearable></el-input>
+        </el-form-item>
+
+        <el-form-item label="描述">
+          <el-input
+            v-model="addOptForm.remark"
+            placeholder="请输入"
+            clearable
+            type="textarea"
+            :rows="3"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <!-- 按钮 -->
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="addOptFormVisible = false">取消</el-button>
+          <el-button type="primary" @click="addOpt">确定</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -397,7 +470,7 @@
 import * as Sel from './selectOpt';
 import * as Api from './api';
 import elFormHook from './elFormHook';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 // ● props
@@ -467,6 +540,25 @@ const rules = reactive({
 const submitLoading = ref(false);
 
 const stepsActive = ref(0); // 当前步骤
+
+// 创建选项
+const opt1 = ref([
+  {
+    label: '1',
+    value: '10000',
+  },
+]);
+const opt2 = ref([
+  {
+    label: '2',
+    value: '20000',
+  },
+]);
+const addOptForm = ref<any>(null);
+const addOptFormVisible = ref(false);
+const addOptFormType = ref();
+const keywordSelRef = ref();
+
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 // 异步校验
 async function asyncName(rule, value, callback) {
@@ -522,6 +614,9 @@ function setFormData() {
         ],
       },
     ],
+
+    val20: 10000,
+    val21: [20000],
   };
 
   nextTick(() => {
@@ -628,6 +723,9 @@ function init() {
       //   files: [],
       // },
     ],
+    // 新建 下拉框选项
+    val20: null,
+    val21: [],
     // 绑定多字段
     val201: null,
     val202: null,
@@ -697,6 +795,97 @@ function getTreeData() {
 function open() {
   nextTick(() => {
     formRef.value?.validate().catch((err) => false);
+  });
+}
+
+function selectValChange(type: string, valToAdd: string) {
+  if (type === '单选') {
+    const item = opt1.value.find((x) => x.value === valToAdd);
+    if (!item && valToAdd) {
+      ElMessageBox.confirm('该选项不存在，是否新建选项？', '新建选项', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          // 设置表单
+          addOptForm.value = {
+            name: valToAdd,
+            remark: null,
+          };
+
+          addOptFormType.value = type;
+          addOptFormVisible.value = true;
+        })
+        .catch(() => {})
+        .finally(() => {
+          // 清除这个没有id的临时选项
+          form.value.val20 = null;
+        });
+    }
+  } else if (type === '多选') {
+    const val = valToAdd.at(-1);
+    const item = opt2.value.find((x) => x.value === val);
+    if (!item && val) {
+      ElMessageBox.confirm('该选项不存在，是否新建选项？', '新建选项', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          // 设置表单
+          addOptForm.value = {
+            name: val,
+            remark: null,
+          };
+
+          addOptFormType.value = type;
+          addOptFormVisible.value = true;
+          keywordSelRef.value.blur();
+        })
+        .catch(() => {})
+        .finally(() => {
+          // 清除这个没有id的临时选项
+          form.value.val21 = valToAdd.slice(0, -1);
+        });
+    }
+  }
+}
+
+// 初始化
+function initAddOptForm() {
+  addOptForm.value = {
+    name: null,
+    remark: null,
+  };
+}
+
+// 新建 选项
+function addOpt() {
+  const param = JSON.parse(JSON.stringify(addOptForm.value));
+  Promise.resolve({ result: Math.random() }).then(({ result: id }: any) => {
+    if (addOptFormType.value === '单选') {
+      form.value.val20 = id;
+
+      opt1.value.unshift({
+        label: param.name,
+        value: id,
+      });
+    } else if (addOptFormType.value === '多选') {
+      form.value.val21 = [...form.value.val21, id];
+
+      opt2.value.unshift({
+        label: param.name,
+        value: id,
+      });
+    }
+
+    addOptFormVisible.value = false;
+    ElMessage({
+      // showClose: true,
+      message: '新建成功',
+      type: 'success',
+    });
   });
 }
 
