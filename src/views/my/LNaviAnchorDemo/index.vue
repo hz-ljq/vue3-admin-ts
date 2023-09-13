@@ -5,7 +5,6 @@
       class="myLNaviAnchor"
       :list="naviList"
       pad
-      throttle
       :scrollSpeed="400"
       :afterScrollTo="afterScrollTo"
     >

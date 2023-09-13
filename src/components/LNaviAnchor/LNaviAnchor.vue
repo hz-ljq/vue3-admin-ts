@@ -107,7 +107,8 @@ function refresh() {
 function scrollTo(id: string) {
   $jq(containerDom).animate(
     {
-      scrollTop: document.getElementById(id)?.offsetTop,
+      // scrollTop: document.getElementById(id)?.offsetTop,
+      scrollTop: computeOffsetTop(document.getElementById(id)),
     },
     props.scrollSpeed,
     'swing',
@@ -136,7 +137,8 @@ function scrollHandlerCallback() {
   for (let i = 0; i < listConfirmed.value.length; i++) {
     const dom = document.getElementById(listConfirmed.value[i].id);
     if (dom) {
-      if (dom.offsetTop > containerDom.scrollTop) {
+      // if (dom.offsetTop > containerDom.scrollTop) {
+      if (computeOffsetTop(dom) > containerDom.scrollTop) {
         // 【dom相对容器节点的距离 > 滑块相对容器节点的距离】，说明当前视口的顶部处于上一个dom的内容中
         currentId.value = listConfirmed.value[i - 1].id;
         break;
@@ -152,6 +154,15 @@ function scrollHandlerCallback() {
 function scrollListen() {
   if (containerDom) {
     containerDom.onscroll = scrollHandler;
+  }
+}
+
+// 递归计算 dom与容器dom之间的距离（因为offsetTop只是计算与最近的非static定位的父dom之间的距离，而实际上，导航dom与容器之间可能的存在非static定位的dom情况）
+function computeOffsetTop(dom, initTopValue = 0) {
+  if (dom.offsetParent === containerDom) {  // offsetParent是最近的非static定位的父dom，offsetTop计算的也是与最近的非static定位的父dom之间的距离
+    return initTopValue + dom.offsetTop;
+  } else {
+    return computeOffsetTop(dom.offsetParent, dom.offsetTop);
   }
 }
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
