@@ -357,7 +357,7 @@
 
       <el-form ref="formRef2" class="my-form" :model="form2" :rules="rules" label-suffix="：" label-width="240px">
         <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 步骤 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
-        <el-steps :active="stepsActive" finish-status="success">
+        <el-steps :active="stepsActive" finish-status="success" align-center>
           <el-step title="第0步"></el-step>
           <el-step title="第1步"></el-step>
           <el-step title="第2步"></el-step>
