@@ -3,7 +3,8 @@
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
     <!-- <LSearchLayoutDemo /> -->
-    <LNaviAnchorDemo />
+    <!-- <LNaviAnchorDemo /> -->
+    <LNaviAnchorTreeDemo />
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp ref="tmpRef" /> -->
@@ -34,6 +35,7 @@ import elFormHook from '@/views/my/MyDialogForm/elFormHook'
 import LForm from '@/components/LForm/LForm.vue'
 import LSearchLayoutDemo from './LSearchLayoutDemo/index.vue'
 import LNaviAnchorDemo from './LNaviAnchorDemo/index.vue'
+import LNaviAnchorTreeDemo from './LNaviAnchorTreeDemo/index.vue'
 
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板
 import tmp from './tmp/index.vue'

@@ -1,37 +1,25 @@
 <template>
-  <div ref="demoRef" class="LNaviAnchorDemo">
-    <LNaviAnchor
-      ref="LNaviAnchorRef"
-      class="myLNaviAnchor"
-      :list="naviList"
-      pad
-      :scrollSpeed="400"
-      :afterScrollTo="afterScrollTo"
-    >
-      <!-- 可以不设置slot，因为存在slot默认值 -->
-      <template #list-item="{ item, index }">
-        <div class="item" :class="{ active: LNaviAnchorRef.currentId === item.id }">
-          <span v-if="item.prefixFlag" class="tips">前缀</span>
-          <span>{{ index }}-{{ item.title }}</span>
-          <span v-if="item.suffixFlag" class="tips">后缀</span>
-        </div>
-      </template>
-    </LNaviAnchor>
+  <div ref="demoRef" class="LNaviAnchorTreeDemo">
+    <LNaviAnchorTree ref="LNaviAnchorTreeRef" class="myLNaviAnchorTree" :list="naviList" />
 
-    <div v-for="item in naviList" :id="item.id" :key="item.id" class="menu-item">{{ item.id }}</div>
+    <div v-for="item in naviList" :id="item.id" :key="item.id">
+      <div class="menu-item">{{ item.id }}</div>
+      <div class="menu-item" v-for="subItem in item?.children ?? []" :id="subItem.id" :key="subItem.id">
+        {{ subItem.id }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="tsx">
-// import LNaviAnchor from '@/components/LNaviAnchor/LNaviAnchor.vue';
-import { LNaviAnchor } from '@/components/index';
+import { LNaviAnchorTree } from '@/components/index';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 const demoRef = ref();
-const LNaviAnchorRef = ref();
+const LNaviAnchorTreeRef = ref();
 const naviList = ref<any[]>([
-  { id: '菜单0', title: '菜单99', prefixFlag: true, suffixFlag: true },
-  { id: '菜单1' },
+  { id: '菜单0', label: '菜单99', prefixFlag: true, suffixFlag: true },
+  { id: '菜单1', children: [{ id: '菜单1-1' }, { id: '菜单1-2' }] },
   { id: '菜单2' },
   { id: '菜单3' },
   { id: '菜单4' },
@@ -44,19 +32,18 @@ setTimeout(() => {
 setTimeout(() => {
   naviList.value.at(-1).suffixFlag = true;
 }, 2000);
-
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 function afterScrollTo() {
-  console.log(LNaviAnchorRef.value.currentId, '滚动完毕');
+  console.log(LNaviAnchorTreeRef.value.currentId, '滚动完毕');
   // setTimeout(() => {
-  //   console.log(LNaviAnchorRef.value.currentId, '滚动完毕');
+  //   console.log(LNaviAnchorTreeRef.value.currentId, '滚动完毕');
   // }, 1000);
 }
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 onMounted(() => {
   nextTick(() => {
-    LNaviAnchorRef.value.init(demoRef.value);
+    LNaviAnchorTreeRef.value.init(demoRef.value);
   });
 });
 </script>
