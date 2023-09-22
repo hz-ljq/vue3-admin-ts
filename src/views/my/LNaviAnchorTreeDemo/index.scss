@@ -5,14 +5,58 @@
   border: 1px solid blue;
   overflow-y: auto;
 
+  .myLNaviAnchorTree {
+    right: 90px;
+    z-index: 9999;
+
+    .custom-tree-node {
+      // flex: 1;
+      // display: flex;
+      // align-items: center;
+      // justify-content: space-between;
+      // font-size: 14px;
+      // padding-right: 8px;
+
+      .line {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        background-color: #4290ff;
+      }
+
+      .label {
+        line-height: 28px;
+        cursor: pointer;
+
+        &:hover {
+          color: #77B9FF;
+        }
+
+        &.active {
+          font-weight: 600;
+          color: #4290ff;
+        }
+      }
+
+      .tips {
+        position: relative;
+        top: -1px;
+        border: 1px solid #e96040;
+        border-radius: 6px;
+        color: #e96040;
+        font-size: 12px;
+        font-weight: 400;
+        padding: 0 4px;
+        margin: 0 10px;
+      }
+    }
+  }
+
   .menu-item {
     width: 60%;
     min-height: 200px;
     border: 1px solid pink;
-  }
-
-  .myLNaviAnchorTree {
-    right: 90px;
-    z-index: 9999;
   }
 }

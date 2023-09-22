@@ -61,5 +61,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [0],
     'no-param-reassign': ['off'],
     'vue/attribute-hyphenation': 0,
+    'vue/attributes-order': 0,
   },
 };

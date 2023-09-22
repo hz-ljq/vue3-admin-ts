@@ -1,5 +1,6 @@
 <template>
   <div ref="demoRef" class="LNaviAnchorDemo">
+    <!-- 导航锚点 -->
     <LNaviAnchor
       ref="LNaviAnchorRef"
       class="myLNaviAnchor"
@@ -18,6 +19,7 @@
       </template>
     </LNaviAnchor>
 
+    <!-- 内容列表 -->
     <div v-for="item in naviList" :id="item.id" :key="item.id" class="menu-item">{{ item.id }}</div>
   </div>
 </template>
@@ -37,10 +39,12 @@ const naviList = ref<any[]>([
   { id: '菜单4' },
 ]);
 
+// 动态修改
 setTimeout(() => {
   naviList.value.push({ id: '菜单5' }, { id: '菜单6' }, { id: '菜单7' });
 }, 1000);
 
+// 动态修改
 setTimeout(() => {
   naviList.value.at(-1).suffixFlag = true;
 }, 2000);

@@ -65,12 +65,17 @@
         &:hover {
           color: #77B9FF;
         }
+
+        &.active {
+          font-weight: 600;
+          color: #4290ff;
+        }
       }
 
-      .active {
-        font-weight: 600;
-        color: #4290ff;
-      }
+      // .active {
+      //   font-weight: 600;
+      //   color: #4290ff;
+      // }
     }
   }
 }

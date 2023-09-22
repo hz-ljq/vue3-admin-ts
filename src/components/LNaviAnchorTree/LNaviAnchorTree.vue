@@ -1,15 +1,22 @@
 <template>
   <div class="LNaviAnchorTree">
-    <el-tree :data="listConfirmed" :highlight-current="false" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
+    <el-tree
+      :data="listConfirmed"
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :props="defaultProps"
+    >
       <template #default="{ node, data }">
-        <span class="custom-tree-node" @click="scrollTo(data.id)">
-          <div v-if="data.id === currentId" class="line"></div>
-          <span class="label" :class="{ active: data.id === currentId }">{{ data.label ?? data.id }}</span>
-          <!-- <span>
-            <a @click="append(data)">Append</a>
-            <a style="margin-left: 8px" @click="remove(node, data)">Delete</a>
-          </span> -->
-        </span>
+        <div class="node-wrapper" @click="scrollTo(data.id)">
+          <slot name="default" :node="node" :data="data">
+            <!-- slot默认值 -->
+            <span class="custom-tree-node">
+              <div v-if="data.id === currentId" class="line"></div>
+              <span class="label" :class="{ active: data.id === currentId }">{{ data.label ?? data.id }}</span>
+            </span>
+          </slot>
+        </div>
       </template>
     </el-tree>
   </div>

@@ -1,7 +1,21 @@
 <template>
   <div ref="demoRef" class="LNaviAnchorTreeDemo">
-    <LNaviAnchorTree ref="LNaviAnchorTreeRef" class="myLNaviAnchorTree" :list="naviList" />
+    <!-- 导航锚点 -->
+    <LNaviAnchorTree ref="LNaviAnchorTreeRef" class="myLNaviAnchorTree" :list="naviList">
+      <!-- 可以不设置slot，因为存在slot默认值 -->
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <div class="line" v-if="data.id === LNaviAnchorTreeRef.currentId"></div>
+          <span class="tips" v-if="data.prefixFlag">前缀</span>
+          <span class="label" :class="{ active: data.id === LNaviAnchorTreeRef.currentId }">
+            {{ data.label ?? data.id }}
+          </span>
+          <span class="tips" v-if="data.suffixFlag">后缀</span>
+        </span>
+      </template>
+    </LNaviAnchorTree>
 
+    <!-- 内容列表 -->
     <div v-for="item in naviList" :id="item.id" :key="item.id">
       <div class="menu-item">{{ item.id }}</div>
       <div class="menu-item" v-for="subItem in item?.children ?? []" :id="subItem.id" :key="subItem.id">
@@ -25,10 +39,12 @@ const naviList = ref<any[]>([
   { id: '菜单4' },
 ]);
 
+// 动态修改
 setTimeout(() => {
   naviList.value.push({ id: '菜单5' }, { id: '菜单6' }, { id: '菜单7' });
 }, 1000);
 
+// 动态修改
 setTimeout(() => {
   naviList.value.at(-1).suffixFlag = true;
 }, 2000);
