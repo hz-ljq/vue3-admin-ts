@@ -1,19 +1,15 @@
 <template>
   <div class="LNaviAnchorTree">
-    <el-tree
-      :data="listConfirmed"
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :props="defaultProps"
-    >
+    <el-tree :data="listConfirmed" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
       <template #default="{ node, data }">
         <div class="node-wrapper" @click="scrollTo(data.id)">
           <slot name="default" :node="node" :data="data">
             <!-- slot默认值 -->
             <span class="custom-tree-node">
               <div v-if="data.id === currentId" class="line"></div>
-              <span class="label" :class="{ active: data.id === currentId }">{{ data.label ?? data.id }}</span>
+              <span class="label" :class="{ active: data.id === currentId }">
+                {{ data.label ?? data.id }}
+              </span>
             </span>
           </slot>
         </div>
@@ -23,8 +19,9 @@
 </template>
 
 <script setup lang="tsx">
+import { ref, watch, onBeforeUnmount } from 'vue';
 import $jq from 'jquery';
-import { filterTree, convertToFlatArr } from '@/utils/index';
+import { filterTree, convertToFlatArr } from '../../utils/index';
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 // ● props
 export interface IList {
@@ -69,8 +66,8 @@ const defaultProps = {
 function refresh() {
   // 过滤规则
   function rule(node: any) {
-    // id对应的dom，是否存在
-    return !!document.getElementById(node.id);
+    // 存在子菜单，或id对应的dom存在
+    return node.children?.length || document.getElementById(node.id);
   }
   listConfirmed.value = filterTree(props.list, 'children', rule);
 
@@ -98,19 +95,22 @@ function refresh() {
 
 // 滚动
 function scrollTo(id: string) {
-  $jq(containerDom).animate(
-    {
-      scrollTop: computeOffsetTop(document.getElementById(id)),
-    },
-    props.scrollSpeed,
-    'swing',
-    () => {
-      setTimeout(() => {
-        // 如果不进行延迟处理的话，当afterScrollTo里使用到currentId，会显示上一次的值
-        props.afterScrollTo?.();
-      }, 100);
-    }
-  );
+  const dom = document.getElementById(id);
+  if (dom) {
+    $jq(containerDom).animate(
+      {
+        scrollTop: computeOffsetTop(dom),
+      },
+      props.scrollSpeed,
+      'swing',
+      () => {
+        setTimeout(() => {
+          // 如果不进行延迟处理的话，当afterScrollTo里使用到currentId，会显示上一次的值
+          props.afterScrollTo?.();
+        }, 100);
+      }
+    );
+  }
 }
 
 // scroll事件的回调
@@ -130,7 +130,6 @@ function scrollHandlerCallback() {
   for (let i = 0; i < flatArr.length; i++) {
     const dom = document.getElementById(flatArr[i].id);
     if (dom) {
-      // if (dom.offsetTop > containerDom.scrollTop) {
       if (computeOffsetTop(dom) > containerDom.scrollTop) {
         // 【dom相对容器节点的距离 > 滑块相对容器节点的距离】，说明当前视口的顶部处于上一个dom的内容中
         currentId.value = flatArr[i - 1].id;
@@ -150,13 +149,13 @@ function scrollListen() {
   }
 }
 
-// 递归计算 dom与容器dom之间的距离（因为offsetTop只是计算与最近的非static定位的父dom之间的距离，而实际上，导航dom与容器之间可能的存在非static定位的dom情况）
+// 递归计算 dom与容器dom之间的距离（因为offsetTop只是计算与最近的非static定位的父dom之间的距离，而实际上，导航dom与容器之间，可能存在其他非static定位的dom，所以需要递归计算）
 function computeOffsetTop(dom, initTopValue = 0) {
   if (dom.offsetParent === containerDom) {
     // offsetParent是最近的非static定位的父dom，offsetTop计算的也是与最近的非static定位的父dom之间的距离
     return initTopValue + dom.offsetTop;
   } else {
-    return computeOffsetTop(dom.offsetParent, dom.offsetTop);
+    return computeOffsetTop(dom.offsetParent, initTopValue + dom.offsetTop);
   }
 }
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
@@ -170,7 +169,7 @@ watch(
   {
     deep: true,
     // immediate: true
-    // flush: 'post'
+    flush: 'post',
   }
 );
 
@@ -192,6 +191,8 @@ onBeforeUnmount(() => {
 });
 
 defineExpose({
+  // 滚动到
+  scrollTo,
   // 当前高亮的菜单id
   currentId,
   // 初始化

@@ -159,7 +159,8 @@ function scrollListen() {
 
 // 递归计算 dom与容器dom之间的距离（因为offsetTop只是计算与最近的非static定位的父dom之间的距离，而实际上，导航dom与容器之间可能的存在非static定位的dom情况）
 function computeOffsetTop(dom, initTopValue = 0) {
-  if (dom.offsetParent === containerDom) {  // offsetParent是最近的非static定位的父dom，offsetTop计算的也是与最近的非static定位的父dom之间的距离
+  if (dom.offsetParent === containerDom) {
+    // offsetParent是最近的非static定位的父dom，offsetTop计算的也是与最近的非static定位的父dom之间的距离
     return initTopValue + dom.offsetTop;
   } else {
     return computeOffsetTop(dom.offsetParent, dom.offsetTop);
@@ -198,6 +199,8 @@ onBeforeUnmount(() => {
 });
 
 defineExpose({
+  // 滚动到
+  scrollTo,
   // 当前高亮的菜单id
   currentId,
   // 初始化
