@@ -32,20 +32,31 @@
 import elFormHook from '@/views/my/MyDialogForm/elFormHook'
 
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件
+// form封装（太死了，不好搞）
 import LForm from '@/components/LForm/LForm.vue'
+// 搜索条件的封装
 import LSearchLayoutDemo from './LSearchLayoutDemo/index.vue'
+// 导航锚点的封装（支持列表）
 import LNaviAnchorDemo from './LNaviAnchorDemo/index.vue'
+// 导航锚点的封装（支持tree结构）
 import LNaviAnchorTreeDemo from './LNaviAnchorTreeDemo/index.vue'
 
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板
+// 临时代码
 import tmp from './tmp/index.vue'
+// 列表页
 import MyTableList from './MyTableList/index.vue'
+// 表单页
 import MyDialogForm from './MyDialogForm/index.vue'
+// 表单详情页
+import FormDetail from './FormDetail/index.vue'
+// jsx的Demo
 import JsxComp from './JsxComp/JsxComp.vue'
+// 进度、流程、历史步骤
 import Steps from './Steps/Steps.vue'
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue'
+// TS的Demo
 import TsDemo from './TsDemo/index.vue'
-import FormDetail from './FormDetail/index.vue'
 
 // import $ from 'jquery'
 // console.log(333, $);
