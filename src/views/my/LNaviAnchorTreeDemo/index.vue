@@ -18,8 +18,13 @@
     <!-- 内容列表 -->
     <div v-for="item in naviList" :id="item.id" :key="item.id">
       <div class="menu-item">{{ item.id }}</div>
+      <!-- 子项 -->
       <div class="menu-item" v-for="subItem in item?.children ?? []" :id="subItem.id" :key="subItem.id">
         {{ subItem.id }}
+        <!-- 子子项 -->
+        <div class="menu-item" v-for="subSubItem in subItem?.children ?? []" :id="subSubItem.id" :key="subSubItem.id">
+          {{ subSubItem.id }}
+        </div>
       </div>
     </div>
   </div>
@@ -32,8 +37,11 @@ import { LNaviAnchorTree } from '@/components/index';
 const demoRef = ref();
 const LNaviAnchorTreeRef = ref();
 const naviList = ref<any[]>([
-  { id: '菜单0', label: '菜单99', prefixFlag: true, suffixFlag: true },
-  { id: '菜单1', children: [{ id: '菜单1-1' }, { id: '菜单1-2' }] },
+  { id: '菜单0', label: '菜单0的别名', suffixFlag: true },
+  {
+    id: '菜单1',
+    children: [{ id: '菜单1-1', children: [{ id: '菜单1-1-1' }, { id: '菜单1-1-2' }] }, { id: '菜单1-2' }],
+  },
   { id: '菜单2' },
   { id: '菜单3' },
   { id: '菜单4' },
@@ -46,7 +54,7 @@ setTimeout(() => {
 
 // 动态修改
 setTimeout(() => {
-  naviList.value.at(-1).suffixFlag = true;
+  naviList.value.at(-1).prefixFlag = true;
 }, 2000);
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
 function afterScrollTo() {
