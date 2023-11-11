@@ -3,7 +3,7 @@
     <!-- ■■■■■■■■■■■■ 信息一 ■■■■■■■■■■■■ -->
     <div class="title">信息一</div>
     <div class="wrapper">
-      <div v-for="item in detailInfo.info1" :key="item.label" class="item">
+      <div v-for="item in detailInfo.info1" :key="item.label" class="item" :style="{ width: item.width ?? '50%' }">
         <div class="label">{{ item.label }}</div>
         <div class="value">
           <!-- tags -->
@@ -64,10 +64,12 @@ const detailInfo = reactive<any>({
       label: '敏感等级',
       value:
         '网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计',
+      width: '100%',
     },
     {
       label: '关键字',
       value: ['tag-1', 'tag-2', 'tag-3'],
+      width: '100%',
     },
     {
       label: '图片',

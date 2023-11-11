@@ -4,7 +4,7 @@
     <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
     <!-- <LSearchLayoutDemo /> -->
     <!-- <LNaviAnchorDemo /> -->
-    <LNaviAnchorTreeDemo />
+    <!-- <LNaviAnchorTreeDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
     <!-- <tmp ref="tmpRef" /> -->
@@ -23,7 +23,7 @@
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
-    <!-- <FormDetail /> -->
+    <FormDetail />
   </div>
 </template>
 
