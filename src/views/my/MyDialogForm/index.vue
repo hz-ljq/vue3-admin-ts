@@ -65,6 +65,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="字符串模拟数字输入框" prop="val0">
+              <!-- 这里不用v-model.number，是因为它虽然会禁止【数字+字母】，但却允许【字母+数字】。而且字母如果是e的话，则无论e在数字的前后都会被允许 -->
               <el-input
                 v-model="form.val0"
                 :step="1"
