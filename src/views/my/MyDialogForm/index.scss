@@ -40,6 +40,15 @@
         width: 100%;
         text-align: center;
       }
+
+      // 针对 <el-input type="number">，隐藏上下调节数字的默认按钮
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+      }
+      input[type='number'] {
+        -moz-appearance: textfield !important;
+      }
     }
   }
 }

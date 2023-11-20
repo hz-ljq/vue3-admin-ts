@@ -1,9 +1,9 @@
 <template>
   <div class="FormDetail">
     <!-- ■■■■■■■■■■■■ 信息一 ■■■■■■■■■■■■ -->
-    <div class="title">信息一</div>
+    <div class="title">信息一（左右结构）</div>
     <div class="wrapper">
-      <div v-for="item in detailInfo.info1" :key="item.label" class="item" :style="{ width: item.width ?? '50%' }">
+      <div v-for="item in detailInfo.info1" :key="item.label" class="item-1" :style="{ width: item.width ?? '50%' }">
         <div class="label">{{ item.label }}</div>
         <div class="value">
           <!-- tags -->
@@ -35,7 +35,41 @@
     </div>
 
     <!-- ■■■■■■■■■■■■ 信息二 ■■■■■■■■■■■■ -->
-    <div class="title">信息二</div>
+    <div class="title">信息二（上下结构）</div>
+    <div class="wrapper">
+      <div v-for="item in detailInfo.info1" :key="item.label" class="item-2" :style="{ width: item.width ?? '50%' }">
+        <div class="label">{{ item.label }}</div>
+        <div class="value">
+          <!-- tags -->
+          <template v-if="item.label === '关键字'">
+            <el-tag v-for="subItem in item.value" :key="subItem" style="margin-right: 10px">
+              {{ subItem }}
+            </el-tag>
+          </template>
+
+          <!-- 预览 -->
+          <el-button v-else-if="item.label === '图片' && item.url" type="primary" link @click="previewFile(item.url)">
+            点击预览
+          </el-button>
+
+          <!-- 下载 -->
+          <el-button
+            v-else-if="item.label === '文档' && item.url"
+            type="primary"
+            link
+            @click="downloadFile({ name: item.name, url: item.url })"
+          >
+            点击下载
+          </el-button>
+
+          <!-- 普通文字 -->
+          <span v-else>{{ item.value }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ■■■■■■■■■■■■ 信息三 ■■■■■■■■■■■■ -->
+    <div class="title">信息三</div>
     <el-table :data="detailInfo.info2">
       <el-table-column prop="name" label="所属单位" min-width="100" />
       <el-table-column prop="contractName" label="联系人" />

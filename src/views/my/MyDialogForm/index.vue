@@ -52,7 +52,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="数字输入框" prop="val2" :rules="rules.input()">
+            <el-form-item label="数字输入框（单位：万元）" prop="val2" :rules="rules.input()">
               <el-input-number
                 v-model="form.val2"
                 controls-position="right"
@@ -61,6 +61,20 @@
                 :step="1"
                 :disabled="mode === 'view'"
               ></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="字符串模拟数字输入框" prop="val0">
+              <el-input
+                v-model="form.val0"
+                :step="1"
+                type="number"
+                placeholder="请输入"
+                clearable
+                :disabled="mode === 'view'"
+              >
+                <template #append>万元</template>
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -518,6 +532,24 @@ const rules = reactive({
       transform: validateHook,
     },
   ],
+  val0: [
+    {
+      required: true,
+      // message: "请输入",
+      validator: (rule, value, callback) => {
+        // 由于用的是字符串输入框（el-input），但同时定义了type="number"，因此只能输入数字（字符串的数字，以及+-号）；
+        // 注意：如果用户只输入+或-号，则value是空字符串；
+        if (value === '' || value === null) {
+          callback(new Error('请输入'));
+        } else if (form.value.val0 < -10 || form.value.val0 > 10) {
+          callback(new Error('请输入 [0, 10]之间的数字'));
+        } else {
+          callback();
+        }
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
   val203: [
     {
       required: true,
@@ -593,6 +625,7 @@ async function asyncName(rule, value, callback) {
 function setFormData() {
   form.value = {
     name: '1232',
+    val0: '1',
     val1: '1',
     val2: 0,
     val3: '1',
@@ -642,6 +675,7 @@ function delOne(tableOf, index) {
 }
 // 校验钩子
 function validateHook(value) {
+  console.log(44, value);
   // do something
   return value;
 }
@@ -705,6 +739,7 @@ function init() {
     // （异步校验）类型
     name: '123',
     // （输入）类型
+    val0: null,
     val1: null,
     val2: 0,
     val3: null,

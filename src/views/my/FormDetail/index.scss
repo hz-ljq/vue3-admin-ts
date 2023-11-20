@@ -9,6 +9,8 @@
     font-weight: 600;
     color: #323640;
     padding: 36px 0 16px 0;
+    // margin: 36px 0 16px 0;
+    background-color: lightgray;
   }
 
   .wrapper {
@@ -16,7 +18,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    .item {
+    .item-1 {
       // width: 50%;
       display: flex;
       font-size: 14px;
@@ -33,6 +35,25 @@
         margin-left: 16px;
         color: #323640;
         margin-bottom: 16px;
+
+        > span {
+          line-height: 20px;
+        }
+      }
+    }
+
+    .item-2 {
+      // width: 50%;
+      font-size: 14px;
+      margin-bottom: 20px;
+
+      .label {
+        color: #9098a9;
+        margin-bottom: 8px;
+      }
+
+      .value {
+        color: #323640;
 
         > span {
           line-height: 20px;
