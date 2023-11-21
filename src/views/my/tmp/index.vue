@@ -1,8 +1,8 @@
 <template>
-  <div class="tmp">tmpppp</div>
+  <div class="tmp">tmppppp</div>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="tsx" name="tmp">
 // 分隔符
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎
