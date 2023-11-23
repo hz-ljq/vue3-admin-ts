@@ -28,6 +28,9 @@
             </component>
           </template>
 
+          <!-- 自定义slot -->
+          <slot v-else-if="item.slotName" :name="item.slotName"></slot>
+
           <!-- 自定义组件 -->
           <template v-else>
             <component :is="item.compName" v-bind="item.compParams"></component>

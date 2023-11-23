@@ -1,7 +1,11 @@
 <template>
   <div class="my">
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
-    <!-- <LForm ref="LFormRef" :formOption="formOption"></LForm> -->
+    <!-- <LForm ref="LFormRef" :formOption="formOption">
+      <template #slot1>
+        <h3>这是插槽（slot1）</h3>
+      </template>
+    </LForm> -->
     <!-- <LSearchLayoutDemo /> -->
     <!-- <LNaviAnchorDemo /> -->
     <!-- <LNaviAnchorTreeDemo /> -->
@@ -153,10 +157,25 @@ onMounted(() => {});
 //     },
 //     // 自定义组件
 //     {
-//       compName: Steps,
+//       // 在使用自定义组件时，如果传入的是组件而不是字符串的话，需要用markRaw或shallowRef包裹（用来让数据失去响应性），为了避免组件会产生没必要的性能开销；
+//       // 如果不这样做的话，vue会给出警告；
+//       // 但也意味着，动态修改这个数据，视图不会更新；
+//       compName: markRaw(tmp),
 //       compParams: {
 //         xxx: 'xxx',
-//       }
+//       },
+//       elFormItemParams: {
+//         label: 'tmp',
+//       },
+//       elColSpan: 8,
+//     },
+//     // 自定义slot
+//     {
+//       slotName: 'slot1',
+//       elFormItemParams: {
+//         label: 'slot1',
+//       },
+//       elColSpan: 8,
 //     },
 //   ],
 //   btnArr: [
@@ -175,6 +194,10 @@ onMounted(() => {});
 //     },
 //   ],
 // });
+
+// setTimeout(() => {
+//   formOption.value.itemArr[0].elColSpan = 16;
+// }, 2000);
 </script>
 
 <style lang="scss" scoped>
