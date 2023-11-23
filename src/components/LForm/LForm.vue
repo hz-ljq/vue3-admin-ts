@@ -27,6 +27,11 @@
               <el-radio v-for="item in item.options" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </component>
           </template>
+
+          <!-- 自定义组件 -->
+          <template v-else>
+            <component :is="item.compName" v-bind="item.compParams"></component>
+          </template>
         </el-form-item>
       </el-col>
 
@@ -103,10 +108,10 @@ const props = defineProps({
   formOption: {
     type: Object,
     default: () => ({
-      form: {}
-    })
-  }
-})
+      form: {},
+    }),
+  },
+});
 
 // // ● emits
 // const emits = defineEmits(['xxx'])
@@ -125,7 +130,7 @@ const props = defineProps({
 // const ruleForm = ref({
 //   name: 1
 // })
-const formRef = ref()
+const formRef = ref();
 
 // // ● reactive
 // let data2 = reactive({ param1: '', param2: [1] })
@@ -205,8 +210,8 @@ function submitForm() {}
 // // ● defineExpose（暴露到组件外部）
 defineExpose({
   // data1
-  formRef
-})
+  formRef,
+});
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
