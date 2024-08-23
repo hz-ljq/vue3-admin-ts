@@ -6,12 +6,12 @@
         <h3>这是插槽（slot1）</h3>
       </template>
     </LForm> -->
-    <!-- <LSearchLayoutDemo /> -->
-    <!-- <LNaviAnchorDemo /> -->
+    <!-- <LSearchLayoutDemo />
+    <LNaviAnchorDemo /> -->
     <!-- <LNaviAnchorTreeDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
-    <tmp ref="tmpRef" />
+    <!-- <tmp ref="tmpRef" /> -->
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
@@ -36,7 +36,7 @@
 import elFormHook from '@/views/my/MyDialogForm/elFormHook';
 
 // ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件
-// form封装（太死了，不好搞）
+// form封装（太死了，不好搞，而且代码的可读性也不好）
 import LForm from '@/components/LForm/LForm.vue';
 // 搜索条件的封装
 import LSearchLayoutDemo from './LSearchLayoutDemo/index.vue';

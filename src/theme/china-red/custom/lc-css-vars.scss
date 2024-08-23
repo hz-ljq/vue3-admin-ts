@@ -14,15 +14,6 @@ html.china-red {
   --el-menu-level-padding: 20px;
   --el-menu-icon-width: 24px;
 
-  .el-menu-item.is-active {
-    color: var(--el-menu-active-color);
-    background-color: #ffece6;
-  }
-
-  .el-menu-item:hover {
-    background-color: var(--el-menu-hover-bg-color);
-    color: var(--el-menu-active-color);
-  }
   /*element-plus section */
   //--el-menu-active-color: #409eff;
   //--el-menu-text-color: #bfcbd9;
@@ -74,4 +65,14 @@ html.china-red {
   --nav-bar-background: #fff;
   --nav-bar-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   --nav-bar-right-menu-background: #fff;
+
+  .el-menu-item.is-active {
+    color: var(--el-menu-active-color);
+    background-color: #ffece6;
+  }
+
+  .el-menu-item:hover {
+    background-color: var(--el-menu-hover-bg-color);
+    color: var(--el-menu-active-color);
+  }
 }

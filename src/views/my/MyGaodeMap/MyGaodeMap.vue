@@ -98,7 +98,8 @@ function initMap() {
     // pitchEnable: false,
     // rotateEnable: false,
     // mapStyle: 'amap://styles/light' // 设置地图的显示样式
-    mapStyle: 'amap://styles/cd072fdb4f014384bc3f622cbd4ba3bc' // 设置地图的显示样式
+    // mapStyle: 'amap://styles/cd072fdb4f014384bc3f622cbd4ba3bc' // 设置地图的显示样式
+    mapStyle: 'amap://styles/dark' // 设置地图的显示样式
   })
 
   // 地图图块加载完成后触发
