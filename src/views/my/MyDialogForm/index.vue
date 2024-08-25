@@ -22,7 +22,7 @@
             <el-divider>（异步校验）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="输入框(异步校验)" prop="name">
+            <el-form-item label="输入框（异步校验）" prop="name">
               <el-input v-model="form.name" placeholder="请输入" clearable :disabled="mode === 'view'"></el-input>
             </el-form-item>
           </el-col>
@@ -34,19 +34,19 @@
             <el-divider>（输入）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="字符串输入框(单行)" prop="val1" :rules="rules.input()">
+            <el-form-item label="字符串输入框（单行）" prop="val1" :rules="rules.input()">
               <el-input v-model="form.val1" placeholder="请输入" clearable :disabled="mode === 'view'"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="字符串输入框(多行)" prop="val3" :rules="rules.input()">
+            <el-form-item label="字符串输入框（多行）" prop="val3" :rules="rules.input()">
               <el-input
                 v-model="form.val3"
                 type="textarea"
                 :rows="3"
                 maxlength="200"
                 show-word-limit
-                placeholder="请输入(多行)"
+                placeholder="请输入"
                 :disabled="mode === 'view'"
               ></el-input>
             </el-form-item>
@@ -86,7 +86,7 @@
             <el-divider>（选择）类型</el-divider>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(单选)" prop="val4" :rules="rules.singleSelect()">
+            <el-form-item label="下拉框（单选）" prop="val4" :rules="rules.singleSelect()">
               <el-select v-model="form.val4" placeholder="请选择" filterable clearable :disabled="mode === 'view'">
                 <el-option
                   v-for="item in Sel.convertToArray(Sel.opt100)"
@@ -98,7 +98,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(单选-可新建)" prop="val41" :rules="rules.singleSelect()">
+            <el-form-item label="下拉框（单选-可新建选项）" prop="val41" :rules="rules.singleSelect()">
               <el-select
                 v-model="form.val41"
                 placeholder="请选择"
@@ -109,21 +109,16 @@
                 :reserve-keyword="false"
                 @change="
                   (val) => {
-                    selectValChange('下拉框(单选-可新建)', val);
+                    selectValChange('下拉框（单选-可新建选项）', val);
                   }
                 "
               >
-                <el-option
-                  v-for="item in opt1"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+                <el-option v-for="item in opt1" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(多选)" prop="val5" :rules="rules.multipleSelect()">
+            <el-form-item label="下拉框（多选）" prop="val5" :rules="rules.multipleSelect()">
               <el-select
                 v-model="form.val5"
                 placeholder="请选择"
@@ -142,7 +137,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下拉框(多选-可新建)" prop="val51" :rules="rules.multipleSelect()">
+            <el-form-item label="下拉框（多选-可新建选项）" prop="val51" :rules="rules.multipleSelect()">
               <el-select
                 ref="multipleSelRef"
                 v-model="form.val51"
@@ -154,23 +149,18 @@
                 :reserve-keyword="false"
                 @change="
                   (val) => {
-                    selectValChange('下拉框(多选-可新建)', val);
+                    selectValChange('下拉框（多选-可新建选项）', val);
                   }
                 "
                 multiple
               >
-                <el-option
-                  v-for="item in opt2"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+                <el-option v-for="item in opt2" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="级联选择器(单选)" prop="val6" :rules="rules.singleSelect()">
+            <el-form-item label="级联选择器（单选）" prop="val6" :rules="rules.singleSelect()">
               <el-cascader
                 v-model="form.val6"
                 placeholder="请选择"
@@ -199,9 +189,12 @@
           <el-col :span="8">
             <el-form-item label="radio" prop="val8" :rules="rules.singleSelect()">
               <el-radio-group v-model="form.val8" :disabled="mode === 'view'">
-                <el-radio v-for="item in Sel.convertToArray(Sel.opt100)" :key="item.value" :label="item.value">
-                  {{ item.label }}
-                </el-radio>
+                <el-radio
+                  v-for="item in Sel.convertToArray(Sel.opt100)"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -215,60 +208,13 @@
           <el-col :span="8">
             <el-form-item label="checkbox" prop="val10" :rules="rules.multipleSelect()">
               <el-checkbox-group v-model="form.val10" :disabled="mode === 'view'">
-                <el-checkbox v-for="item in Sel.convertToArray(Sel.opt100)" :key="item.value" :label="item.value">
-                  {{ item.label }}
-                </el-checkbox>
+                <el-checkbox
+                  v-for="item in Sel.convertToArray(Sel.opt100)"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-checkbox>
               </el-checkbox-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 新建 下拉框选项 ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ -->
-        <el-row>
-          <el-col :span="24">
-            <el-divider>新建 下拉框选项</el-divider>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="单选" prop="val20" :rules="rules.singleSelect()">
-              <el-select
-                v-model="form.val20"
-                placeholder="请选择（可新建）"
-                filterable
-                clearable
-                allow-create
-                default-first-option
-                :reserve-keyword="false"
-                @change="
-                  (val) => {
-                    selectValChange('单选', val);
-                  }
-                "
-              >
-                <el-option v-for="item in opt1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-            <el-form-item label="多选" prop="val21" :rules="rules.multipleSelect()">
-              <el-select
-                ref="keywordSelRef"
-                v-model="form.val21"
-                placeholder="请选择（可新建）"
-                filterable
-                clearable
-                multiple
-                allow-create
-                default-first-option
-                :reserve-keyword="false"
-                @change="
-                  (val) => {
-                    selectValChange('多选', val);
-                  }
-                "
-              >
-                <el-option v-for="item in opt2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -368,7 +314,7 @@
             <el-divider>绑定多字段</el-divider>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="形态一(提示分开)" :required="true">
+            <el-form-item label="形态一（提示分开）" :required="true">
               <el-row :gutter="40" style="width: 100%">
                 <el-col :span="8">
                   <el-form-item label="" prop="val201" :rules="rules.input()">
@@ -394,7 +340,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="形态二(提示统一)" prop="val203" :rules="rules.val203">
+            <el-form-item label="形态二（提示统一）" prop="val203" :rules="rules.val203">
               <el-input
                 v-model="form.val203"
                 style="width: 200px; margin-right: 20px"
@@ -694,9 +640,6 @@ function setFormData() {
         ],
       },
     ],
-
-    val20: 10000,
-    val21: [20000],
   };
 
   nextTick(() => {
@@ -722,7 +665,7 @@ function delOne(tableOf, index) {
 }
 // 校验钩子
 function validateHook(value) {
-  console.log(44, value);
+  // console.log(44, value);
   // do something
   return value;
 }
@@ -792,9 +735,9 @@ function init() {
     val3: null,
     // （选择）类型
     val4: null,
-    val41: null,
+    val41: null, // 下拉框（单选-可新建选项）
     val5: [],
-    val51: [],
+    val51: [], // 下拉框（多选-可新建选项）
     val6: null,
     val7: null,
     val8: 1,
@@ -807,9 +750,6 @@ function init() {
       //   files: [],
       // },
     ],
-    // 新建 下拉框选项
-    val20: null,
-    val21: [],
     // 绑定多字段
     val201: null,
     val202: null,
@@ -892,7 +832,7 @@ const addOptFormType = ref();
 const multipleSelRef = ref();
 
 function selectValChange(type: string, valToAdd: string) {
-  if (type === '下拉框(单选-可新建)') {
+  if (type === '下拉框（单选-可新建选项）') {
     const item = opt1.value.find((x) => x.value === valToAdd);
     if (!item && valToAdd) {
       ElMessageBox.confirm('该选项不存在，是否新建选项？', '新建选项', {
@@ -916,7 +856,7 @@ function selectValChange(type: string, valToAdd: string) {
           form.value.val41 = null;
         });
     }
-  } else if (type === '下拉框(多选-可新建)') {
+  } else if (type === '下拉框（多选-可新建选项）') {
     const val = valToAdd.at(-1);
     const item = opt2.value.find((x) => x.value === val);
     if (!item && val) {
@@ -957,20 +897,20 @@ function initAddOptForm() {
 function addOpt() {
   let prom: any;
 
-  if (addOptFormType.value === '下拉框(单选-可新建)') {
+  if (addOptFormType.value === '下拉框（单选-可新建选项）') {
     prom = Promise.resolve({ result: { id: 'id-' + (opt1.value[0].value + 1) } });
-  } else if (addOptFormType.value === '下拉框(多选-可新建)') {
+  } else if (addOptFormType.value === '下拉框（多选-可新建选项）') {
     prom = Promise.resolve({ result: { id: 'id-' + (opt2.value[0].value + 1) } });
   }
 
   prom.then(({ result: { id } }) => {
-    if (addOptFormType.value === '下拉框(单选-可新建)') {
+    if (addOptFormType.value === '下拉框（单选-可新建选项）') {
       form.value.val41 = id;
       opt1.value.unshift({
         label: addOptForm.value.name,
         value: id,
       });
-    } else if (addOptFormType.value === '下拉框(多选-可新建)') {
+    } else if (addOptFormType.value === '下拉框（多选-可新建选项）') {
       // form.value.val51.push(id)
       form.value.val51 = [...form.value.val51, id];
       opt2.value.unshift({

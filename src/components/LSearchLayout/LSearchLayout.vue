@@ -40,12 +40,12 @@
 </template>
 
 <script setup lang="tsx">
-import { useSlots } from 'vue';
+import { computed, useSlots } from 'vue';
+import { deepAssign } from '../../utils/index';
 import { O } from 'ts-toolbelt';
-
-// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
+// ------------------------------------------------------------------- data
 // ● props
-export interface IProps {
+interface IProps {
   options: O.Partial<
     {
       common: {
@@ -57,6 +57,7 @@ export interface IProps {
       items: {
         [key: string | number]: {
           label: string;
+          labelWidth: string;
           labelPosition: string;
           span: number;
           disabled: boolean;
@@ -71,14 +72,7 @@ export interface IProps {
     'deep'
   >;
 }
-
 const props = withDefaults(defineProps<IProps>(), {});
-// const props = defineProps({
-//   options: {
-//     type: Object,
-//     default: () => ({})
-//   }
-// })
 // const props = defineProps({
 //   options: {
 //     type: Object,
@@ -133,36 +127,8 @@ const mergedOptions = computed(() => {
   const opt = deepAssign({}, defaultOptions, props.options);
   return opt;
 });
-// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
-// 判断对象是否是一个纯粹的对象
-function isPlainObject(obj) {
-  return typeof obj === 'object' && Object.prototype.toString.call(obj) === '[object Object]';
-}
-// 深度合并多个对象的方法
-function deepAssign(...rest) {
-  const len = rest.length;
-  let target = rest[0];
-  if (!isPlainObject(target)) {
-    target = {};
-  }
-  for (let i = 1; i < len; i++) {
-    let source = rest[i];
-    if (isPlainObject(source)) {
-      for (let s in source) {
-        if (s === '__proto__' || target === source[s]) {
-          continue;
-        }
-        if (isPlainObject(source[s])) {
-          target[s] = deepAssign(target[s], source[s]);
-        } else {
-          target[s] = source[s];
-        }
-      }
-    }
-  }
-  return target;
-}
-// ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
+// ------------------------------------------------------------------- methods
+// ------------------------------------------------------------------- other
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

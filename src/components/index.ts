@@ -1,3 +1,3 @@
-export { default as LNaviAnchor } from './LNaviAnchor/LNaviAnchor.vue';
-export { default as LNaviAnchorTree } from './LNaviAnchorTree/LNaviAnchorTree.vue';
-export { default as LSearchLayout } from './LSearchLayout/LSearchLayout.vue';
+export { LNaviAnchor, LNaviAnchorV2 } from './LNaviAnchor';
+export { LNaviAnchorTree } from './LNaviAnchorTree';
+export { LSearchLayout } from './LSearchLayout';

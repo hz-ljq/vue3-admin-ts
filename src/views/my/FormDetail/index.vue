@@ -1,7 +1,7 @@
 <template>
   <div class="FormDetail">
     <!-- ■■■■■■■■■■■■ 信息一 ■■■■■■■■■■■■ -->
-    <div class="title">信息一（左右结构）</div>
+    <div class="title">信息一（label-value：左右结构）</div>
     <div class="wrapper">
       <div v-for="item in detailInfo.info1" :key="item.label" class="item-1" :style="{ width: item.width ?? '50%' }">
         <div class="label">{{ item.label }}</div>
@@ -35,7 +35,7 @@
     </div>
 
     <!-- ■■■■■■■■■■■■ 信息二 ■■■■■■■■■■■■ -->
-    <div class="title">信息二（上下结构）</div>
+    <div class="title">信息二（label-value：上下结构）</div>
     <div class="wrapper">
       <div v-for="item in detailInfo.info1" :key="item.label" class="item-2" :style="{ width: item.width ?? '50%' }">
         <div class="label">{{ item.label }}</div>
@@ -92,12 +92,12 @@ const detailInfo = reactive<any>({
     },
     {
       label: '资源类型',
-      value: '资源类型',
+      value: '这是资源类型',
     },
     {
       label: '敏感等级',
       value:
-        '网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计',
+        '网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计网页防篡改、web应用防火墙、数据库审计、运维审计、日志审计',
       width: '100%',
     },
     {

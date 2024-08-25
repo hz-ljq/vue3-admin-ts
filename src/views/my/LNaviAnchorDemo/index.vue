@@ -1,7 +1,7 @@
 <template>
   <div ref="demoRef" class="LNaviAnchorDemo">
     <!-- 导航锚点 -->
-    <LNaviAnchor
+    <LNaviAnchorV2
       ref="LNaviAnchorRef"
       class="myLNaviAnchor"
       :list="naviList"
@@ -17,7 +17,7 @@
           <span v-if="item.suffixFlag" class="tips">后缀</span>
         </div>
       </template>
-    </LNaviAnchor>
+    </LNaviAnchorV2>
 
     <!-- 内容列表 -->
     <div v-for="item in naviList" :id="item.id" :key="item.id" class="menu-item">{{ item.id }}</div>
@@ -26,7 +26,7 @@
 
 <script setup lang="tsx">
 // import LNaviAnchor from '@/components/LNaviAnchor/LNaviAnchor.vue';
-import { LNaviAnchor } from '@/components/index';
+import { LNaviAnchor, LNaviAnchorV2 } from '@/components/index';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
 const demoRef = ref();
@@ -60,7 +60,7 @@ function afterScrollTo() {
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ other
 onMounted(() => {
   nextTick(() => {
-    LNaviAnchorRef.value.init(demoRef.value);
+    LNaviAnchorRef.value?.init(demoRef.value);
   });
 });
 </script>

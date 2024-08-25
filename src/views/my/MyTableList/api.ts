@@ -1,7 +1,7 @@
 // import request from '@/utils/axiosReq'
 
 // 列表的mock数据
-let mockListData = []
+let mockListData:any = []
 for (let i = 0; i < 200; i++) {
   mockListData.push({
     id: i,

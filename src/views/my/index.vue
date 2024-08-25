@@ -6,12 +6,12 @@
         <h3>这是插槽（slot1）</h3>
       </template>
     </LForm> -->
-    <!-- <LSearchLayoutDemo />
-    <LNaviAnchorDemo /> -->
+    <!-- <LSearchLayoutDemo /> -->
+    <!-- <LNaviAnchorDemo /> -->
     <!-- <LNaviAnchorTreeDemo /> -->
 
     <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
-    <!-- <tmp ref="tmpRef" /> -->
+    <tmp ref="tmpRef" />
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
@@ -27,7 +27,7 @@
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
-    <!-- <FormDetail /> -->
+    <FormDetail />
   </div>
 </template>
 

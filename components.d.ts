@@ -11,7 +11,7 @@ declare module '@vue/runtime-core' {
     LNaviAnchor: typeof import('./src/components/LNaviAnchor/LNaviAnchor.vue')['default']
     LNaviAnchor2: typeof import('./src/components/LNaviAnchor2/LNaviAnchor2.vue')['default']
     LNaviAnchorTree: typeof import('./src/components/LNaviAnchorTree/LNaviAnchorTree.vue')['default']
-    LNaviAnchorV2: typeof import('./src/components/LNaviAnchor2/LNaviAnchorV2.vue')['default']
+    LNaviAnchorV2: typeof import('./src/components/LNaviAnchor/LNaviAnchorV2.vue')['default']
     LSearchLayout: typeof import('./src/components/LSearchLayout/LSearchLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
