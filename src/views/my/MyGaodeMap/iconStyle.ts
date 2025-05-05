@@ -1,34 +1,36 @@
-let smallGreen = {
-  anchor: new AMap.Pixel(17, 17),
-  size: new AMap.Size(33, 33),
-  zIndex: 2
-}
-let smallBlue = {
-  anchor: new AMap.Pixel(17, 17),
-  size: new AMap.Size(33, 33),
-  zIndex: 1
-}
+const AMap = (window as any).AMap;
 
-let bigOrange = {
+const smallGreen = {
+  anchor: new AMap.Pixel(17, 17),
+  size: new AMap.Size(33, 33),
+  zIndex: 2,
+};
+const smallBlue = {
+  anchor: new AMap.Pixel(17, 17),
+  size: new AMap.Size(33, 33),
+  zIndex: 1,
+};
+
+const bigOrange = {
   anchor: new AMap.Pixel(30, 30),
   size: new AMap.Size(59, 59),
-  zIndex: 3
-}
-let bigGreen = {
+  zIndex: 3,
+};
+const bigGreen = {
   anchor: new AMap.Pixel(30, 40),
   size: new AMap.Size(59, 79),
-  zIndex: 2
-}
-let bigBlue = {
+  zIndex: 2,
+};
+const bigBlue = {
   anchor: new AMap.Pixel(30, 40),
   size: new AMap.Size(59, 79),
-  zIndex: 1
-}
-let activeIcon = {
+  zIndex: 1,
+};
+const activeIcon = {
   anchor: new AMap.Pixel(32, 32),
   size: new AMap.Size(63, 63),
-  zIndex: 1
-}
+  zIndex: 1,
+};
 
 // -----------------------------------------------------------------图标
 export const styles = [
@@ -37,97 +39,101 @@ export const styles = [
     // url: require("./images/icon-big/orange-marker.png"),
     url: getUrl({
       basePath: './images/icon-big/',
-      name: 'orange-marker'
+      name: 'orange-marker',
     }),
-    ...bigOrange
+    ...bigOrange,
   },
-  // ---------------绿色
+  // ---------------绿色-1
   {
     // url: require("./images/icon-big/green/城市网格.png"),
     url: getUrl({
       basePath: './images/icon-big/green/',
-      name: '城市网格'
+      name: '城市网格',
     }),
-    ...bigGreen
+    ...bigGreen,
   },
+  // ---------------绿色-2
   {
     // url: require("./images/icon-big/green/店铺.png"),
     url: getUrl({
       basePath: './images/icon-big/green/',
-      name: '店铺'
+      name: '店铺',
     }),
-    ...bigGreen
+    ...bigGreen,
   },
-  // ---------------蓝色
+  // ---------------蓝色-1
   {
     // url: require("./images/icon-big/blue/河道水位监测.png"),
     url: getUrl({
       basePath: './images/icon-big/blue/',
-      name: '河道水位监测'
+      name: '河道水位监测',
     }),
-    ...bigBlue
+    ...bigBlue,
   },
+  // ---------------蓝色-2
   {
     // url: require("./images/icon-big/blue/排出口.png"),
     url: getUrl({
       basePath: './images/icon-big/blue/',
-      name: '排出口'
+      name: '排出口',
     }),
-    ...bigBlue
+    ...bigBlue,
   },
-  // ---------------小图标
+  // ---------------小图标-1
   {
     // url: require("./images/icon-small/orange.png"),
     url: getUrl({
       basePath: './images/icon-small/',
-      name: 'orange'
+      name: 'orange',
     }),
-    ...smallGreen
+    ...smallGreen,
   },
+  // ---------------小图标-2
   {
     // url: require("./images/icon-small/green.png"),
     url: getUrl({
       basePath: './images/icon-small/',
-      name: 'green'
+      name: 'green',
     }),
-    ...smallGreen
+    ...smallGreen,
   },
+  // ---------------小图标-3
   {
     // url: require("./images/icon-small/blue.png"),
     url: getUrl({
       basePath: './images/icon-small/',
-      name: 'blue'
+      name: 'blue',
     }),
-    ...smallBlue
+    ...smallBlue,
   },
 
   // 高亮图标
   {
     url: getUrl({
       basePath: './images/',
-      name: 'activeIcon'
+      name: 'activeIcon',
     }),
-    ...activeIcon
-  }
-]
+    ...activeIcon,
+  },
+];
 
 function getUrl({ basePath = './', name }) {
-  const url = basePath + `${name}.png`
-  let modules
+  const url = basePath + `${name}.png`;
+  let modules;
   if (basePath === './images/icon-big/') {
-    modules = import.meta.glob('./images/icon-big/*', { eager: true })
+    modules = import.meta.glob('./images/icon-big/*', { eager: true });
   } else if (basePath === './images/icon-big/green/') {
-    modules = import.meta.glob('./images/icon-big/green/*', { eager: true })
+    modules = import.meta.glob('./images/icon-big/green/*', { eager: true });
   } else if (basePath === './images/icon-big/blue/') {
-    modules = import.meta.glob('./images/icon-big/blue/*', { eager: true })
+    modules = import.meta.glob('./images/icon-big/blue/*', { eager: true });
   } else if (basePath === './images/icon-small/') {
-    modules = import.meta.glob('./images/icon-small/*', { eager: true })
+    modules = import.meta.glob('./images/icon-small/*', { eager: true });
   } else if (basePath === './images/') {
-    modules = import.meta.glob('./images/*', { eager: true })
+    modules = import.meta.glob('./images/*', { eager: true });
   }
 
-  const mod = modules[url] as { default: string }
-  return mod.default
+  const mod = modules[url] as { default: string };
+  return mod.default;
 }
 
 // -----------------------------------------------------------------不显示

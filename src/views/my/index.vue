@@ -1,6 +1,6 @@
 <template>
   <div class="my">
-    <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件 -->
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■ 公共组件 -->
     <!-- <LForm ref="LFormRef" :formOption="formOption">
       <template #slot1>
         <h3>这是插槽（slot1）</h3>
@@ -10,11 +10,11 @@
     <!-- <LNaviAnchorDemo /> -->
     <!-- <LNaviAnchorTreeDemo /> -->
 
-    <!-- ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板 -->
-    <tmp ref="tmpRef" />
+    <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■ 基础代码模板 -->
+    <!-- <tmp ref="tmpRef" /> -->
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
-    <!-- <MyDialogForm /> -->
+    <MyDialogForm />
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
       <template #foo>
@@ -27,15 +27,16 @@
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
-    <FormDetail />
+    <!-- <FormDetail /> -->
+    <!-- <Test /> -->
   </div>
 </template>
 
 <script setup lang="tsx" name="my">
-// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共hooks
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■ 公共hooks
 import elFormHook from '@/views/my/MyDialogForm/elFormHook';
 
-// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 公共组件
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■ 公共组件
 // form封装（太死了，不好搞，而且代码的可读性也不好）
 import LForm from '@/components/LForm/LForm.vue';
 // 搜索条件的封装
@@ -45,7 +46,7 @@ import LNaviAnchorDemo from './LNaviAnchorDemo/index.vue';
 // 导航锚点的封装（支持tree结构）
 import LNaviAnchorTreeDemo from './LNaviAnchorTreeDemo/index.vue';
 
-// ◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️◼️ 基础代码模板
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■ 基础代码模板
 // 临时代码
 import tmp from './tmp/index.vue';
 // 列表页
@@ -58,9 +59,12 @@ import FormDetail from './FormDetail/index.vue';
 import JsxComp from './JsxComp/JsxComp.vue';
 // 进度、流程、历史步骤
 import Steps from './Steps/Steps.vue';
+// 高德地图
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue';
 // TS的Demo
 import TsDemo from './TsDemo/index.vue';
+// 用于复习test
+import Test from './Test/index.vue';
 
 // import $ from 'jquery'
 // console.log(333, $);

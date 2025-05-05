@@ -1,38 +1,38 @@
 // @ts-ignore
-import path from 'path'
-import vue from '@vitejs/plugin-vue'
-import legacy from '@vitejs/plugin-legacy'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import viteSvgIcons from 'vite-plugin-svg-icons'
+import path from 'path';
+import vue from '@vitejs/plugin-vue';
+import legacy from '@vitejs/plugin-legacy';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import viteSvgIcons from 'vite-plugin-svg-icons';
 //mock
 // import { viteMockServe } from 'vite-plugin-mock'
 //inject title
-import { createHtmlPlugin } from 'vite-plugin-html'
+import { createHtmlPlugin } from 'vite-plugin-html';
 //setup name
 // import VueSetupExtend from 'vite-plugin-vue-setup-extend-plus'
-import VueSetupExtend from "vite-plugin-vue-setup-extend";
+import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 
 //auto import element-plus has some issue
-import Components from 'unplugin-vue-components/vite'
+import Components from 'unplugin-vue-components/vite';
 // import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // import Icons from 'unplugin-icons/vite'
 // import IconsResolver from 'unplugin-icons/resolver'
-import UnoCSS from 'unocss/vite'
-import { presetAttributify, presetIcons, presetUno } from 'unocss'
+import UnoCSS from 'unocss/vite';
+import { presetAttributify, presetIcons, presetUno } from 'unocss';
 
-import mkcert from 'vite-plugin-mkcert'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import mkcert from 'vite-plugin-mkcert';
+import DefineOptions from 'unplugin-vue-define-options/vite';
 //auto import vue https://www.npmjs.com/package/unplugin-auto-import
-import AutoImport from 'unplugin-auto-import/vite'
+import AutoImport from 'unplugin-auto-import/vite';
 
-import setting from './src/settings'
+import setting from './src/settings';
 
 // const prodMock = setting.openProdMock
 // import packageJson from './package.json'
 // import { loadEnv } from 'vite'
-import { optimizeDependencies, optimizeElementPlus } from './optimize-include'
-const pathSrc = path.resolve(__dirname, 'src')
+import { optimizeDependencies, optimizeElementPlus } from './optimize-include';
+const pathSrc = path.resolve(__dirname, 'src');
 
 export default ({ command, mode }: any) => {
   return {
@@ -45,8 +45,8 @@ export default ({ command, mode }: any) => {
       'process.version': null,
       GLOBAL_STRING: JSON.stringify('i am global var from vite.config.js define'),
       GLOBAL_VAR: {
-        test: 'i am global var from vite.config.js define'
-      }
+        test: 'i am global var from vite.config.js define',
+      },
     },
     clearScreen: false,
     server: {
@@ -55,7 +55,7 @@ export default ({ command, mode }: any) => {
       open: false, // 类型： boolean | string在服务器启动时自动在浏览器中打开应用程序；
       cors: true, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
       host: true,
-      https: false //whether open https 开启https首次运行比较慢 且有个输入密码过程
+      https: false, //whether open https 开启https首次运行比较慢 且有个输入密码过程
       //proxy look for https://vitejs.cn/config/#server-proxy
       // proxy: {
       //   '/api': {
@@ -68,17 +68,19 @@ export default ({ command, mode }: any) => {
     preview: {
       port: 5008,
       host: true,
-      strictPort: true
+      strictPort: true,
     },
     plugins: [
-      vue({ reactivityTransform: true }),
+      vue({
+        reactivityTransform: true,
+      }),
       VueSetupExtend(),
       // Icons({
       //   autoInstall: true,
       // }),
       vueJsx(),
       UnoCSS({
-        presets: [presetUno(), presetAttributify(), presetIcons()]
+        presets: [presetUno(), presetAttributify(), presetIcons()],
       }),
 
       DefineOptions(),
@@ -92,7 +94,7 @@ export default ({ command, mode }: any) => {
         // config svg dir that can config multi
         iconDirs: [path.resolve(process.cwd(), 'src/icons/common'), path.resolve(process.cwd(), 'src/icons/nav-bar')],
         // appoint svg icon using mode
-        symbolId: 'icon-[dir]-[name]'
+        symbolId: 'icon-[dir]-[name]',
       }),
       //https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
       // viteMockServe({
@@ -117,7 +119,7 @@ export default ({ command, mode }: any) => {
           // import icons
           // https://github.com/antfu/unplugin-icons
           // IconsResolver(),
-        ]
+        ],
       }),
       AutoImport({
         // resolvers: [ElementPlusResolver()],
@@ -129,25 +131,25 @@ export default ({ command, mode }: any) => {
             '@/hooks/global/useCommon': ['useCommon'],
             '@/hooks/global/useElement': ['useElement'],
             '@/hooks/global/useVueRouter': ['useVueRouter'],
-            '@/utils/axiosReq': ['axiosReq']
-          }
+            '@/utils/axiosReq': ['axiosReq'],
+          },
         ],
         eslintrc: {
           enabled: true, // Default `false`
           filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
-          globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+          globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
         },
-        dts: true //auto generation auto-imports.d.ts file
+        dts: true, //auto generation auto-imports.d.ts file
       }),
       // auto config of index.html title
       createHtmlPlugin({
         inject: {
           // Inject data into ejs template
           data: {
-            title: setting.title
-          }
-        }
-      })
+            title: setting.title,
+          },
+        },
+      }),
     ],
     // logLevel: 'error',
     build: {
@@ -162,8 +164,8 @@ export default ({ command, mode }: any) => {
         compress: {
           drop_console: false,
           pure_funcs: ['console.log', 'console.info'],
-          drop_debugger: true
-        }
+          drop_debugger: true,
+        },
       },
       //build assets Separate
       assetsDir: 'static/assets',
@@ -171,15 +173,15 @@ export default ({ command, mode }: any) => {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
-        }
-      }
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+        },
+      },
     },
     resolve: {
       alias: {
         '~/': `${pathSrc}/`,
-        '@/': `${pathSrc}/`
-      }
+        '@/': `${pathSrc}/`,
+      },
       //why remove it , look for https://github.com/vitejs/vite/issues/6026
       // extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs']
     },
@@ -209,7 +211,7 @@ export default ({ command, mode }: any) => {
     optimizeDeps: {
       //include: [...optimizeDependencies,...optimizeElementPlus] //on-demand element-plus use this
       // include: [...optimizeDependencies]
-      include: ['moment-mini']
-    }
-  }
-}
+      include: ['moment-mini'],
+    },
+  };
+};

@@ -2,7 +2,7 @@
 import * as Api from './api';
 import { ElMessage } from 'element-plus';
 
-export default function ({ validateHook } = {}) {
+export default function ({ validateHook } = {} as any) {
   // -------------------------------------------------------------------校验相关
   // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
   const rules = reactive({
@@ -136,7 +136,7 @@ export default function ({ validateHook } = {}) {
   // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ methods
   // 验证固定电话
   function validate1({ errorText1, errorText2 }, rule, value, callback) {
-    let reg = /^\d{3}-\d{7,8}|\d{4}-\d{7,8}$/;
+    const reg = /^\d{3}-\d{7,8}|\d{4}-\d{7,8}$/;
 
     if (!value) {
       callback(new Error(errorText1));
@@ -149,7 +149,7 @@ export default function ({ validateHook } = {}) {
 
   // 验证手机号
   function validate2({ errorText1, errorText2 }, rule, value, callback) {
-    let reg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+    const reg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
 
     if (!value) {
       callback(new Error(errorText1));
@@ -171,7 +171,7 @@ export default function ({ validateHook } = {}) {
 
   // 不能为空（针对单选和输入）
   function validate4({ errorText }, rule, value, callback) {
-    if (value === null || value === '') {
+    if (value === null || value === undefined || value === '') {
       callback(new Error(errorText));
     } else {
       callback();
@@ -180,7 +180,7 @@ export default function ({ validateHook } = {}) {
 
   // 版本号（v1.0.0）
   function validate5({ errorText1, errorText2 }, rule, value, callback) {
-    let reg = /^(v)([1-9]\d|[1-9])(\.([1-9]\d|\d)){2}$/;
+    const reg = /^(v)([1-9]\d|[1-9])(\.([1-9]\d|\d)){2}$/;
 
     if (!value) {
       callback(new Error(errorText1));
@@ -194,14 +194,14 @@ export default function ({ validateHook } = {}) {
   // -------------------------------------------------------------------文件上传
   // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
   // actionUrl: window.CONFIG.ipPrefix1 + "/OSS/uploadFiles",
-  let actionUrl = ref('http://10.101.5.244:9999/cube-module-directory/OSS/uploadFiles');
-  let uploadHeaders = reactive({
+  const actionUrl = ref('http://10.101.5.244:9999/cube-module-directory/OSS/uploadFiles');
+  const uploadHeaders = reactive({
     // 请求头
     // "X-Access-Token": getToken(),
     'X-Access-Token':
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjQ5NTc2NDQsInVzZXJuYW1lIjoiYWRtaW4ifQ.n01-4IgfBPT9fdY8PjM1QkeeueNkERGQp2QKEFsiIa4',
   });
-  let uploadParam = reactive({
+  const uploadParam = reactive({
     // 请求参数
     fileType: '',
   });

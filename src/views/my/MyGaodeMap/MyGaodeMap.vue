@@ -18,6 +18,7 @@
         <!-- 通过$refs，将vue实例注入到infoWindow，支持vue的数据绑定。 -->
         <div class="title">标题</div>
         <div class="content">我是massMarks的信息弹窗：{{ infoOfInfoWindow2.name }}</div>
+        <!-- 自定义的close按钮 -->
         <el-button class="close-btn" type="" link icon="Close" @click="close"></el-button>
       </div>
     </div>
@@ -25,59 +26,59 @@
 </template>
 
 <script setup lang="tsx" name="MyGaodeMap">
-import { jiedaoData } from './jiedaoData' // 街道数据
-import * as iconStyle from './iconStyle'
-import * as mockData from './mock'
-import myIcon from './images/1.png'
+import { jiedaoData } from './jiedaoData'; // 街道数据
+import * as iconStyle from './iconStyle';
+import * as mockData from './mock';
+import myIcon from './images/1.png';
 
 // ------------------------------------------------------------------- data
-const AMap = (window as any).AMap
+const AMap = (window as any).AMap;
 
-const center = [120.8, 29.9] // 默认中心点
-const zoom = 9.5 // 默认zoom
-const zooms = [2, 20] // zoom范围
-let map: any = null
+const center = [120.8, 29.9]; // 默认中心点
+const zoom = 9.5; // 默认zoom
+const zooms = [2, 20]; // zoom范围
+let map: any = null;
 
 // 普通marker实例
-let markersArr: any[] = []
+let markersArr: any[] = [];
 // MassMarks实例
-let mass: any = null
+let mass: any = null;
 // 多边形实例
-let polygon1: any[] = []
+let polygon1: any[] = [];
 // 街道的多边形实例
-let polygon2: any = {}
+let polygon2: any = {};
 // 折线图层
-let polyline: any = null
+let polyline: any = null;
 // 热力图实例
-let heatmap: any = null
+let heatmap: any = null;
 // 图片图层实例
-let imageLayer: any = null
+let imageLayer: any = null;
 // infoWindow实例
-let infoWindow1: any = null
-let infoWindow2: any = null
-const infoWindow1Ref = ref()
-const infoWindow2Ref = ref()
+let infoWindow1: any = null;
+let infoWindow2: any = null;
+const infoWindow1Ref = ref();
+const infoWindow2Ref = ref();
 
 // 信息弹窗1的数据
 const infoOfInfoWindow1 = ref([
   {
     name: '指标1',
-    value: 100
+    value: 100,
   },
   {
     name: '指标2',
-    value: 200
-  }
-])
+    value: 200,
+  },
+]);
 // 信息弹窗2的数据
 const infoOfInfoWindow2 = ref({
-  name: null
-})
+  name: null,
+});
 
 // ------------------------------------------------------------------- methods
 // 地图初始化
 function initMap() {
-  addImageLayer()
+  addImageLayer();
 
   map = new AMap.Map('gaode-map', {
     layers: [
@@ -88,7 +89,7 @@ function initMap() {
 
       // 图片图层
       AMap.createDefaultLayer(),
-      imageLayer
+      imageLayer,
     ],
     zoom, // 缩放级别
     zooms, // 缩放范围
@@ -99,8 +100,8 @@ function initMap() {
     // rotateEnable: false,
     // mapStyle: 'amap://styles/light' // 设置地图的显示样式
     // mapStyle: 'amap://styles/cd072fdb4f014384bc3f622cbd4ba3bc' // 设置地图的显示样式
-    mapStyle: 'amap://styles/dark' // 设置地图的显示样式
-  })
+    mapStyle: 'amap://styles/dark', // 设置地图的显示样式
+  });
 
   // 地图图块加载完成后触发
   map.on('complete', () => {
@@ -108,56 +109,56 @@ function initMap() {
     infoWindow1 = new AMap.InfoWindow({
       offset: new AMap.Pixel(0, -50),
       closeWhenClickMap: true,
-      autoMove: true
+      autoMove: true,
       // isCustom: true, // 是否自定义（是的话，信息窗体的外框框样式，以及右上角的关闭按钮都将不存在）
-    })
+    });
 
     // 初始化信息窗体
     infoWindow2 = new AMap.InfoWindow({
       offset: new AMap.Pixel(0, -50),
       closeWhenClickMap: true,
       autoMove: true,
-      isCustom: true // 是否自定义（是的话，信息窗体的外框框样式，以及右上角的关闭按钮都将不存在）
-    })
+      isCustom: true, // 是否自定义（是的话，信息窗体的外框框样式，以及右上角的关闭按钮都将不存在）
+    });
 
     // marker1
     const item1 = {
       lng: 120,
       lat: 30,
       indi1: 'indi1',
-      indi2: 'indi2'
-    }
-    addMarker1(item1)
+      indi2: 'indi2',
+    };
+    addMarker1(item1);
 
     // marker2
     const item2 = {
       lng: 120.2,
       lat: 30,
       carNo: '浙A·123456',
-    }
-    addMarker2(item2)
+    };
+    addMarker2(item2);
 
-    addMassMarks()
+    addMassMarks();
 
-    addText()
-    openInfoWindow1()
+    addText();
+    openInfoWindow1();
 
-    addPolygon1()
-    addPolygon2()
-    addHeatmap()
-    AddLineAndjudgePointIsIn()
+    addPolygon1();
+    addPolygon2();
+    addHeatmap();
+    AddLineAndjudgePointIsIn();
 
     // 快速定位 地图和zoom
-    map.setZoomAndCenter(zoom, center)
+    map.setZoomAndCenter(zoom, center);
     // 地图自适应
     // map.setFitView();
-  })
+  });
 
   // 地图的点击事件
   map.on('click', () => {
-    console.log(123)
+    console.log(123);
     // console.log(e);
-  })
+  });
 }
 
 // 添加marker1（图片）
@@ -174,13 +175,13 @@ function addMarker1(item) {
     anchor: 'bottom-center',
     // 标注
     label: {
-      content: `<div class="marker-label">我是marker1</div>`,
+      content: `<div class="marker-label">我是marker1的label</div>`,
       direction: 'top',
-      offset: [-20, 0]
+      offset: [-20, 0],
     },
     // 用户自定义数据
-    extData: item
-  })
+    extData: item,
+  });
   // marker.setSize([10, 10]);
 
   // 暂存 信息弹框的内容
@@ -189,13 +190,13 @@ function addMarker1(item) {
           <div class="indi">${item.indi1}</div>
           <div class="indi">${item.indi2}</div>
         </div>
-      `
+      `;
 
   // 绑定click事件
-  marker.on('click', markerClick)
+  marker.on('click', markerClick);
 
   // 暂存marker实例
-  markersArr.push(marker)
+  markersArr.push(marker);
 }
 
 // 添加marker2（自定义div）
@@ -213,32 +214,35 @@ function addMarker2(item) {
     anchor: 'center',
     // 标注
     label: {
-      content: `<div class="marker-label">我是marker2</div>`,
+      content: `<div class="marker-label">我是marker2的label</div>`,
       direction: 'top',
-      offset: [20, 0]
+      offset: [20, 0],
     },
     // 用户自定义数据
-    extData: item
-  })
+    extData: {
+      ...item,
+      tips: '我是自定义数据！！',
+    },
+  });
 
   // 暂存 信息弹框的内容
   marker.content = `
         <div class="indi-wrapper">
           <div class="indi">我是marker2：${item.carNo}</div>
         </div>
-      `
+      `;
 
   // 绑定click事件
-  marker.on('click', markerClick)
+  marker.on('click', markerClick);
 
-  markersArr.push(marker)
+  markersArr.push(marker);
 }
 
 // marker的点击事件
 function markerClick(e) {
   console.log(e.target.getExtData());
-  infoWindow1.setContent(e.target.content)
-  infoWindow1.open(map, e.target.getPosition())
+  infoWindow1.setContent(e.target.content);
+  infoWindow1.open(map, e.target.getPosition());
 }
 
 // 创建纯文本标注
@@ -251,25 +255,25 @@ function addText() {
     angle: 10,
     style: {
       padding: '10px',
-      'margin-bottom': '100px',
+      // 'margin-bottom': '100px',
       'border-radius': '4px',
       'border-width': 0,
       'box-shadow': '0 0 20px yellow',
       'text-align': 'center',
       'font-size': '18px',
-      color: 'blue'
+      color: 'blue',
     },
-    position: [120.5, 30]
-  })
+    position: [120.5, 30],
+  });
 
-  text.setMap(map)
+  text.setMap(map);
 }
 
 // 打开信息窗体
 function openInfoWindow1() {
-  infoWindow1.setContent(infoWindow1Ref.value)
+  infoWindow1.setContent(infoWindow1Ref.value);
   // 定位 信息窗体
-  infoWindow1.open(map, [121, 30])
+  infoWindow1.open(map, [121, 30]);
 }
 
 // 拱墅区的图片图层（包含绿点、蓝色）
@@ -280,8 +284,8 @@ function addImageLayer() {
     // url: require('./1.png'),
     url: myIcon,
     bounds: new AMap.Bounds([120.095539, 30.261185], [120.206055, 30.392389]),
-    zIndex: 10000
-  })
+    zIndex: 10000,
+  });
   // imageLayer.hide();
 }
 
@@ -291,7 +295,7 @@ function addHeatmap() {
     // 初始化heatmap对象
     heatmap = new AMap.HeatMap(map, {
       radius: 25, // 给定半径
-      opacity: [0, 0.8]
+      opacity: [0, 0.8],
       // gradient: {
       //   0.5: "blue",
       //   0.65: "rgb(117,211,248)",
@@ -299,13 +303,13 @@ function addHeatmap() {
       //   0.9: "#ffea00",
       //   1.0: "red",
       // },
-    })
+    });
   }
   // 设置数据集
   heatmap.setDataSet({
-    data: mockData.heat
+    data: mockData.heat,
     // max: 40,
-  })
+  });
   // heatmap.hide();
 }
 
@@ -317,35 +321,35 @@ function addMassMarks() {
       opacity: 1,
       zIndex: 111,
       cursor: 'pointer',
-      style: iconStyle.styles
+      style: iconStyle.styles,
       // MassMarks的配置中，没有类似于普通marker的content属性。
-    })
-    mass.setMap(map)
+    });
+    mass.setMap(map);
     mass.on('click', (e) => {
-      console.log(e)
-      infoOfInfoWindow2.value.name = e.data.name
+      console.log(e);
+      infoOfInfoWindow2.value.name = e.data.name;
 
-      infoWindow2.setContent(infoWindow2Ref.value)
-      infoWindow2.open(map, e.data.lnglat)
+      infoWindow2.setContent(infoWindow2Ref.value);
+      infoWindow2.open(map, e.data.lnglat);
 
-      switchMarker(e.data.name)
-    })
-    mass.on('mouseover', (e) => {})
+      switchMarker(e.data.name);
+    });
+    mass.on('mouseover', (e) => {});
   }
   // 设置数据
-  mass.setData(mockData.mass)
+  mass.setData(mockData.mass);
 }
 
 // 切换 打点的高亮状态
 function switchMarker(name) {
   mockData.mass.map((x: any) => {
     if (x.name === name) {
-      x.style = 8
+      x.style = 8; // 设置为active图标
     } else {
-      x.style = x.originStyle
+      x.style = x.originStyle;
     }
-  })
-  mass.setData(mockData.mass)
+  });
+  mass.setData(mockData.mass);
 }
 
 // 多边形
@@ -355,12 +359,12 @@ function addPolygon1() {
     // 返回行政区边界坐标等具体信息
     extensions: 'all',
     // 设置查询行政区级别为 区
-    level: 'district'
-  })
+    level: 'district',
+  });
 
   district.search('滨江区', (status, result) => {
     // console.log(22, result);
-    var bounds = result.districtList[0].boundaries
+    var bounds = result.districtList[0].boundaries;
     if (bounds) {
       for (var i = 0, l = bounds.length; i < l; i++) {
         //生成行政区划polygon
@@ -371,24 +375,24 @@ function addPolygon1() {
           fillOpacity: 0.3,
           // fillColor: "#226B87",
           fillColor: 'pink',
-          strokeColor: 'red'
-        })
+          strokeColor: 'red',
+        });
         polygon.on('mouseover', () => {
           polygon.setOptions({
             fillOpacity: 0.5,
-            fillColor: 'lightgreen'
-          })
-        })
+            fillColor: 'lightgreen',
+          });
+        });
         polygon.on('mouseout', () => {
           polygon.setOptions({
             fillOpacity: 0.3,
-            fillColor: 'pink'
-          })
-        })
-        polygon1.push(polygon)
+            fillColor: 'pink',
+          });
+        });
+        polygon1.push(polygon);
       }
     }
-  })
+  });
 }
 
 // 街道的多边形
@@ -401,33 +405,33 @@ function addPolygon2() {
       fillOpacity: 0.3,
       fillColor: '#226B87',
       // fillColor: "red",
-      strokeColor: 'white'
-    })
+      strokeColor: 'white',
+    });
     polygon.on('mouseover', () => {
       polygon.setOptions({
         fillOpacity: 0.5,
-        fillColor: 'red'
-      })
-    })
+        fillColor: 'red',
+      });
+    });
     polygon.on('mouseout', () => {
       polygon.setOptions({
         fillOpacity: 0.3,
-        fillColor: '#226B87'
-      })
-    })
+        fillColor: '#226B87',
+      });
+    });
     // polygon.hide();
     // map.add(polygon);
-    polygon2[x.streetId] = polygon
+    polygon2[x.streetId] = polygon;
   }
 }
 
 // 画线，并判断点击位置是否在画线区域内
 function AddLineAndjudgePointIsIn() {
-  let leftTop = center
-  let rightTop = [center[0] + 0.2, center[1]]
-  let rightBottom = [center[0] + 0.2, center[1] - 0.1]
-  let leftBottom = [center[0], center[1] - 0.1]
-  let path = [leftTop, rightTop, rightBottom, leftBottom, leftTop]
+  let leftTop = center;
+  let rightTop = [center[0] + 0.2, center[1]];
+  let rightBottom = [center[0] + 0.2, center[1] - 0.1];
+  let leftBottom = [center[0], center[1] - 0.1];
+  let path = [leftTop, rightTop, rightBottom, leftBottom, leftTop];
 
   polyline = new AMap.Polyline({
     path,
@@ -443,62 +447,62 @@ function AddLineAndjudgePointIsIn() {
     strokeDasharray: [10, 5],
     lineJoin: 'round',
     lineCap: 'round',
-    zIndex: 150
-  })
-  map.add([polyline])
+    zIndex: 150,
+  });
+  map.add([polyline]);
 
   // 地图的点击事件
   map.on('click', (e) => {
     // console.log(e);
     // 判断 point 是否在地图的可视区域内
-    let inRing = AMap.GeometryUtil.isPointInRing([e.lnglat.lng, e.lnglat.lat], path)
-    console.log(inRing)
-  })
+    let inRing = AMap.GeometryUtil.isPointInRing([e.lnglat.lng, e.lnglat.lat], path);
+    console.log(inRing);
+  });
 }
 
 function close() {
-  infoWindow2?.close()
+  infoWindow2?.close();
 }
 
 // ------------------------------------------------------------------- other
 onMounted(() => {
   nextTick(() => {
-    initMap()
-  })
-})
+    initMap();
+  });
+});
 
 onBeforeUnmount(() => {
   // 销毁 海量点
   if (mass) {
-    mass.clear()
+    mass.clear();
   }
 
   // 销毁 多边形1
   for (let x of polygon1) {
     if (x) {
-      (x as any).destroy()
+      (x as any).destroy();
     }
   }
 
   // 销毁 多边形2
   for (let key in polygon2) {
     if (polygon2[key]) {
-      polygon2[key].destroy()
+      polygon2[key].destroy();
     }
   }
 
   // 销毁 折线
   if (polyline) {
-    polyline.destroy()
+    polyline.destroy();
   }
 
   // 销毁 地图
   if (map) {
-    map.remove(markersArr)
-    map.clearInfoWindow()
-    map.destroy()
+    map.remove(markersArr);
+    map.clearInfoWindow();
+    map.destroy();
   }
-})
+});
 </script>
 
 <style lang="scss" src="./index.scss" scoped />
