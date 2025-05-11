@@ -28,7 +28,6 @@
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
     <!-- <FormDetail /> -->
-    <!-- <Test /> -->
   </div>
 </template>
 
@@ -63,8 +62,6 @@ import Steps from './Steps/Steps.vue';
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue';
 // TS的Demo
 import TsDemo from './TsDemo/index.vue';
-// 用于复习test
-import Test from './Test/index.vue';
 
 // import $ from 'jquery'
 // console.log(333, $);
