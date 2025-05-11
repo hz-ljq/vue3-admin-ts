@@ -1,5 +1,6 @@
 <template>
   <div class="MyTableList">
+    <!-- 这里，其实可以用我封装的 <LSearchLayout /> 组件。不过为了简单，就用div了 -->
     <div class="filter">
       <div class="item">
         <div class="name">应用名称：</div>

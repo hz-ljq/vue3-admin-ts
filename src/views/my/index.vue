@@ -11,10 +11,10 @@
     <!-- <LNaviAnchorTreeDemo /> -->
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■ 基础代码模板 -->
-    <!-- <tmp ref="tmpRef" /> -->
+    <tmp ref="tmpRef" />
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
-    <MyDialogForm />
+    <!-- <MyDialogForm /> -->
     <!-- <JsxComp msg="msg：来自App的prop" @myEmit="myEmit" :listFromParent="[1000, 2000, 3000, 4000]">
       <h3>默认slot</h3>
       <template #foo>

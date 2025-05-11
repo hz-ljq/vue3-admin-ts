@@ -34,10 +34,3 @@ onMounted(() => {
 #####4，注意点
 
 - 滚动轴的容器，不可以用 static 定位，因为导航组件内部的计算用到了 offsetTop。如果`容器dom`是 static 定位，可以给它的样式加上【position: relative】；
-- 导航 dom 与容器 dom 之间，可以存在非 static 定位的父 dom，但必须使用 V2 及以上版本；
-
-#####5，版本
------------------------------------V2
-
-- fixbug
-  【在`导航dom`与`容器dom`之间存在非 static 定位的`父dom`的情况下，由于 offsetTop 只能计算`导航dom`与最近的非 static 定位的`父dom`之间的距离而发生的错乱】

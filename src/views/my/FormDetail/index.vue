@@ -69,7 +69,7 @@
     </div>
 
     <!-- ■■■■■■■■■■■■ 信息三 ■■■■■■■■■■■■ -->
-    <div class="title">信息三</div>
+    <div class="title">信息三（表格）</div>
     <el-table :data="detailInfo.info2">
       <el-table-column prop="name" label="所属单位" min-width="100" />
       <el-table-column prop="contractName" label="联系人" />

@@ -115,7 +115,7 @@ function scrollTo(id: string) {
 
 // scroll事件的回调
 function scrollHandler() {
-  // 节流（会缺失高亮菜单项切换的轮动效果）
+  // 节流（会失去高亮菜单项在切换轮动时的过渡效果）
   if (props.throttle) {
     clearTimeout(throttleTimer.value);
     throttleTimer.value = setTimeout(scrollHandlerCallback, 50);
