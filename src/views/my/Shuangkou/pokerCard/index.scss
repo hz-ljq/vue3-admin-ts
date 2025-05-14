@@ -1,0 +1,45 @@
+.pokerCard {
+  background-color: lightgray;
+  border: 1px solid red;
+  border-radius: 12px;
+  width: 120px;
+  height: 200px;
+  padding: 10px;
+
+  .left-top,
+  .right-bottom {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      background-image: url(./S.png);
+      background-size: contain;
+      background-position: center;
+    }
+  }
+
+  .left-top {
+    left: 0px;
+    top: 0px;
+  }
+  .right-bottom {
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .mid {
+    width: 70%;
+    height: 70%;
+    background-image: url(./joker.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}

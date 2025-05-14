@@ -1,0 +1,95 @@
+.hobby {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .group {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid red;
+    margin-bottom: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .table {
+      width: 40%;
+      height: 40%;
+      border: 1px solid red;
+    }
+    .player-avatar {
+      position: absolute;
+      // border: 1px solid blue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      &:nth-child(1) {
+        width: 100%;
+        height: 30%;
+        top: 0;
+      }
+      &:nth-child(2) {
+        width: 30%;
+        height: 100%;
+        right: 0;
+      }
+      &:nth-child(3) {
+        width: 100%;
+        height: 30%;
+        bottom: 0;
+      }
+      &:nth-child(4) {
+        width: 30%;
+        height: 100%;
+        left: 0;
+      }
+
+      .empty-seat {
+        border: 1px solid green;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .player-name {
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  .switch-enter-active {
+    animation: switch-in 0.5s ease;
+  }
+  .switch-leave-active {
+    animation: switch-out 0.3s ease;
+  }
+
+  @keyframes switch-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes switch-out {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+}

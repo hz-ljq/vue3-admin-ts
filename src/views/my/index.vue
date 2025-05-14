@@ -11,7 +11,7 @@
     <!-- <LNaviAnchorTreeDemo /> -->
 
     <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■ 基础代码模板 -->
-    <tmp ref="tmpRef" />
+    <!-- <tmp ref="tmpRef" /> -->
 
     <!-- <MyTableList ref="MyTableListRef" /> -->
     <!-- <MyDialogForm /> -->
@@ -28,6 +28,7 @@
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
     <!-- <FormDetail /> -->
+    <Shuangkou />
   </div>
 </template>
 
@@ -62,6 +63,8 @@ import Steps from './Steps/Steps.vue';
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue';
 // TS的Demo
 import TsDemo from './TsDemo/index.vue';
+// 火拼双扣
+import Shuangkou from './Shuangkou/index.vue';
 
 // import $ from 'jquery'
 // console.log(333, $);
