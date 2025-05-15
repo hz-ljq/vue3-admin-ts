@@ -14,7 +14,7 @@
       </el-col>
     </el-row>
     <transition name="switch">
-      <room v-if="isOpen" :roomInfo="roomInfo" @get-ready="handleReady" />
+      <room v-if="isOpen" :roomInfo="currentRoom" @get-ready="handleReady" @quit="quit" />
     </transition>
   </div>
 </template>
@@ -27,7 +27,7 @@
 import room from '../room/index.vue';
 
 // ◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎◀︎▶︎ data
-const tableArr = ref([
+const tableArr: any = ref([
   {
     name: '斗地主1',
     index: 0,
@@ -42,28 +42,40 @@ const tableArr = ref([
 
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 provide('circleUrl', circleUrl);
+const playerName = ref('me');
+provide('playerName', playerName);
+
 const isOpen = ref(false);
-const roomInfo: any = ref({
+const currentRoom: any = ref({
   tableName: 'xxx',
   players: [],
 });
 
 const toTable = (tableIndex: number, playerIndex: number) => {
-  const playerName = 'me';
-  tableArr.value[tableIndex].players[playerIndex].name = playerName;
-  roomInfo.value = {
+  tableArr.value[tableIndex].players[playerIndex].name = playerName.value;
+  currentRoom.value = {
     ...tableArr.value[tableIndex],
   };
 
   isOpen.value = true;
 };
 
-const handleReady = (index: any, name: string) => {
+const handleReady = (index: any) => {
   tableArr.value[index].players.map((item) => {
-    if (item.name === name) {
+    if (item.name === playerName.value) {
       item.isReady = true;
+      item.name = playerName.value;
     }
   });
+};
+const quit = (index: any) => {
+  tableArr.value[index].players.map((item) => {
+    if (item.name === playerName.value) {
+      item.isReady = false;
+      item.name = null;
+    }
+  });
+  isOpen.value = false
 };
 </script>
 
