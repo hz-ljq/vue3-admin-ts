@@ -28,7 +28,7 @@
     <!-- <MyGaodeMap /> -->
     <!-- <TsDemo /> -->
     <!-- <FormDetail /> -->
-    <Shuangkou />
+    <FireShuangkou />
   </div>
 </template>
 
@@ -64,7 +64,7 @@ import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue';
 // TS的Demo
 import TsDemo from './TsDemo/index.vue';
 // 火拼双扣
-import Shuangkou from './Shuangkou/index.vue';
+import FireShuangkou from './FireShuangkou/index.vue';
 
 // import $ from 'jquery'
 // console.log(333, $);

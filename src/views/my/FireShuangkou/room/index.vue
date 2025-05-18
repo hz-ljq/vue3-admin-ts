@@ -18,13 +18,13 @@
       <div
         class="cards-wrapper"
         :style="{
-          width: `${(playerCards[player.name].length - 1) * 25 + 100}px`,
+          width: `${(playerCards[player.name].length - 1) * 24 + 100}px`,
         }"
         v-if="player?.name === 'me'"
       >
         <pokerCard
           :style="{
-            left: `${index * 25}px`,
+            left: `${index * 24}px`,
             top: card[2] ? '-20px' : '0px',
           }"
           :card="card"
@@ -38,10 +38,10 @@
     <div class="table-wrapper" :class="{ active: isActive }">
       <pokerCard
         :style="{
-          left: `${index * 22}px`,
+          left: `${index * 24}px`,
         }"
         :card="card"
-        v-for="(card, index) in tableCards"
+        v-for="(card, index) in tableCards.cards"
         :key="index"
       />
     </div>
@@ -61,25 +61,9 @@
 // --------------------------
 import pokerCard from '../pokerCard/index.vue';
 import { animate, stagger } from 'animejs';
-import matchRules from './rules';
-
-const suits: any = ['C', 'D', 'S', 'H']; // 梅花、方块、黑桃、红桃
-const ranks: any = [
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  'J',
-  'Q',
-  'K',
-  'A',
-  '2',
-  'JOKER',
-];
+import analyse, { suits, ranks } from './rules';
+// import { validatePlay, comparePlay } from './rules-2';
+// import { robotPlay } from './robotPlay';
 
 // ● props
 const props = defineProps({
@@ -101,18 +85,10 @@ const emits = defineEmits(['get-ready', 'quit']);
 const circleUrl = inject('circleUrl');
 
 // 桌面上的牌
-const tableCards = ref([
-  // ['S', 'A'],
-  // ['H', '2'],
-  // ['H', '3'],
-  // ['D', 'K'],
-  // ['S', '10'],
-  // ['C', '10'],
-  // ['D', '10'],
-  // ['H', '10'],
-  // ['D', 'JOKER'],
-  // ['C', 'JOKER'],
-]);
+const tableCards = ref({
+  cards: [],
+  type: null,
+});
 
 const allCards: any = ref([]);
 const playerCards: any = ref({});
@@ -153,13 +129,14 @@ function sort(arr: any[]) {
 function generateRandomCards() {
   let arr: any = [];
 
-  ranks.map((rank) => {
+  ranks.slice(0, -2).map((rank) => {
     suits.map((suit) => {
       arr.push([suit, rank]);
     });
   });
-  arr = arr.slice(0, -2); // 去掉一对大小王
-  return [...arr, ...arr].sort(() => Math.random() - 0.5);
+  arr.push([null, 'joker'], [null, 'JOKER']);
+  const arr2 = JSON.parse(JSON.stringify(arr)); // 深拷贝，以免互相关联
+  return [...arr, ...arr2].sort(() => Math.random() - 0.5);
 }
 
 // 随机分配牌（每个玩家27张牌）
@@ -193,16 +170,27 @@ function move() {
     return item[2];
   });
 
-  // 判断是否符合出牌规则
-  const result = matchRules(arr.map((item) => item[1]));
-  if (result as any) {
-    tableCards.value = arr;
+  // 判断是否符合规则
+  // ljq，测试数据
+  const testCards = [...'3456789'.split(''), 'JOKER'];
+  // const testCards = ['JOKER', 'JOKER', 'joker'];
+  const result = analyse(testCards, {
+    type: tableCards.value.type,
+    cards: tableCards.value.cards.map((item) => item[1]),
+  });
+
+  // const result = analyse(arr.map((item) => item[1]));
+  if (result.result) {
+    tableCards.value = {
+      cards: arr,
+      type: result.type,
+    };
 
     playerCards.value.me = playerCards.value.me.filter((item) => {
       return !item[2];
     });
   } else {
-    console.log('不符合出牌规则');
+    console.log(result.tips);
   }
 }
 
@@ -237,11 +225,41 @@ onMounted(async () => {
   setTimeout(() => {}, 1000);
 });
 
+// setInterval(() => {
+//   const cardToMove = robotPlay(
+//     playerCards.value.me.map((item) => {
+//       return item[1];
+//     }),
+//     tableCards.value.map((item) => {
+//       return item[1];
+//     }),
+//     validatePlay,
+//     comparePlay
+//   );
+
+//   // 选中要出的牌
+//   if (cardToMove.length) {
+//     playerCards.value.me.map((item) => {
+//       const index = cardToMove.indexOf(item[1]);
+//       if (index > -1) {
+//         cardToMove.splice(index, 1);
+//         item[2] = true;
+//       }
+//     });
+
+//     // 出牌
+//     setTimeout(move, 500);
+//   } else {
+//     tableCards.value = [];
+//   }
+// }, 1000);
+
 // todo-ljq，打牌规则rules；
 // todo-ljq，牌分配时，洗牌动画和排序同时进行；
 // todo-ljq，出牌时，【自己的牌变少了，桌面的牌多了】进行渐变动画；
 // todo-ljq，机器人出牌（在符合打牌规则的前提下，设置一定的随机性）；
-// fixme-ljq，相同的牌会被同时选中；
+
+// todo-ljq，大小王改为joker和JOKER；
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

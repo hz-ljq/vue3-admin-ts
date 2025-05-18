@@ -8,9 +8,7 @@
         :style="{
           'background-image': `url(${icon})`,
           filter:
-            props.card[1] === 'JOKER' && ['C', 'S'].includes(props.card[0])
-              ? 'grayscale(100%)'
-              : 'grayscale(0%)',
+            props.card[1] === 'joker' ? 'grayscale(100%)' : 'grayscale(0%)',
         }"
       ></div>
 
@@ -18,13 +16,16 @@
       <div v-else :class="index === 0 ? 'left' : 'right'" :style="cardStyle">
         <div
           :style="{
-            'text-align': props.card[1] !== 'JOKER' ? 'center' : 'unset',
+            'text-align': ['joker', 'JOKER'].includes(props.card[1])
+              ? 'unset'
+              : 'center',
           }"
         >
-          {{ props.card[1] }}
+          <!-- toUpperCase，是专门给joker用的 -->
+          {{ props.card[1].toUpperCase() }}
         </div>
         <div
-          v-if="props.card[1] !== 'JOKER'"
+          v-if="!['joker', 'JOKER'].includes(props.card[1])"
           class="icon"
           :style="{ 'background-image': `url(${icon})` }"
         ></div>
@@ -53,7 +54,9 @@ const props = defineProps({
 const emits = defineEmits(['click']);
 
 const icon = computed(() => {
-  const name = props.card[1] === 'JOKER' ? props.card[1] : props.card[0];
+  const name = ['joker', 'JOKER'].includes(props.card[1])
+    ? props.card[1].toUpperCase()
+    : props.card[0];
   const url = `./assets/${name}.png`;
   const modules = import.meta.glob('./assets/*', { eager: true });
   const mod = modules[url] as { default: string };
@@ -62,11 +65,20 @@ const icon = computed(() => {
 
 const cardStyle = computed(() => {
   return {
-    color: ['H', 'D'].includes(props.card[0]) ? '#c02a1c' : 'black',
-    'writing-mode': props.card[1] === 'JOKER' ? 'vertical-rl' : 'unset',
-    'text-orientation': props.card[1] === 'JOKER' ? 'upright' : 'unset',
-    'letter-spacing': props.card[1] === 'JOKER' ? '-2px' : 'unset',
-    'font-size': props.card[1] === 'JOKER' ? '14px' : '18px',
+    color:
+      ['H', 'D'].includes(props.card[0]) || props.card[1] === 'JOKER'
+        ? '#c02a1c'
+        : 'black',
+    'writing-mode': ['joker', 'JOKER'].includes(props.card[1])
+      ? 'vertical-rl'
+      : 'unset',
+    'text-orientation': ['joker', 'JOKER'].includes(props.card[1])
+      ? 'upright'
+      : 'unset',
+    'letter-spacing': ['joker', 'JOKER'].includes(props.card[1])
+      ? '-2px'
+      : 'unset',
+    'font-size': ['joker', 'JOKER'].includes(props.card[1]) ? '14px' : '18px',
   };
 });
 </script>
