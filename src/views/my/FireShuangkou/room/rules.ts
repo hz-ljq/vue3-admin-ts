@@ -199,7 +199,7 @@ function verifyRules(cards) {
     });
 
     if (result) {
-      judgement.type = `${cards.length / whichLevel}级${whichLevel}相连环炸弹`;
+      judgement.type = `${whichLevel}相${cards.length / whichLevel}连环炸弹`;
       judgement.result = true;
     }
   }
@@ -244,7 +244,22 @@ function comparison({ cards, type }, previousCards) {
           let result = false;
           // 星级相同的情况
           if (star1 === star2) {
-            if (length1 === length2) {
+            if (length1 === 3) {
+              // 我方是三王炸弹
+              result = false;
+            } else if (cards.includes('joker') && length1 === 4) {
+              // 我方是天王炸弹
+              result = true;
+            } else if (length2 === 3) {
+              // 对方是三王炸弹
+              result = true;
+            } else if (
+              previousCards.cards.includes('joker') &&
+              length2 === 4
+            ) {
+              // 对方是天王炸弹
+              result = false;
+            } else if (length1 === length2) {
               result =
                 ranks.indexOf(cards.at(-1)) -
                   ranks.indexOf(previousCards.cards.at(-1)) >

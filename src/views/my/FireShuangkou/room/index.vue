@@ -172,20 +172,21 @@ function move() {
 
   // 判断是否符合规则
   // ljq，测试数据
-  const testCards = [...'345789JQKA'.split(''), 'JOKER', '10','JOKER'];
-  // const testCards = ['JOKER', 'JOKER', 'joker'];
-  const result = analyse(testCards, {
-    type: tableCards.value.type,
-    cards: tableCards.value.cards.map((item) => item[1]),
-  });
+  // // const testCards = [...'345789JQKA'.split(''), 'JOKER', '10','JOKER'];
+  // const testCards = [...'666655557778888'.split(''), 'JOKER'];
+  // const previousCards = {
+  //   type: '天王炸弹',
+  //   cards: ['JOKER', 'JOKER', 'joker', 'joker']
+  // };
+  // const result = analyse(testCards, previousCards);
 
-  // const result = analyse(
-  //   arr.map((item) => item[1]),
-  //   {
-  //     type: tableCards.value.type,
-  //     cards: tableCards.value.cards.map((item) => item[1]),
-  //   }
-  // );
+  const result = analyse(
+    arr.map((item) => item[1]),
+    {
+      type: tableCards.value.type,
+      cards: tableCards.value.cards.map((item) => item[1]),
+    }
+  );
   if (result.result) {
     tableCards.value = {
       cards: arr,
