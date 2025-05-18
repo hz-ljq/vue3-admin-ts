@@ -53,6 +53,9 @@ function sort(arr: any[]) {
 
 // 基本规则
 function verifyRules(cards) {
+  // 先排序
+  cards = sort(cards);
+
   const judgement: any = {
     type: null, // 牌型
     result: false, // 是否符合全部规则
@@ -72,7 +75,7 @@ function verifyRules(cards) {
         : cards.length === 3
         ? '三条'
         : cards.length >= 4
-        ? `${cards.length}'相炸弹'`
+        ? `${cards.length}相炸弹`
         : null;
     judgement.result = true;
   }
@@ -218,49 +221,51 @@ function verifyRules(cards) {
 
 // 比较大小
 function comparison({ cards, type }, previousCards) {
-  if (type === previousCards.type) {
-    // 同牌型
-    if (ranks.indexOf(cards[0]) > ranks.indexOf(previousCards.cards[0])) {
-      // 比上一手的牌大
-      return true;
-    }
-  } else {
-    // 不同牌型
-    // 我方出了炸弹
-    if (type.includes('炸弹')) {
-      // 对方出的不是炸弹
-      if (!previousCards.type.includes('炸弹')) {
+  if (previousCards.cards.length) {
+    if (type === previousCards.type) {
+      // 同牌型
+      if (ranks.indexOf(cards[0]) > ranks.indexOf(previousCards.cards[0])) {
+        // 比上一手的牌大
         return true;
-      } else {
-        // 对方出的也是炸弹，比较炸弹大小（同相级的炸弹比较，在同牌型中已处理）；
-        const star1 = bombStarMap[type];
-        const star2 = bombStarMap[previousCards.type];
-        const length1 = cards.length;
-        const length2 = previousCards.cards.length;
-        let result = false;
-        // 星级相同的情况
-        if (star1 === star2) {
-          if (length1 === length2) {
-            result =
-              ranks.indexOf(cards.at(-1)) -
-                ranks.indexOf(previousCards.cards.at(-1)) >
-              0;
-          } else {
-            result = length1 - length2 < 0;
-          }
-        } else {
-          result = star1 - star2 > 0;
-        }
-
-        return result;
       }
     } else {
-      console.log('不符合规则，请出符合规则的牌');
-      return false;
-    }
-  }
+      // 不同牌型
+      // 我方出了炸弹
+      if (type.includes('炸弹')) {
+        // 对方出的不是炸弹
+        if (!previousCards.type.includes('炸弹')) {
+          return true;
+        } else {
+          // 对方出的也是炸弹，比较炸弹大小（同相级的炸弹比较，在同牌型中已处理）；
+          const star1 = bombStarMap[type];
+          const star2 = bombStarMap[previousCards.type];
+          const length1 = cards.length;
+          const length2 = previousCards.cards.length;
+          let result = false;
+          // 星级相同的情况
+          if (star1 === star2) {
+            if (length1 === length2) {
+              result =
+                ranks.indexOf(cards.at(-1)) -
+                  ranks.indexOf(previousCards.cards.at(-1)) >
+                0;
+            } else {
+              result = length1 - length2 < 0;
+            }
+          } else {
+            result = star1 - star2 > 0;
+          }
 
-  return false;
+          return result;
+        }
+      } else {
+        console.log('不符合规则，请出符合规则的牌！！！');
+        return false;
+      }
+    }
+  } else {
+    return true;
+  }
 }
 
 export default function analyse(myCards, previousCards) {
@@ -268,7 +273,7 @@ export default function analyse(myCards, previousCards) {
   myCards = sort(myCards);
 
   let verifyResult: any = {}; // 是否符合牌型规则
-  let comparisonResult = false; // 牌型的威力大小
+  let comparisonResult: any = false; // 牌型的威力大小
 
   // ---------------------------------------------------牌型规则分析（考虑大王的替换牌）
   // 大王的数量
@@ -289,20 +294,30 @@ export default function analyse(myCards, previousCards) {
       const indexOfJoker1 = myCards.indexOf('JOKER');
       myCards.splice(indexOfJoker1, 1, card1); // 替换掉第 1 张大王
 
+      console.log(77, myCards);
       if (jokerNum === 1) {
         // 只有 1 张大王
         verifyResult = verifyRules(myCards); // 牌型校验
-        return verifyResult?.result;
       } else if (jokerNum === 2) {
         // 有 2 张大王
         replaceCard2 = ranksCopy.find((card2) => {
           const indexOfJoker2 = myCards.indexOf('JOKER');
           myCards.splice(indexOfJoker2, 1, card2); // 替换掉第 2 张大王
+          console.log(88, myCards);
           verifyResult = verifyRules(myCards); // 牌型校验
+          // 第二张JOKER的本次替换，没通过规则校验，则替换回去
+          if (!verifyResult?.result) {
+            myCards.splice(indexOfJoker2, 1, 'JOKER');
+          }
           return verifyResult?.result;
         });
-        return replaceCard2;
       }
+
+      // 第一种JOKER的本次替换，没通过规则校验，则替换回去
+      if (!verifyResult?.result) {
+        myCards.splice(indexOfJoker1, 1, 'JOKER');
+      }
+      return verifyResult?.result;
     });
     console.log(56, myCards, verifyResult);
   }
@@ -316,11 +331,9 @@ export default function analyse(myCards, previousCards) {
     if (comparisonResult) {
       return { type: verifyResult.type, result: true };
     } else {
-      // console.log('压不过');
-      return { type: verifyResult.type, result: false, tips: '压不过' };
+      return { type: verifyResult.type, result: false, tips: '压不过！！！' };
     }
   } else {
-    // console.log('不符合牌型规则');
-    return { type: null, result: false, tips: '不符合牌型规则' };
+    return { type: null, result: false, tips: '不符合牌型规则！！！' };
   }
 }
