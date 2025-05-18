@@ -17,6 +17,33 @@ export const ranks: any = [
   'JOKER',
 ];
 
+// 炸弹的星级
+const bombStarMap = {
+  '1相炸弹': 1,
+  '2相炸弹': 2,
+  '3相炸弹': 3,
+  '4相炸弹': 4,
+  '5相炸弹': 5,
+  三王炸弹: 6,
+  '6相炸弹': 6,
+  '4相3连环炸弹': 7,
+  '7相炸弹': 7,
+  天王炸弹: 7,
+  '4相4连环炸弹': 8,
+  '5相3连环炸弹': 8,
+  '8相炸弹': 8,
+  '4相5连环炸弹': 9,
+  '5相4连环炸弹': 9,
+  '6相3连环炸弹': 9,
+  '9相炸弹': 9,
+  '5相5连环炸弹': 10,
+  '4相6连环炸弹': 10,
+  '6相4连环炸弹': 10,
+  '7相3连环炸弹': 10,
+  '10相炸弹': 10,
+  '8相3连环炸弹': 11,
+};
+
 // 扑克牌排序（从小到大）
 function sort(arr: any[]) {
   return arr.slice().sort((a, b) => {
@@ -44,20 +71,8 @@ function verifyRules(cards) {
         ? '对子'
         : cards.length === 3
         ? '三条'
-        : cards.length === 4
-        ? '4仙炸弹'
-        : cards.length === 5
-        ? '5仙炸弹'
-        : cards.length === 6
-        ? '6仙炸弹'
-        : cards.length === 7
-        ? '7仙炸弹'
-        : cards.length === 8
-        ? '8仙炸弹'
-        : cards.length === 9
-        ? '9仙炸弹'
-        : cards.length === 10
-        ? '10仙炸弹'
+        : cards.length >= 4
+        ? `${cards.length}'相炸弹'`
         : null;
     judgement.result = true;
   }
@@ -141,9 +156,9 @@ function verifyRules(cards) {
     }
   }
 
-  // 针对：4-8仙蝴蝶炸弹（333344445555...AAAA、...、333333334444444455555555...AAAAAAAA）
+  // 针对：4-8相连环炸弹（333344445555...AAAA、...、333333334444444455555555...AAAAAAAA）
   if (cards.length >= 12) {
-    // 先判断出是几仙？
+    // 先判断出是几相？
     const levelArr = [4, 5, 6, 7, 8].filter((item) => {
       return cards.length % item === 0;
     });
@@ -181,18 +196,18 @@ function verifyRules(cards) {
     });
 
     if (result) {
-      judgement.type = `${cards.length / whichLevel}级${whichLevel}仙蝴蝶炸弹`;
+      judgement.type = `${cards.length / whichLevel}级${whichLevel}相连环炸弹`;
       judgement.result = true;
     }
   }
 
-  // 针对：三王炸弹、四王炸弹
+  // 针对：三王炸弹、天王炸弹
   if (cards.length === 3 || cards.length === 4) {
     result = cards.every((item) => {
       return item === 'joker' || item === 'JOKER';
     });
     if (result) {
-      judgement.type = cards.length === 3 ? '三王炸弹' : '四王炸弹';
+      judgement.type = cards.length === 3 ? '三王炸弹' : '天王炸弹';
       judgement.result = true;
     }
   }
@@ -217,8 +232,27 @@ function comparison({ cards, type }, previousCards) {
       if (!previousCards.type.includes('炸弹')) {
         return true;
       } else {
-      // todo-ljq 对方出的也是炸弹，比较不同仙级炸弹或不同类别炸弹之间的大小（同仙级的炸弹比较，在同牌型中已处理）；
+        // 对方出的也是炸弹，比较炸弹大小（同相级的炸弹比较，在同牌型中已处理）；
+        const star1 = bombStarMap[type];
+        const star2 = bombStarMap[previousCards.type];
+        const length1 = cards.length;
+        const length2 = previousCards.cards.length;
+        let result = false;
+        // 星级相同的情况
+        if (star1 === star2) {
+          if (length1 === length2) {
+            result =
+              ranks.indexOf(cards.at(-1)) -
+                ranks.indexOf(previousCards.cards.at(-1)) >
+              0;
+          } else {
+            result = length1 - length2 < 0;
+          }
+        } else {
+          result = star1 - star2 > 0;
+        }
 
+        return result;
       }
     } else {
       console.log('不符合规则，请出符合规则的牌');
