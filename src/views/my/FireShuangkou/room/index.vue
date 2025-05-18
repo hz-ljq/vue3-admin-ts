@@ -1,5 +1,5 @@
 <template>
-  <div class="room" @contextmenu.prevent="move">
+  <div class="room" @contextmenu.prevent="move" @dblclick="unselect">
     <div class="player" v-for="player in players" :key="player?.name">
       <div class="basic-info">
         <el-avatar :size="50" v-if="player?.name" :src="circleUrl" />
@@ -232,6 +232,12 @@ onMounted(async () => {
   setTimeout(() => {}, 1000);
 });
 
+function unselect() {
+  playerCards.value.me.map((item) => {
+    item[2] = false;
+  });
+}
+
 // setInterval(() => {
 //   const cardToMove = robotPlay(
 //     playerCards.value.me.map((item) => {
@@ -261,12 +267,9 @@ onMounted(async () => {
 //   }
 // }, 1000);
 
-// todo-ljq，打牌规则rules；
 // todo-ljq，牌分配时，洗牌动画和排序同时进行；
 // todo-ljq，出牌时，【自己的牌变少了，桌面的牌多了】进行渐变动画；
 // todo-ljq，机器人出牌（在符合打牌规则的前提下，设置一定的随机性）；
-
-// todo-ljq，大小王改为joker和JOKER；
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>
