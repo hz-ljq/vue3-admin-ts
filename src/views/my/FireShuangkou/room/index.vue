@@ -1,5 +1,5 @@
 <template>
-  <div class="room" @dblclick="move">
+  <div class="room" @contextmenu.prevent="move">
     <div class="player" v-for="player in players" :key="player?.name">
       <div class="basic-info">
         <el-avatar :size="50" v-if="player?.name" :src="circleUrl" />

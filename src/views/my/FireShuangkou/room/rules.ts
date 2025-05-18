@@ -226,7 +226,7 @@ function comparison({ cards, type }, previousCards) {
       // 同牌型
       if (ranks.indexOf(cards[0]) > ranks.indexOf(previousCards.cards[0])) {
         // 比上一手的牌大
-        return true;
+        return { result: true };
       }
     } else {
       // 不同牌型
@@ -234,52 +234,67 @@ function comparison({ cards, type }, previousCards) {
       if (type.includes('炸弹')) {
         // 对方出的不是炸弹
         if (!previousCards.type.includes('炸弹')) {
-          return true;
+          return { result: true };
         } else {
           // 对方出的也是炸弹，比较炸弹大小（同相级的炸弹比较，在同牌型中已处理）；
           const star1 = bombStarMap[type];
           const star2 = bombStarMap[previousCards.type];
           const length1 = cards.length;
           const length2 = previousCards.cards.length;
-          let result = false;
+          let result = {};
           // 星级相同的情况
           if (star1 === star2) {
             if (length1 === 3) {
               // 我方是三王炸弹
-              result = false;
+              result = {
+                result: false,
+                tips: '压不过！！！',
+              };
             } else if (cards.includes('joker') && length1 === 4) {
               // 我方是天王炸弹
               result = true;
             } else if (length2 === 3) {
               // 对方是三王炸弹
               result = true;
-            } else if (
-              previousCards.cards.includes('joker') &&
-              length2 === 4
-            ) {
+            } else if (previousCards.cards.includes('joker') && length2 === 4) {
               // 对方是天王炸弹
-              result = false;
+              result = {
+                result: false,
+                tips: '压不过！！！',
+              };
             } else if (length1 === length2) {
-              result =
-                ranks.indexOf(cards.at(-1)) -
-                  ranks.indexOf(previousCards.cards.at(-1)) >
-                0;
+              result = {
+                result:
+                  ranks.indexOf(cards.at(-1)) -
+                    ranks.indexOf(previousCards.cards.at(-1)) >
+                  0,
+                tips: '压不过！！！',
+              };
             } else {
-              result = length1 - length2 < 0;
+              result = {
+                result: length1 - length2 < 0,
+                tips: '压不过！！！',
+              };
             }
           } else {
-            result = star1 - star2 > 0;
+            result = {
+              result: star1 - star2 > 0,
+              tips: '压不过！！！',
+            };
           }
 
           return result;
         }
       } else {
-        console.log('不符合规则，请出符合规则的牌！！！');
-        return false;
+        // console.log('打法不符合游戏规则！！！');
+        return {
+          result: false,
+          tips: `${type} 不能压 ${previousCards.type}`,
+        };
       }
     }
   } else {
-    return true;
+    return { result: true };
   }
 }
 
@@ -343,12 +358,15 @@ export default function analyse(myCards, previousCards) {
       { cards: myCards, type: verifyResult.type },
       previousCards
     );
-    if (comparisonResult) {
+    if (comparisonResult.result) {
       return { type: verifyResult.type, result: true };
     } else {
-      return { type: verifyResult.type, result: false, tips: '压不过！！！' };
+      return {
+        type: verifyResult.type,
+        ...comparisonResult,
+      };
     }
   } else {
-    return { type: null, result: false, tips: '不符合牌型规则！！！' };
+    return { type: null, result: false, tips: '不符合任何牌型规则！！！' };
   }
 }
