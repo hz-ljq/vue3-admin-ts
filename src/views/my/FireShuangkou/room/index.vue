@@ -36,14 +36,52 @@
     </div>
 
     <div class="table-wrapper" :class="{ active: isActive }">
-      <pokerCard
+      <!-- <pokerCard
         :style="{
           left: `${index * 24}px`,
         }"
         :card="card"
-        v-for="(card, index) in tableCards.cards"
+        v-for="(card, index) in tableCards[2].cards"
         :key="index"
-      />
+      /> -->
+      <!-- <div class="grid-item" v-for="item in 9" :key="item">
+        <template v-if="item === 8">
+          <pokerCard
+            :style="{
+              left: `${index * 24}px`,
+            }"
+            :card="card"
+            v-for="(card, index) in tableCards[2].cards"
+            :key="index"
+          />
+        </template>
+      </div> -->
+      <div
+        v-for="(item, index) in tableCards"
+        :key="index"
+        class="item"
+        :class="{
+          top: index === 0,
+          'mid-right': index === 1,
+          bottom: index === 2,
+          'mid-left': index === 3,
+        }"
+      >
+        <div
+          v-if="index === 2"
+          class="cards-wrapper"
+          :style="{ width: `${(item.cards?.length ?? 0) * 22 + (100 - 22)}px` }"
+        >
+          <pokerCard
+            :style="{
+              left: `${cardIndex * 22}px`,
+            }"
+            :card="card"
+            v-for="(card, cardIndex) in tableCards[2].cards"
+            :key="cardIndex"
+          />
+        </div>
+      </div>
     </div>
 
     <div class="operate-wrapper">
@@ -85,10 +123,15 @@ const emits = defineEmits(['get-ready', 'quit']);
 const circleUrl = inject('circleUrl');
 
 // 桌面上的牌
-const tableCards = ref({
-  cards: [],
-  type: null,
-});
+const tableCards = ref([
+  {},
+  {},
+  {
+    cards: [],
+    type: null,
+  },
+  {},
+]);
 
 const allCards: any = ref([]);
 const playerCards: any = ref({});
@@ -183,12 +226,12 @@ function move() {
   const result = analyse(
     arr.map((item) => item[1]),
     {
-      type: tableCards.value.type,
-      cards: tableCards.value.cards.map((item) => item[1]),
+      type: tableCards.value[2].type,
+      cards: tableCards.value[2].cards?.map((item) => item[1]),
     }
   );
   if (result.result) {
-    tableCards.value = {
+    tableCards.value[2] = {
       cards: arr,
       type: result.type,
     };
@@ -203,6 +246,7 @@ function move() {
 
 allCards.value = generateRandomCards();
 playerCards.value = allocationCard();
+
 onMounted(async () => {
   await nextTick();
   // 动画
@@ -270,6 +314,7 @@ function unselect() {
 // todo-ljq，牌分配时，洗牌动画和排序同时进行；
 // todo-ljq，出牌时，【自己的牌变少了，桌面的牌多了】进行渐变动画；
 // todo-ljq，机器人出牌（在符合打牌规则的前提下，设置一定的随机性）；
+// todo-ljq，提示功能（寻找能压住对方牌型的最小牌型）；
 </script>
 
 <style lang="scss" src="./index.scss" scoped></style>

@@ -51,7 +51,7 @@ function sort(arr: any[]) {
   });
 }
 
-// 基本规则
+// 是否符合任一牌型规则
 function verifyRules(cards) {
   // 先排序
   cards = sort(cards);
@@ -369,4 +369,11 @@ export default function analyse(myCards, previousCards) {
   } else {
     return { type: null, result: false, tips: '不符合任何牌型规则！！！' };
   }
+}
+
+// 自动出牌
+function autoMove(myRestCards, previousCards) {
+  // previousCards.type
+  // todo-ljq 得到所有同牌型的组合
+  // todo-ljq 得到所有炸弹的组合
 }

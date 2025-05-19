@@ -100,21 +100,77 @@
     width: 40%;
     height: 40%;
     overflow: hidden;
-    border: 1px solid green;
+    // border: 1px solid green;
+    background-color: lightgray;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px;
+    border-radius: 8px;
+    // display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    // grid-template-rows: repeat(3, 1fr);
+
+    // .grid-item {
+    //   // width: auto;
+    //   // height: auto;
+    //   border: 1px solid white;
+    //   background-color: blue;
+    // }
 
     &.active {
-      background-color: lightgreen;
-      background-image: url(./1.jpeg);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: grayscale(100%);
+      // background-color: lightgray;
+      // background-image: url(./1.jpeg);
+      // background-size: cover;
+      // background-position: center;
+      // background-repeat: no-repeat;
+      // filter: grayscale(100%);
     }
 
-    > * {
-      position: absolute;
-      top: 0;
+    .item {
+      border: 1px solid blue;
+      width: 100%;
+      height: 134px;
+      display: flex;
+      // justify-content: center;
+      // align-items: center;
+
+      &.top {
+        order: 0;
+        display: flex;
+        justify-content: center;
+      }
+      &.bottom {
+        order: 3;
+        display: flex;
+        justify-content: center;
+      }
+      &.mid-left {
+        order: 1;
+        width: 50%;
+        height: calc(100% - 134px * 2);
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      }
+      &.mid-right {
+        order: 2;
+        width: 50%;
+        height: calc(100% - 134px * 2);
+        display: flex;
+        justify-content: end;
+        align-items: center;
+      }
+
+      .cards-wrapper {
+        position: relative;
+        height: 134px;
+
+        .pokerCard {
+          position: absolute;
+          top: 0;
+        }
+      }
     }
   }
 
