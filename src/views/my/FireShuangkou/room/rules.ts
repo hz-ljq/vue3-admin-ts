@@ -372,8 +372,91 @@ export default function analyse(myCards, previousCards) {
 }
 
 // 自动出牌
-function autoMove(myRestCards, previousCards) {
-  // previousCards.type
+function autoMove(myCards, previousCards) {
+  // 先排序
+  myCards = sort(myCards);
+
   // todo-ljq 得到所有同牌型的组合
   // todo-ljq 得到所有炸弹的组合
+  // fixme-ljq 别忘了JOKER能当万能牌😆；（先用基本匹配的方式，如果都不匹配，再用JOKER遍历替换所有可能的牌来进行基本匹配）
+
+  // ljq，先match()，如果都不匹配，则用JOKER遍历替换所有可能的牌，并分别进行match()；
+  match(myCards, previousCards);
+
+  // // 大王的数量
+  // const jokerNum = myCards.filter((item) => {
+  //   return item === 'JOKER';
+  // }).length;
+  // if (!jokerNum) {
+  //   // 【不存在大王】时，进行牌型校验
+  //   verifyResult = verifyRules(myCards);
+  // } else {
+  //   // 【存在大王】时，遍历所有大王可替换的牌（从大到小替换，尽可能让牌型的威力最大化），并分别进行牌型校验
+  //   const ranksCopy = ranks.slice().reverse();
+
+  //   let replaceCard1 = null; // 替换掉第 1 张大王的牌
+  //   let replaceCard2 = null; // 替换掉第 2 张大王的牌
+
+  //   replaceCard1 = ranksCopy.find((card1) => {
+  //     const indexOfJoker1 = myCards.indexOf('JOKER');
+  //     myCards.splice(indexOfJoker1, 1, card1); // 替换掉第 1 张大王
+
+  //     console.log(77, myCards);
+  //     if (jokerNum === 1) {
+  //       // 只有 1 张大王
+  //       verifyResult = verifyRules(myCards); // 牌型校验
+  //     } else if (jokerNum === 2) {
+  //       // 有 2 张大王
+  //       replaceCard2 = ranksCopy.find((card2) => {
+  //         const indexOfJoker2 = myCards.indexOf('JOKER');
+  //         myCards.splice(indexOfJoker2, 1, card2); // 替换掉第 2 张大王
+  //         console.log(88, myCards);
+  //         verifyResult = verifyRules(myCards); // 牌型校验
+  //         // 第二张JOKER的本次替换，没通过规则校验，则替换回去
+  //         if (!verifyResult?.result) {
+  //           myCards.splice(indexOfJoker2, 1, 'JOKER');
+  //         }
+  //         return verifyResult?.result;
+  //       });
+  //     }
+
+  //     // 第一种JOKER的本次替换，没通过规则校验，则替换回去
+  //     if (!verifyResult?.result) {
+  //       myCards.splice(indexOfJoker1, 1, 'JOKER');
+  //     }
+  //     return verifyResult?.result;
+  //   });
+  //   // console.log(56, myCards, verifyResult);
+  // }
+}
+
+function match(myCards, previousCards) {
+  let cards: any = [];
+
+  if (previousCards.type.includes('单牌')) {
+    const item = myCards.find((card) => {
+      return ranks.indexOf(card) > ranks.indexOf(previousCards.cards[0]);
+    });
+    if (item) {
+      cards = [item];
+    }
+  } else if (previousCards.type.includes('对子')) {
+    const item = myCards.find((card, index) => {
+      return (
+        ranks.indexOf(card) > ranks.indexOf(previousCards.cards[0]) &&
+        card === myCards[index + 1]
+      );
+    });
+    if (item) {
+      cards = [item, item];
+    }
+  } else if (previousCards.type.includes('三条')) {
+  } else if (previousCards.type.includes('相炸弹')) {
+  } else if (previousCards.type.includes('顺子')) {
+  } else if (previousCards.type.includes('连对')) {
+  } else if (previousCards.type.includes('连三张')) {
+  } else if (previousCards.type.includes('连环炸弹')) {
+  } else if (previousCards.type.includes('三王炸弹')) {
+  } else if (previousCards.type.includes('天王炸弹')) {
+  }
 }
