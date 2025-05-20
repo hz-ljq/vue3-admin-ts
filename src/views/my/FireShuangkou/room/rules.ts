@@ -19,9 +19,6 @@ export const ranks: any = [
 
 // 炸弹的星级
 const bombStarMap = {
-  '1相炸弹': 1,
-  '2相炸弹': 2,
-  '3相炸弹': 3,
   '4相炸弹': 4,
   '5相炸弹': 5,
   三王炸弹: 6,
@@ -53,7 +50,7 @@ function sort(arr: any[]) {
 
 // 是否符合任一牌型规则
 function verifyRules(cards) {
-  // 先排序
+  // 先排序（从小到大）
   cards = sort(cards);
 
   const judgement: any = {
@@ -299,7 +296,7 @@ function comparison({ cards, type }, previousCards) {
 }
 
 export default function analyse(myCards, previousCards) {
-  // 先排序
+  // 先排序（从小到大）
   myCards = sort(myCards);
 
   let verifyResult: any = {}; // 是否符合牌型规则
@@ -372,8 +369,8 @@ export default function analyse(myCards, previousCards) {
 }
 
 // 自动出牌
-function autoMove(myCards, previousCards) {
-  // 先排序
+export function autoMove(myCards, previousCards) {
+  // 先排序（从小到大）
   myCards = sort(myCards);
 
   // todo-ljq 得到所有同牌型的组合
@@ -430,33 +427,68 @@ function autoMove(myCards, previousCards) {
   // }
 }
 
+// 匹配出可压制对方的最小牌型的组合
 function match(myCards, previousCards) {
   let cards: any = [];
+  // 对方出的牌数
+  const len = previousCards.cards.length;
 
-  if (previousCards.type.includes('单牌')) {
-    const item = myCards.find((card) => {
-      return ranks.indexOf(card) > ranks.indexOf(previousCards.cards[0]);
+  const setArr1 = ['单牌', '对子', '三条', '相炸弹']; // 每张牌相同，只是牌数不同
+  const setArr2 = ['级顺子', '级连对', '级连三张', '连环炸弹']; // 牌连续，只是级数和相数不同
+  const setArr3 = ['三王炸弹', '天王炸弹']; // 特殊牌
+  if (setArr1.find((x) => previousCards.type.includes(x))) {
+    const card = myCards.find((c) => {
+      const flag1 = ranks.indexOf(c) > ranks.indexOf(previousCards.cards[0]);
+      const flag2 = myCards.filter((c2) => c2 === c).length >= len;
+      return flag1 && flag2;
     });
-    if (item) {
-      cards = [item];
+    if (card) {
+      // cards = Array(len).fill(card);
+      for (let i = 0; i < len; i++) {
+        cards.push(card)
+      }
     }
-  } else if (previousCards.type.includes('对子')) {
-    const item = myCards.find((card, index) => {
-      return (
-        ranks.indexOf(card) > ranks.indexOf(previousCards.cards[0]) &&
-        card === myCards[index + 1]
-      );
+  } else if (setArr2.find((x) => previousCards.type.includes(x))) {
+    // 重复次数
+    const len2 = previousCards.type.includes('级顺子')
+      ? 1
+      : previousCards.type.includes('级连对')
+      ? 2
+      : previousCards.type.includes('级连三张')
+      ? 3
+      : previousCards.type.includes('连环炸弹')
+      ? previousCards.type.at(0)
+      : null;
+
+    const card = myCards.find((c) => {
+      let flag = true;
+      const indexOfCurrentCard = ranks.indexOf(c)
+      if (indexOfCurrentCard > ranks.indexOf(previousCards.cards[0])) {
+        for (let i = indexOfCurrentCard; i < indexOfCurrentCard + len / len2; i++) {
+          const cardToFind = ranks.slice(0, -3)[i];
+          if (myCards.filter((item) => item === cardToFind).length < len2) {
+            flag = false;
+            break;
+          }
+        }
+      } else {
+        flag = false;
+      }
+      return flag;
     });
-    if (item) {
-      cards = [item, item];
+
+    if (card) {
+      const index = ranks.indexOf(card);
+      const arr = ranks.slice(index, index + len / len2);
+      // cards = arr.join('').repeat(len2).split('')
+
+      for (let i = 0; i < len2; i++) {
+        cards.push(...arr)
+      }
     }
-  } else if (previousCards.type.includes('三条')) {
-  } else if (previousCards.type.includes('相炸弹')) {
-  } else if (previousCards.type.includes('顺子')) {
-  } else if (previousCards.type.includes('连对')) {
-  } else if (previousCards.type.includes('连三张')) {
-  } else if (previousCards.type.includes('连环炸弹')) {
-  } else if (previousCards.type.includes('三王炸弹')) {
-  } else if (previousCards.type.includes('天王炸弹')) {
+  } else if (setArr3.find((x) => previousCards.type.includes(x))) {
+    // todo
   }
+
+  console.log(999999, cards);
 }

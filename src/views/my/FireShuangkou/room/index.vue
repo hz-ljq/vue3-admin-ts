@@ -99,7 +99,7 @@
 // --------------------------
 import pokerCard from '../pokerCard/index.vue';
 import { animate, stagger } from 'animejs';
-import analyse, { suits, ranks } from './rules';
+import analyse, { suits, ranks, autoMove } from './rules';
 // import { validatePlay, comparePlay } from './rules-2';
 // import { robotPlay } from './robotPlay';
 
@@ -208,6 +208,28 @@ function allocationCard() {
 
 // 出牌
 function move() {
+  const myC = Array(4)
+    .fill([
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      'J',
+      'Q',
+      'K',
+      'A',
+      '2',
+      'joker',
+      'JOKER',
+    ])
+    .flat();
+
+  autoMove(myC, { type: '4相3连环炸弹', cards: ['3', '4', '5', '3', '4', '5', '3', '4','5', '3', '4', '5',] });
+
   // 选中的牌
   const arr = playerCards.value.me.filter((item) => {
     return item[2];
