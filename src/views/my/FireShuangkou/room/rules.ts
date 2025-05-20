@@ -427,15 +427,92 @@ export function autoMove(myCards, previousCards) {
   // }
 }
 
+// // 匹配出可压制对方的最小牌型的组合
+// function match(myCards, previousCards) {
+//   let cards: any = [];
+//   // 对方出的牌数
+//   const len = previousCards.cards.length;
+
+//   const setArr1 = ['单牌', '对子', '三条', '相炸弹']; // 每张牌相同，只是牌数不同
+//   const setArr2 = ['级顺子', '级连对', '级连三张', '连环炸弹']; // 牌连续，只是级数和相数不同
+//   // const setArr3 = ['三王炸弹', '天王炸弹']; // 特殊牌。不用处理，因为不可能出现同牌型的情况
+
+//   if (setArr1.find((x) => previousCards.type.includes(x))) {
+//     const card = myCards.find((c) => {
+//       const flag1 = ranks.indexOf(c) > ranks.indexOf(previousCards.cards[0]);
+//       const flag2 = myCards.filter((c2) => c2 === c).length >= len;
+//       return flag1 && flag2;
+//     });
+//     if (card) {
+//       // cards = Array(len).fill(card);
+//       for (let i = 0; i < len; i++) {
+//         cards.push(card)
+//       }
+//     }
+//   } else if (setArr2.find((x) => previousCards.type.includes(x))) {
+//     // 重复次数
+//     const len2 = previousCards.type.includes('级顺子')
+//       ? 1
+//       : previousCards.type.includes('级连对')
+//       ? 2
+//       : previousCards.type.includes('级连三张')
+//       ? 3
+//       : previousCards.type.includes('连环炸弹')
+//       ? previousCards.type.at(0)
+//       : null;
+
+//     const card = myCards.find((c) => {
+//       let flag = true;
+//       const indexOfCurrentCard = ranks.indexOf(c)
+//       if (indexOfCurrentCard > ranks.indexOf(previousCards.cards[0])) {
+//         for (let i = indexOfCurrentCard; i < indexOfCurrentCard + len / len2; i++) {
+//           const cardToFind = ranks.slice(0, -3)[i];
+//           if (myCards.filter((item) => item === cardToFind).length < len2) {
+//             flag = false;
+//             break;
+//           }
+//         }
+//       } else {
+//         flag = false;
+//       }
+//       return flag;
+//     });
+
+//     if (card) {
+//       const index = ranks.indexOf(card);
+//       const arr = ranks.slice(index, index + len / len2);
+//       // cards = arr.join('').repeat(len2).split('')
+
+//       for (let i = 0; i < len2; i++) {
+//         cards.push(...arr)
+//       }
+//     }
+//   }
+
+//   console.log(999999, cards);
+
+//   // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
+//   // if (cards.length === 0) {
+//   //   // 对方不是炸弹，找出我方威力最小的炸弹
+//   //   if (!previousCards.type.includes('炸弹)) {
+
+//   //   } else {
+//   //   // 对方是炸弹，找出我方威力更大的最小炸弹
+
+//   //   }
+//   // }
+// }
+
 // 匹配出可压制对方的最小牌型的组合
 function match(myCards, previousCards) {
   let cards: any = [];
   // 对方出的牌数
   const len = previousCards.cards.length;
 
-  const setArr1 = ['单牌', '对子', '三条', '相炸弹']; // 每张牌相同，只是牌数不同
-  const setArr2 = ['级顺子', '级连对', '级连三张', '连环炸弹']; // 牌连续，只是级数和相数不同
-  const setArr3 = ['三王炸弹', '天王炸弹']; // 特殊牌
+  const setArr1 = ['单牌', '对子', '三条', '相炸弹']; // 【每张牌相同，只是牌数不同】的牌型
+  const setArr2 = ['级顺子', '级连对', '级连三张', '连环炸弹']; // 【牌连续，只是级数和相数不同】的牌型
+  // const setArr3 = ['三王炸弹', '天王炸弹']; // 特殊牌。不用处理，因为不可能出现同牌型的情况
+
   if (setArr1.find((x) => previousCards.type.includes(x))) {
     const card = myCards.find((c) => {
       const flag1 = ranks.indexOf(c) > ranks.indexOf(previousCards.cards[0]);
@@ -445,7 +522,7 @@ function match(myCards, previousCards) {
     if (card) {
       // cards = Array(len).fill(card);
       for (let i = 0; i < len; i++) {
-        cards.push(card)
+        cards.push(card);
       }
     }
   } else if (setArr2.find((x) => previousCards.type.includes(x))) {
@@ -462,9 +539,13 @@ function match(myCards, previousCards) {
 
     const card = myCards.find((c) => {
       let flag = true;
-      const indexOfCurrentCard = ranks.indexOf(c)
+      const indexOfCurrentCard = ranks.indexOf(c);
       if (indexOfCurrentCard > ranks.indexOf(previousCards.cards[0])) {
-        for (let i = indexOfCurrentCard; i < indexOfCurrentCard + len / len2; i++) {
+        for (
+          let i = indexOfCurrentCard;
+          i < indexOfCurrentCard + len / len2;
+          i++
+        ) {
           const cardToFind = ranks.slice(0, -3)[i];
           if (myCards.filter((item) => item === cardToFind).length < len2) {
             flag = false;
@@ -483,12 +564,59 @@ function match(myCards, previousCards) {
       // cards = arr.join('').repeat(len2).split('')
 
       for (let i = 0; i < len2; i++) {
-        cards.push(...arr)
+        cards.push(...arr);
       }
     }
-  } else if (setArr3.find((x) => previousCards.type.includes(x))) {
-    // todo
   }
 
   console.log(999999, cards);
+
+  // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
+  // if (cards.length === 0) {
+  //   // 对方不是炸弹，找出我方威力最小的炸弹
+  //   if (!previousCards.type.includes('炸弹)) {
+
+  //   } else {
+  //   // 对方是炸弹，找出我方威力更大的最小炸弹
+
+  //   }
+  // }
+
+  // const judgement = verifyRules(cards)
+}
+
+function getCardsArrOfBomb(cards) {
+  let allBombArr = [];
+  // 相炸弹
+  // 关于所有牌，我方拥有的数量
+  const indis = ranks.slice.map((item) => {
+    const len = cards.filter((x) => x === item).length;
+    return {
+      card: item,
+      num: len,
+    };
+  });
+
+  // 我方的所有炸弹
+  const bombArr = {};
+
+  // 我方所有的4-10相炸弹
+  for (let i = 4; i < 10; i++) {
+    const arr = indis.filter((item) => item.num >= i);
+    bombArr[`${i}相炸弹`] = arr.map((item) => {
+      const a: any = [];
+      for (let j = 0; j < item.num; j++) {
+        a.push(item.card);
+      }
+      return a;
+    });
+  }
+
+  // 我方所有的4-8相N连环炸弹
+  for (let i = 4; i < 10; i++) {
+    let a = bombArr['4相炸弹'].filter((item, index, self) => {
+      // ranks.indexOf(self[index+1]) - ranks.indexOf(item[0]) === 1
+      // ranks.indexOf(self[index+2]) - ranks.indexOf(self[index+1]) === 1
+    });
+  }
 }
