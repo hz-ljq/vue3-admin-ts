@@ -23,7 +23,8 @@
         v-if="player?.name === 'me'"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
-        <TransitionGroup name="fade">
+        <!-- 每次出牌后，我方最后一张牌就不再绑定“ui-selectable”，这导致selectable功能失效。所以在牌发生变化后（也就是出牌后），重新初始化selectable； -->
+        <TransitionGroup name="fade" @after-leave="initSelectable">
           <pokerCard
             :style="{
               left: `${index * 24}px`,
@@ -220,30 +221,30 @@ function allocationCard() {
 
 // 出牌
 function move() {
-  const myC = Array(4)
-    .fill([
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      'J',
-      'Q',
-      'K',
-      'A',
-      '2',
-      'joker',
-      'JOKER',
-    ])
-    .flat();
+  // const myC = Array(4)
+  //   .fill([
+  //     '3',
+  //     '4',
+  //     '5',
+  //     '6',
+  //     '7',
+  //     '8',
+  //     '9',
+  //     '10',
+  //     'J',
+  //     'Q',
+  //     'K',
+  //     'A',
+  //     '2',
+  //     'joker',
+  //     'JOKER',
+  //   ])
+  //   .flat();
 
-  autoMove(myC, {
-    type: '4相3连环炸弹',
-    cards: ['3', '4', '5', '3', '4', '5', '3', '4', '5', '3', '4', '5'],
-  });
+  // autoMove(myC, {
+  //   type: '4相3连环炸弹',
+  //   cards: ['3', '4', '5', '3', '4', '5', '3', '4', '5', '3', '4', '5'],
+  // });
 
   // 选中的牌
   const arr = playerCards.value.me.filter((item) => {
@@ -275,11 +276,6 @@ function move() {
 
     playerCards.value.me = playerCards.value.me.filter((item) => {
       return !item[2];
-    });
-
-    nextTick(() => {
-      // 每出过一次牌后，我方最后一张牌就不再绑定“ui-selectable”，这导致selectable功能失效，所以进行重新初始化；
-      initSelectable();
     });
   } else {
     console.log(result.tips);
@@ -337,9 +333,6 @@ function initSelectable() {
       backgroundColor: 'rgba(219, 10, 91, 0.4)',
     },
   });
-  selectable.on('start', function (e, item) {
-    // console.log(44);
-  });
   selectable.on('end', function (e, selected, unselected) {
     console.log(55, selected);
     // 选牌
@@ -348,7 +341,7 @@ function initSelectable() {
       const myCards = playerCards.value.me;
       const index =
         x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
-      console.log(7, myCards[index][2]);
+      console.log(7, myCards, index, myCards[index]);
       myCards[index][2] = !myCards[index][2];
     });
   });
