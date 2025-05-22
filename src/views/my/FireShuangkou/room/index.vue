@@ -334,14 +334,13 @@ function initSelectable() {
     },
   });
   selectable.on('end', function (e, selected, unselected) {
-    console.log(55, selected);
+    // console.log(55, selected);
     // 选牌
     selected.map((x) => {
       // console.log(555, x.node);
       const myCards = playerCards.value.me;
       const index =
         x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
-      console.log(7, myCards, index, myCards[index]);
       myCards[index][2] = !myCards[index][2];
     });
   });
