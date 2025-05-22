@@ -1,44 +1,61 @@
 <template>
   <div class="pokerCard" @click="emits('click')">
-    <template v-for="(item, index) in 3" :key="index">
-      <!-- 中间 -->
+    <div
+      :class="{
+        left: true,
+        'used-for-selectable': !isLastCard,
+      }"
+      :style="cardStyle"
+    >
       <div
-        v-if="index === 1"
-        class="mid"
         :style="{
-          'background-image': `url(${icon})`,
-          filter:
-            props.card[1] === 'joker' ? 'grayscale(100%)' : 'grayscale(0%)',
+          'text-align': ['joker', 'JOKER'].includes(props.card[1])
+            ? 'unset'
+            : 'center',
         }"
-      ></div>
-
-      <!-- 左右 -->
-      <div
-        v-else
-        :class="{
-          left: index === 0,
-          right: index === 2,
-          'used-for-selectable': index === 0 && !isLastCard,
-        }"
-        :style="cardStyle"
       >
-        <div
-          :style="{
-            'text-align': ['joker', 'JOKER'].includes(props.card[1])
-              ? 'unset'
-              : 'center',
-          }"
-        >
-          <!-- toUpperCase，是专门给joker用的 -->
-          {{ props.card[1].toUpperCase() }}
-        </div>
-        <div
-          v-if="!['joker', 'JOKER'].includes(props.card[1])"
-          class="icon"
-          :style="{ 'background-image': `url(${icon})` }"
-        ></div>
+        <!-- toUpperCase，是专门给joker用的 -->
+        {{ props.card[1].toUpperCase() }}
       </div>
-    </template>
+      <div
+        v-if="!['joker', 'JOKER'].includes(props.card[1])"
+        class="icon"
+        :style="{ 'background-image': `url(${icon})` }"
+      ></div>
+    </div>
+
+    <!-- 中间 -->
+    <div
+      class="mid"
+      :style="{
+        'background-image': `url(${icon})`,
+        filter: props.card[1] === 'joker' ? 'grayscale(100%)' : 'grayscale(0%)',
+      }"
+    ></div>
+
+    <!-- 左右 -->
+    <div
+      :class="{
+        right: true,
+      }"
+      :style="cardStyle"
+    >
+      <div
+        :style="{
+          'text-align': ['joker', 'JOKER'].includes(props.card[1])
+            ? 'unset'
+            : 'center',
+        }"
+      >
+        <!-- toUpperCase，是专门给joker用的 -->
+        {{ props.card[1].toUpperCase() }}
+      </div>
+      <div
+        v-if="!['joker', 'JOKER'].includes(props.card[1])"
+        class="icon"
+        :style="{ 'background-image': `url(${icon})` }"
+      ></div>
+    </div>
   </div>
 </template>
 

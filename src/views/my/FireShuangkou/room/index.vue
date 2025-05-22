@@ -18,7 +18,7 @@
       <div
         class="cards-wrapper"
         :style="{
-          width: `${(playerCards[player.name].length - 1) * 24 + 100}px`,
+          width: `${(playerCards[player.name].length - 1) * 22 + 100}px`,
         }"
         v-if="player?.name === 'me'"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
@@ -26,12 +26,11 @@
         <TransitionGroup name="fade" @after-leave="transitionComplete">
           <pokerCard
             :style="{
-              left: `${index * 24}px`,
               top: card[2] ? '-20px' : '0px',
             }"
             :card="card"
             v-for="(card, index) in playerCards[player.name]"
-            :key="index"
+            :key="card[3]"
             :data-cardindex="index"
             :class="{
               'used-for-selectable':
@@ -80,16 +79,16 @@
           class="cards-wrapper"
           :style="{ width: `${(item.cards?.length ?? 0) * 22 + (100 - 22)}px` }"
         >
-          <!-- <TransitionGroup name="fade"> -->
-          <pokerCard
-            :style="{
-              left: `${cardIndex * 22}px`,
-            }"
-            :card="card"
-            v-for="(card, cardIndex) in tableCards[2].cards"
-            :key="cardIndex"
-          />
-          <!-- </TransitionGroup> -->
+          <TransitionGroup name="fade">
+            <pokerCard
+              :style="{
+                left: `${cardIndex * 22}px`,
+              }"
+              :card="card"
+              v-for="(card, cardIndex) in tableCards[2].cards"
+              :key="card[3]"
+            />
+          </TransitionGroup>
         </div>
       </div>
     </div>
@@ -211,8 +210,11 @@ function allocationCard() {
       cards = [];
     }
 
-    const arr = cards.map((item: Array<any>) => {
+    const arr = cards.map((item: Array<any>, index) => {
       item[2] = false;
+      // 如果TransitionGroup的key用index的话，在数据变化时，由于总是存在相同index的牌，导致过渡动画不完美；
+      // 所以，添加item[3]，并设置为绝对唯一。它纯粹是给 TransitionGroup的key使用的，为了过渡动画效果完美呈现。
+      item[3] = +new Date() * index;
       return item; // 最后一个参数表示是否选中
     });
     // obj[item.name] = sort(arr);

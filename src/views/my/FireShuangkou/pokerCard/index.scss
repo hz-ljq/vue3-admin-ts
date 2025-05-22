@@ -1,26 +1,33 @@
 .pokerCard {
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 12px;
-  width: 100px;
+  width: 22px;
   height: 135px;
   // padding: 10px;
   position: relative;
-  display: flex;
+  // display: flex;
   // flex-direction: column;
   // justify-content: center;
   // align-items: center;
-  box-shadow: 0 0 10px lightgray;
+  // box-shadow: 0 0 10px lightgray;
   & > * {
     height: 100%;
+    display: inline-flex;
+    background-color: white;
+    position: absolute;
+    // box-sizing: border-box;
+    // padding: 2px;
   }
 
   .left,
   .right {
     width: 22px;
-    display: flex;
+    // display: flex;
     flex-direction: column;
     padding: 4px 0px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-left: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 
     .icon {
       margin-top: -4px;
@@ -33,12 +40,24 @@
     }
   }
 
+  .left {
+    left: 0px;
+    top: 0;
+  }
+
   .right {
     transform: rotateZ(180deg);
+    left: 78px;
+    top: 0;
   }
 
   .mid {
-    flex-grow: 10;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    left: 22px;
+    top: 0;
+    width: 56px;
+    // flex-grow: 10;
     // background-image: url(./joker.png);
     background-size: contain;
     background-position: center;
