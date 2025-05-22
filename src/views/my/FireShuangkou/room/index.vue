@@ -1,5 +1,5 @@
 <template>
-  <div class="room" @contextmenu.prevent="move" @dblclick="unselect">
+  <div id="room" class="room" @contextmenu.prevent="move" @dblclick="unselect">
     <div class="player" v-for="player in players" :key="player?.name">
       <div class="basic-info">
         <el-avatar :size="50" v-if="player?.name" :src="circleUrl" />
@@ -309,6 +309,7 @@ onMounted(async () => {
 
   const selectable = new Selectable({
     // container: '#my-cards-wrapper',
+    container: '#room',
     filter: '.used-for-selectable',
     lasso: {
       border: '2px dashed rgba(219, 10, 91, 1)',
