@@ -80,6 +80,7 @@
           class="cards-wrapper"
           :style="{ width: `${(item.cards?.length ?? 0) * 22 + (100 - 22)}px` }"
         >
+          <!-- <TransitionGroup name="fade"> -->
           <pokerCard
             :style="{
               left: `${cardIndex * 22}px`,
@@ -88,6 +89,7 @@
             v-for="(card, cardIndex) in tableCards[2].cards"
             :key="cardIndex"
           />
+          <!-- </TransitionGroup> -->
         </div>
       </div>
     </div>
@@ -324,6 +326,7 @@ function unselect() {
 
 // 初始化 selectable，用于牌的框选功能；
 function initSelectable() {
+  selectable?.destroy?.();
   selectable = new Selectable({
     // container: '#my-cards-wrapper',
     container: '#room',
@@ -345,6 +348,7 @@ function initSelectable() {
       const myCards = playerCards.value.me;
       const index =
         x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
+      console.log(7, myCards[index][2]);
       myCards[index][2] = !myCards[index][2];
     });
   });
@@ -352,7 +356,7 @@ function initSelectable() {
 }
 
 onBeforeUnmount(() => {
-  selectable?.destroy();
+  selectable?.destroy?.();
 });
 
 // todo-ljq，牌分配时，洗牌动画和排序同时进行；
