@@ -23,21 +23,23 @@
         v-if="player?.name === 'me'"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
-        <pokerCard
-          :style="{
-            left: `${index * 24}px`,
-            top: card[2] ? '-20px' : '0px',
-          }"
-          :card="card"
-          v-for="(card, index) in playerCards[player.name]"
-          :key="index"
-          :data-cardindex="index"
-          :class="{
-            'used-for-selectable':
-              playerCards[player.name].length - 1 === index,
-          }"
-          :isLastCard="playerCards[player.name].length - 1 === index"
-        />
+        <TransitionGroup name="fade">
+          <pokerCard
+            :style="{
+              left: `${index * 24}px`,
+              top: card[2] ? '-20px' : '0px',
+            }"
+            :card="card"
+            v-for="(card, index) in playerCards[player.name]"
+            :key="index"
+            :data-cardindex="index"
+            :class="{
+              'used-for-selectable':
+                playerCards[player.name].length - 1 === index,
+            }"
+            :isLastCard="playerCards[player.name].length - 1 === index"
+          />
+        </TransitionGroup>
       </div>
     </div>
 
@@ -127,6 +129,7 @@ const props = defineProps({
 // ● emits
 const emits = defineEmits(['get-ready', 'quit']);
 
+let selectable: any = null;
 const circleUrl = inject('circleUrl');
 
 // 桌面上的牌
@@ -271,6 +274,11 @@ function move() {
     playerCards.value.me = playerCards.value.me.filter((item) => {
       return !item[2];
     });
+
+    nextTick(() => {
+      // 每出过一次牌后，我方最后一张牌就不再绑定“ui-selectable”，这导致selectable功能失效，所以进行重新初始化；
+      initSelectable();
+    });
   } else {
     console.log(result.tips);
   }
@@ -282,7 +290,7 @@ playerCards.value = allocationCard();
 onMounted(async () => {
   await nextTick();
   // 动画
-  animate('.pokerCard', {
+  const animation = animate('.pokerCard', {
     boxShadow: [
       {
         to: stagger([1, 0.25], {
@@ -293,21 +301,30 @@ onMounted(async () => {
       },
       { to: 0 },
     ],
-    delay: stagger(100, { from: 'center' }),
+    delay: stagger(50, { from: 'center' }),
     loop: false,
-    complete: function (anim) {
-      console.log('全部动画完成');
-      // fixme-ljq,这个回调的时机不对
+    onComplete: function (anim) {
+      // console.log('全部动画完成');
+      // 理牌
       for (const key in playerCards.value) {
         playerCards.value[key] = sort(playerCards.value[key]);
       }
     },
   });
 
-  // todo-ljq 理牌
-  setTimeout(() => {}, 1000);
+  initSelectable();
+});
 
-  const selectable = new Selectable({
+// 取消任何牌的选中状态
+function unselect() {
+  playerCards.value.me.map((item) => {
+    item[2] = false;
+  });
+}
+
+// 初始化 selectable，用于牌的框选功能；
+function initSelectable() {
+  selectable = new Selectable({
     // container: '#my-cards-wrapper',
     container: '#room',
     filter: '.used-for-selectable',
@@ -321,52 +338,22 @@ onMounted(async () => {
     // console.log(44);
   });
   selectable.on('end', function (e, selected, unselected) {
-    // console.log(55, selected);
+    console.log(55, selected);
     // 选牌
-    selected.map((x, i) => {
+    selected.map((x) => {
       // console.log(555, x.node);
       const myCards = playerCards.value.me;
-      const index = x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
+      const index =
+        x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
       myCards[index][2] = !myCards[index][2];
     });
   });
   // console.log(33, selectable);
-});
-
-function unselect() {
-  playerCards.value.me.map((item) => {
-    item[2] = false;
-  });
 }
 
-// setInterval(() => {
-//   const cardToMove = robotPlay(
-//     playerCards.value.me.map((item) => {
-//       return item[1];
-//     }),
-//     tableCards.value.map((item) => {
-//       return item[1];
-//     }),
-//     validatePlay,
-//     comparePlay
-//   );
-
-//   // 选中要出的牌
-//   if (cardToMove.length) {
-//     playerCards.value.me.map((item) => {
-//       const index = cardToMove.indexOf(item[1]);
-//       if (index > -1) {
-//         cardToMove.splice(index, 1);
-//         item[2] = true;
-//       }
-//     });
-
-//     // 出牌
-//     setTimeout(move, 500);
-//   } else {
-//     tableCards.value = [];
-//   }
-// }, 1000);
+onBeforeUnmount(() => {
+  selectable?.destroy();
+});
 
 // todo-ljq，牌分配时，洗牌动画和排序同时进行；
 // todo-ljq，出牌时，【自己的牌变少了，桌面的牌多了】进行渐变动画；
