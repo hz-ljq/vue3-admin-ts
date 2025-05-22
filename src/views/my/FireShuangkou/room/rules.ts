@@ -296,7 +296,6 @@ function comparison({ cards, type }, previousCards) {
 }
 
 export default function analyse(myCards, previousCards) {
-  console.log(myCards, previousCards);
   // 先排序（从小到大）
   myCards = sort(myCards);
   previousCards.cards = sort(previousCards.cards);

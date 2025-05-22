@@ -23,8 +23,7 @@
         v-if="player?.name === 'me'"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
-        <!-- 每次出牌后，我方最后一张牌就不再绑定“ui-selectable”，这导致selectable功能失效。所以在牌发生变化后（也就是出牌后），重新初始化selectable； -->
-        <TransitionGroup name="fade" @after-leave="initSelectable">
+        <TransitionGroup name="fade" @after-leave="transitionComplete">
           <pokerCard
             :style="{
               left: `${index * 24}px`,
@@ -168,15 +167,18 @@ const players = computed(() => {
   return arr;
 });
 
-// 扑克牌排序（从大到小）
-function sort(arr: any[]) {
+// 我方在出牌时，子元素过渡动画的次数
+const transitionCount = ref(0);
+
+// 扑克牌排序（默认从大到小）
+function sort(arr: any[], direction = '倒序') {
   return arr.sort((a, b) => {
     const indexA = ranks.indexOf(a[1]);
     const indexB = ranks.indexOf(b[1]);
     if (indexB === indexA) {
       return suits.indexOf(b[0]) - suits.indexOf(a[0]);
     } else {
-      return indexB - indexA;
+      return direction === '倒序' ? indexB - indexA : indexA - indexB;
     }
   });
 }
@@ -288,7 +290,7 @@ playerCards.value = allocationCard();
 onMounted(async () => {
   await nextTick();
   // 动画
-  const animation = animate('.pokerCard', {
+  animate('.pokerCard', {
     boxShadow: [
       {
         to: stagger([1, 0.25], {
@@ -341,10 +343,21 @@ function initSelectable() {
       const myCards = playerCards.value.me;
       const index =
         x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
+      // console.log(555, myCards[index]);
       myCards[index][2] = !myCards[index][2];
     });
   });
   // console.log(33, selectable);
+}
+
+function transitionComplete() {
+  transitionCount.value++;
+  // 所有子元素都完成过渡动画
+  if (tableCards.value[2].cards?.length === transitionCount.value) {
+    transitionCount.value = 0;
+    // 每次出牌后，我方最后一张牌就不再绑定“ui-selectable”，这导致selectable功能失效。所以在牌发生变化后（也就是出牌后），重新初始化selectable；
+    initSelectable();
+  }
 }
 
 onBeforeUnmount(() => {
