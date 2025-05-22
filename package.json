@@ -34,6 +34,7 @@
     "path-to-regexp": "6.2.0",
     "pinia": "^2.0.16",
     "resize-detector": "^0.3.0",
+    "selectable.js": "^0.22.0",
     "tinymce": "4.9.11",
     "vue": "^3.5.13",
     "vue-router": "4.0.14",

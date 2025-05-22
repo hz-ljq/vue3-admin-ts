@@ -13,7 +13,15 @@
       ></div>
 
       <!-- 左右 -->
-      <div v-else :class="index === 0 ? 'left' : 'right'" :style="cardStyle">
+      <div
+        v-else
+        :class="{
+          left: index === 0,
+          right: index === 2,
+          'used-for-selectable': index === 0 && !isLastCard,
+        }"
+        :style="cardStyle"
+      >
         <div
           :style="{
             'text-align': ['joker', 'JOKER'].includes(props.card[1])
@@ -46,6 +54,12 @@ const props = defineProps({
     type: Array,
     default: () => {
       return [];
+    },
+  },
+  isLastCard: {
+    type: Boolean,
+    default: () => {
+      return true;
     },
   },
 });

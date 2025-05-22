@@ -588,8 +588,8 @@ function match(myCards, previousCards) {
 function getCardsArrOfBomb(cards) {
   let allBombArr = [];
   // 相炸弹
-  // 关于所有牌，我方拥有的数量
-  const indis = ranks.slice.map((item) => {
+  // 关于所有牌（['2', 'joker', 'JOKER']除外，这3个牌单独处理），我方拥有的数量
+  const indis = ranks.slice(0, -3).map((item) => {
     const len = cards.filter((x) => x === item).length;
     return {
       card: item,
@@ -612,11 +612,15 @@ function getCardsArrOfBomb(cards) {
     });
   }
 
-  // 我方所有的4-8相N连环炸弹
+  // 我方所有的【4-8】相【3-6】连环炸弹
   for (let i = 4; i < 10; i++) {
-    let a = bombArr['4相炸弹'].filter((item, index, self) => {
-      // ranks.indexOf(self[index+1]) - ranks.indexOf(item[0]) === 1
-      // ranks.indexOf(self[index+2]) - ranks.indexOf(self[index+1]) === 1
-    });
+    for (let j = 3; j < 6; j++) {
+      let a = bombArr[`${i}相炸弹`].filter((item, index, self) => {
+        // ranks.indexOf(self[index+1]) - ranks.indexOf(item[0]) === 1
+        // ranks.indexOf(self[index+2]) - ranks.indexOf(self[index+1]) === 1
+      });
+
+      bombArr[`${i}相${j}连环炸弹`].push()
+    }
   }
 }

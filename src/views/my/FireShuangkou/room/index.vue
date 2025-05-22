@@ -21,6 +21,7 @@
           width: `${(playerCards[player.name].length - 1) * 24 + 100}px`,
         }"
         v-if="player?.name === 'me'"
+        :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
         <pokerCard
           :style="{
@@ -30,7 +31,12 @@
           :card="card"
           v-for="(card, index) in playerCards[player.name]"
           :key="index"
-          @click="card[2] = !card[2]"
+          :data-cardindex="index"
+          :class="{
+            'used-for-selectable':
+              playerCards[player.name].length - 1 === index,
+          }"
+          :isLastCard="playerCards[player.name].length - 1 === index"
         />
       </div>
     </div>
@@ -102,6 +108,7 @@ import { animate, stagger } from 'animejs';
 import analyse, { suits, ranks, autoMove } from './rules';
 // import { validatePlay, comparePlay } from './rules-2';
 // import { robotPlay } from './robotPlay';
+import Selectable from 'selectable.js';
 
 // ● props
 const props = defineProps({
@@ -228,7 +235,10 @@ function move() {
     ])
     .flat();
 
-  autoMove(myC, { type: '4相3连环炸弹', cards: ['3', '4', '5', '3', '4', '5', '3', '4','5', '3', '4', '5',] });
+  autoMove(myC, {
+    type: '4相3连环炸弹',
+    cards: ['3', '4', '5', '3', '4', '5', '3', '4', '5', '3', '4', '5'],
+  });
 
   // 选中的牌
   const arr = playerCards.value.me.filter((item) => {
@@ -294,8 +304,32 @@ onMounted(async () => {
     },
   });
 
-  // 理牌
+  // todo-ljq 理牌
   setTimeout(() => {}, 1000);
+
+  const selectable = new Selectable({
+    // container: '#my-cards-wrapper',
+    filter: '.used-for-selectable',
+    lasso: {
+      border: '2px dashed rgba(219, 10, 91, 1)',
+      borderRadius: '10px',
+      backgroundColor: 'rgba(219, 10, 91, 0.4)',
+    },
+  });
+  selectable.on('start', function (e, item) {
+    // console.log(44);
+  });
+  selectable.on('end', function (e, selected, unselected) {
+    // console.log(55, selected);
+    // 选牌
+    selected.map((x, i) => {
+      // console.log(555, x.node);
+      const myCards = playerCards.value.me;
+      const index = x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
+      myCards[index][2] = !myCards[index][2];
+    });
+  });
+  // console.log(33, selectable);
 });
 
 function unselect() {
