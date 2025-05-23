@@ -569,6 +569,9 @@ function match(myCards, previousCards) {
       }
     }
   }
+  // todo-ljq 以上match函数的逻辑，可能要重写。
+  // todo-ljq 将【匹配出能压制对方的最小同牌型】改为【列举出所有牌型的组合】，因为这要用于提示功能。
+  // todo-ljq 而且一旦所有组合都有了之后，要从中找出能压制对方的最小同牌型的牌也不难；
 
   console.log(999999, cards);
 
