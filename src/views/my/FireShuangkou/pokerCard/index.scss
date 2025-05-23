@@ -75,17 +75,17 @@
 
   .back {
     width: 100%;
-    background-image: url(./assets/back.jpg);
+    background-image: url(./assets/back.jpeg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
 
   .switch-enter-active {
-    animation: switch-in 0.5s ease;
+    animation: switch-in 0.6s ease;
   }
   .switch-leave-active {
-    animation: switch-out 0.5s ease;
+    animation: switch-out 0.6s ease;
   }
 
   @keyframes switch-in {

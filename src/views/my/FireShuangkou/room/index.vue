@@ -8,6 +8,22 @@
         <el-button v-if="!player?.isReady" type="success" plain @click="ready">
           准备
         </el-button>
+        <el-button
+          v-if="player?.name === 'me'"
+          type="success"
+          plain
+          @click="ready"
+        >
+          换牌
+        </el-button>
+        <el-button
+          v-if="player?.name === 'me'"
+          type="success"
+          plain
+          @click="ready"
+        >
+          提示
+        </el-button>
       </div>
 
       <div
@@ -311,12 +327,12 @@ async function ready() {
 
         setTimeout(() => {
           playerCards.value[key] = sort(playerCards.value[key]);
-        }, 1000);
+        }, 800);
       }
 
-      // 1500，是计算了 TransitionGroup 的过渡时间。不这样的话，最后一张牌绑定不上class【‘ui-selectable’】，导致不能被框选；
-      // fixme-ljq 研究下，看看有没有好的解决办法。
-      setTimeout(initSelectable, 2000);
+      // 估算了相关动画的过渡时间。不这样的话，最后一张牌绑定不上class【‘ui-selectable’】，导致不能被框选；
+      // fixme-ljq 研究下，看看有没有更好的解决办法。
+      setTimeout(initSelectable, 1500);
     },
   });
 }
@@ -401,8 +417,6 @@ onBeforeUnmount(() => {
   selectable?.destroy?.();
 });
 
-// todo-ljq，牌分配时，洗牌动画和排序同时进行；
-// todo-ljq，出牌时，【自己的牌变少了，桌面的牌多了】进行渐变动画；
 // todo-ljq，机器人出牌（在符合打牌规则的前提下，设置一定的随机性）；
 // todo-ljq，提示功能（寻找能压住对方牌型的最小牌型）；
 </script>
