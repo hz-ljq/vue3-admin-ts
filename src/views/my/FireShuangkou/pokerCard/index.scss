@@ -1,5 +1,5 @@
 .pokerCard {
-  width: 22px;
+  // width: 22px;
   height: 135px;
   // padding: 10px;
   position: relative;
@@ -7,7 +7,6 @@
   // flex-direction: column;
   // justify-content: center;
   // align-items: center;
-  // box-shadow: 0 0 10px lightgray;
   & > * {
     height: 100%;
     display: inline-flex;
@@ -16,6 +15,15 @@
     // box-sizing: border-box;
     // padding: 2px;
   }
+
+  // .shadow {
+  //   left: 0;
+  //   top: 0;
+  //   width: 100px;
+  //   height: 135px;
+  //   box-shadow: 0 0 20px 0px white;
+  //   background-color: transparent;
+  // }
 
   .left,
   .right {
@@ -63,5 +71,41 @@
     background-position: center;
     background-repeat: no-repeat;
     // pointer-events: none;
+  }
+
+  .back {
+    width: 100%;
+    background-image: url(./assets/back.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .switch-enter-active {
+    animation: switch-in 0.5s ease;
+  }
+  .switch-leave-active {
+    animation: switch-out 0.5s ease;
+  }
+
+  @keyframes switch-in {
+    0% {
+      transform: rotateX(-180deg);
+      opacity: 0;
+    }
+    100% {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+  }
+  @keyframes switch-out {
+    0% {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: rotateX(-180deg);
+      opacity: 0;
+    }
   }
 }

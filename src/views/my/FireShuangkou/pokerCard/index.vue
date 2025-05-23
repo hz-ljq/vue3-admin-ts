@@ -1,5 +1,11 @@
 <template>
-  <div class="pokerCard" @click="emits('click')">
+  <div
+    class="pokerCard"
+    @click="emits('click')"
+    :style="{ width: isLastCard ? '100px' : '22px' }"
+  >
+    <!-- <div class="shadow"></div> -->
+    <!-- 正面 -->
     <div
       :class="{
         left: true,
@@ -56,6 +62,11 @@
         :style="{ 'background-image': `url(${icon})` }"
       ></div>
     </div>
+
+    <transition name="switch">
+      <!-- 背面 -->
+      <div v-if="!props.card[4]" class="back"></div>
+    </transition>
   </div>
 </template>
 
@@ -94,7 +105,7 @@ const icon = computed(() => {
   return mod.default;
 });
 
-const cardStyle = computed(() => {
+const cardStyle: any = computed(() => {
   return {
     color:
       ['H', 'D'].includes(props.card[0]) || props.card[1] === 'JOKER'

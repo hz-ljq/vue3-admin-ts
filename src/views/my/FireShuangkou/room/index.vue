@@ -5,21 +5,13 @@
         <el-avatar :size="50" v-if="player?.name" :src="circleUrl" />
         <span class="player-name">{{ player?.name }}</span>
         <!-- <el-button type="success" :icon="Check" circle /> -->
-        <el-button
-          v-if="!player?.isReady"
-          type="success"
-          plain
-          @click="emits('get-ready', roomInfo?.index)"
-        >
+        <el-button v-if="!player?.isReady" type="success" plain @click="ready">
           准备
         </el-button>
       </div>
 
       <div
         class="cards-wrapper"
-        :style="{
-          width: `${(playerCards[player.name].length - 1) * 22 + 100}px`,
-        }"
         v-if="player?.name === 'me'"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
@@ -145,7 +137,7 @@ const tableCards = ref([
 ]);
 
 const allCards: any = ref([]);
-const playerCards: any = ref({});
+const playerCards: any = ref({ me: [] });
 const isActive = computed(() => {
   return props.roomInfo.players.every((item) => item.isReady);
 });
@@ -202,7 +194,7 @@ function allocationCard() {
   for (const x of props.roomInfo.players) {
     obj[x.name] = [];
   }
-  props.roomInfo.players.map((item, index) => {
+  props.roomInfo.players.map((player, index) => {
     let cards = [];
     if (allCards.value.length > 0) {
       cards = allCards.value.slice(index * 27, (index + 1) * 27);
@@ -215,10 +207,11 @@ function allocationCard() {
       // 如果TransitionGroup的key用index的话，在数据变化时，由于总是存在相同index的牌，导致过渡动画不完美；
       // 所以，添加item[3]，并设置为绝对唯一。它纯粹是给 TransitionGroup的key使用的，为了过渡动画效果完美呈现。
       item[3] = +new Date() * index;
+      item[4] = false; // 显示牌的背面
+      // obj[player.name].push(item);
       return item; // 最后一个参数表示是否选中
     });
-    // obj[item.name] = sort(arr);
-    obj[item.name] = arr;
+    obj[player.name] = arr;
   });
   return obj;
 }
@@ -286,11 +279,14 @@ function move() {
   }
 }
 
-allCards.value = generateRandomCards();
-playerCards.value = allocationCard();
+// 我方准备就绪
+async function ready() {
+  emits('get-ready', props.roomInfo?.index);
+  allCards.value = generateRandomCards();
+  playerCards.value = allocationCard();
 
-onMounted(async () => {
   await nextTick();
+
   // 动画
   animate('.pokerCard', {
     boxShadow: [
@@ -309,12 +305,50 @@ onMounted(async () => {
       // console.log('全部动画完成');
       // 理牌
       for (const key in playerCards.value) {
-        playerCards.value[key] = sort(playerCards.value[key]);
+        playerCards.value[key].map((item) => {
+          item[4] = true;
+        });
+
+        setTimeout(() => {
+          playerCards.value[key] = sort(playerCards.value[key]);
+        }, 1000);
       }
+
+      // 1500，是计算了 TransitionGroup 的过渡时间。不这样的话，最后一张牌绑定不上class【‘ui-selectable’】，导致不能被框选；
+      // fixme-ljq 研究下，看看有没有好的解决办法。
+      setTimeout(initSelectable, 2000);
     },
   });
+}
 
-  initSelectable();
+onMounted(async () => {
+  await nextTick();
+  // // 动画
+  // animate('.pokerCard', {
+  //   boxShadow: [
+  //     {
+  //       to: stagger([1, 0.25], {
+  //         // modifier: (v) => `0 0 ${v * 30}px ${v * 20}px currentColor`,
+  //         modifier: (v) => `0 0 ${v * 30}px ${v * 20}px green`,
+  //         from: 'center',
+  //       }),
+  //     },
+  //     { to: 0 },
+  //   ],
+  //   delay: stagger(50, { from: 'center' }),
+  //   loop: false,
+  //   onComplete: function (anim) {
+  //     // console.log('全部动画完成');
+  //     // 理牌
+  //     for (const key in playerCards.value) {
+  //       playerCards.value[key] = sort(playerCards.value[key]);
+  //     }
+  //     // 1500，是计算了 TransitionGroup 的过渡时间。不这样的话，最后一张牌绑定不上class【‘ui-selectable’】，导致不能被框选；
+  //     // fixme-ljq 研究下，看看有没有好的解决办法。
+  //     setTimeout(initSelectable, 500);
+  //     // initSelectable();
+  //   },
+  // });
 });
 
 // 取消任何牌的选中状态
@@ -338,14 +372,14 @@ function initSelectable() {
     },
   });
   selectable.on('end', function (e, selected, unselected) {
-    // console.log(55, selected);
+    console.log(55, selected);
     // 选牌
     selected.map((x) => {
       // console.log(555, x.node);
       const myCards = playerCards.value.me;
       const index =
         x.node.parentNode?.dataset?.cardindex ?? x.node?.dataset?.cardindex;
-      // console.log(555, myCards[index]);
+      console.log(555, myCards[index]);
       myCards[index][2] = !myCards[index][2];
     });
   });
@@ -353,6 +387,7 @@ function initSelectable() {
 }
 
 function transitionComplete() {
+  console.log(7777);
   transitionCount.value++;
   // 所有子元素都完成过渡动画
   if (tableCards.value[2].cards?.length === transitionCount.value) {
