@@ -572,6 +572,25 @@ function match(myCards, previousCards) {
 
   console.log(999999, cards);
 
+  const allBombs = getCardsArrOfBomb(myCards);
+  // 我方的三王炸弹、天王炸弹
+  const jokerNum = myCards.filter((x) => x === 'joker').length;
+  const jokerNum2 = myCards.filter((x) => x === 'JOKER').length;
+  allBombs['三王炸弹'] = [];
+  allBombs['天王炸弹'] = [];
+  if (jokerNum === 1 && jokerNum2 === 2) {
+    allBombs['三王炸弹'].push(['joker', 'JOKER', 'JOKER']);
+  }
+  if (jokerNum === 2 && jokerNum2 === 1) {
+    allBombs['三王炸弹'].push(['joker', 'joker', 'JOKER']);
+  }
+  if (jokerNum === 2 && jokerNum2 === 2) {
+    allBombs['三王炸弹'].push(['joker', 'JOKER', 'JOKER'], ['joker', 'joker', 'JOKER']);
+    allBombs['天王炸弹'].push(['joker', 'joker', 'JOKER', 'JOKER']);
+  }
+
+  console.log(1010, allBombs);
+
   // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
   // if (cards.length === 0) {
   //   // 对方不是炸弹，找出我方威力最小的炸弹
@@ -586,27 +605,25 @@ function match(myCards, previousCards) {
   // const judgement = verifyRules(cards)
 }
 
+// 获取所有炸弹（三王炸弹、天王炸弹除外）
 function getCardsArrOfBomb(cards) {
-  let allBombArr = [];
-  // 相炸弹
-  // 关于所有牌（['2', 'joker', 'JOKER']除外，这3个牌单独处理），我方拥有的数量
-  const indis = ranks.slice(0, -3).map((item) => {
-    const len = cards.filter((x) => x === item).length;
+  // 我方拥有每种牌的数量
+  const numOfCard = ranks.map((item) => {
     return {
       card: item,
-      num: len,
+      num: cards.filter((x) => x === item).length,
     };
   });
 
   // 我方的所有炸弹
   const bombArr = {};
 
-  // 我方所有的4-10相炸弹
+  // 我方所有的4-10相炸弹（joker、JOKER，除外）
   for (let i = 4; i < 10; i++) {
-    const arr = indis.filter((item) => item.num >= i);
+    const arr = numOfCard.slice(0, -2).filter((item) => item.num >= i);
     bombArr[`${i}相炸弹`] = arr.map((item) => {
       const a: any = [];
-      for (let j = 0; j < item.num; j++) {
+      for (let j = 0; j < i; j++) {
         a.push(item.card);
       }
       return a;
@@ -614,14 +631,54 @@ function getCardsArrOfBomb(cards) {
   }
 
   // 我方所有的【4-8】相【3-6】连环炸弹
-  for (let i = 4; i < 10; i++) {
-    for (let j = 3; j < 6; j++) {
-      let a = bombArr[`${i}相炸弹`].filter((item, index, self) => {
-        // ranks.indexOf(self[index+1]) - ranks.indexOf(item[0]) === 1
-        // ranks.indexOf(self[index+2]) - ranks.indexOf(self[index+1]) === 1
-      });
-
-      bombArr[`${i}相${j}连环炸弹`].push()
+  if (bombArr[`4相炸弹`].length >= 3) {
+    for (let i = 4; i < 10; i++) {
+      const arr2 = bombArr[`${i}相炸弹`].filter((x) => x[0] !== '2'); // 除去2，因为2不能成为连环炸弹的一部分
+      const indexArr = arr2.map((x) => ranks.indexOf(x[0]));
+      const obj = findConsecutiveSubarrays(indexArr, 3, Math.floor(27 / i));
+      for (const key in obj) {
+        bombArr[`${i}相${key[0]}连环炸弹`] = obj[key].map((x) => {
+          const cardArr = x.map((y) => ranks[y]);
+          return sort(Array(i).fill(cardArr).flat());
+        });
+      }
     }
   }
+
+  return bombArr;
+}
+
+// 在指定的数组中，找出指定范围的连续数的所有排列组合。比如：指定数组为[1,2,3,4,5,6,7]，指定范围为3-5个连续数，要求return一个对象，内容为:
+// {
+//   '3个连续数': [[1,2,3],...,[5,6,7]],
+//   '4个连续数': [[1,2,3,4],...,[4,5,6,7]],
+//   '5个连续数': [[1,2,3,4,5],...,[3,4,5,6,7]],
+// }
+function findConsecutiveSubarrays(arr, minLen = 3, maxLen = 5) {
+  const sortedArr = Array.from(new Set(arr)).sort((a, b) => a - b);
+  const result = {};
+
+  // 初始化结果对象的 key
+  for (let len = minLen; len <= maxLen; len++) {
+    result[`${len}个连续数`] = [];
+  }
+
+  // 查找每个长度的连续子数组
+  for (let i = 0; i < sortedArr.length; i++) {
+    for (let len = minLen; len <= maxLen; len++) {
+      const subArr = sortedArr.slice(i, i + len);
+      if (subArr.length === len && isConsecutive(subArr)) {
+        result[`${len}个连续数`].push(subArr);
+      }
+    }
+  }
+
+  return result;
+}
+
+function isConsecutive(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] !== arr[i - 1] + 1) return false;
+  }
+  return true;
 }
