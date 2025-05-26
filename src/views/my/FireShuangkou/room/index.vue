@@ -20,7 +20,7 @@
           v-if="player?.name === 'me'"
           type="success"
           plain
-          @click="ready"
+          @click="getTips"
         >
           提示
         </el-button>
@@ -116,7 +116,12 @@
 // --------------------------
 import pokerCard from '../pokerCard/index.vue';
 import { animate, stagger } from 'animejs';
-import analyse, { suits, ranks, autoMove } from './rules';
+import analyse, {
+  suits,
+  ranks,
+  autoMove,
+  getAllPossibilityCardSets,
+} from './rules';
 // import { validatePlay, comparePlay } from './rules-2';
 // import { robotPlay } from './robotPlay';
 import Selectable from 'selectable.js';
@@ -140,6 +145,7 @@ const emits = defineEmits(['get-ready', 'quit']);
 
 let selectable: any = null;
 const circleUrl = inject('circleUrl');
+const tipsCount = ref(0); // 提示次数
 
 // 桌面上的牌
 const tableCards = ref([
@@ -230,6 +236,70 @@ function allocationCard() {
     obj[player.name] = arr;
   });
   return obj;
+}
+
+// 提示
+function getTips() {
+  // const myC = [
+  //   ...Array(4)
+  //     .fill(['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'])
+  //     .flat(),
+  //   '3',
+  //   '4',
+  //   '5',
+  //   'joker',
+  //   'joker',
+  //   'JOKER',
+  //   'JOKER',
+  // ];
+
+  const previousCards = {
+    type: tableCards.value[2].type,
+    cards: tableCards.value[2].cards?.map((item) => item[1]),
+  };
+
+  // 桌面上没有牌
+  if (!previousCards.type) return;
+
+  // 所有牌型的组合
+  const obj = getAllPossibilityCardSets(
+    playerCards.value.me.map((item) => item[1])
+  );
+
+  // 找出与对方牌型相同且可压制对方的所有组合
+  const cardSets = obj[previousCards.type].filter((item) => {
+    return ranks.indexOf(item[0]) - ranks.indexOf(previousCards.cards[0]);
+  });
+
+  if (cardSets.length) {
+    // 应该提示的牌型
+    const tipsCards = cardSets[tipsCount.value];
+
+    // 选中我方与【提示的牌型】相同的牌
+    let beginIndex = -1;
+    const arrCopy = playerCards.value.me
+      .map((item) => {
+        item[2] = false;
+      })
+      .slice();
+    arrCopy.reverse();
+
+    tipsCards.map((item) => {
+      const cardIndex = arrCopy.findIndex(
+        (x, i) => x[1] === item && i > beginIndex
+      );
+      if (cardIndex > -1) {
+        beginIndex = cardIndex;
+        arrCopy[cardIndex][2] = true; // 选中提示的牌
+      }
+    });
+    playerCards.value.me = arrCopy.reverse();
+
+    // 提示次数加1，用于下次提示
+    tipsCount.value = (tipsCount.value + 1) % cardSets.length;
+  } else {
+    // todo-ljq 在我方没有【同牌型且可压制对方】的牌的情况下，考虑用炸弹或大王万能牌的代替逻辑
+  }
 }
 
 // 出牌

@@ -58,7 +58,7 @@ function verifyRules(cards) {
     result: false, // 是否符合全部规则
   };
   // ■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□ 符合的规则，如下：、
-  // 针对：单牌、对子、三条、炸弹
+  // 针对：单牌、对子、三张、炸弹
   // （无论几张牌）每张牌都相同
   let result = cards.every((item) => {
     return item === cards[0];
@@ -70,7 +70,7 @@ function verifyRules(cards) {
         : cards.length === 2
         ? '对子'
         : cards.length === 3
-        ? '三条'
+        ? '三张'
         : cards.length >= 4
         ? `${cards.length}相炸弹`
         : null;
@@ -374,143 +374,22 @@ export function autoMove(myCards, previousCards) {
   // 先排序（从小到大）
   myCards = sort(myCards);
 
-  // todo-ljq 得到所有同牌型的组合
-  // todo-ljq 得到所有炸弹的组合
-  // fixme-ljq 别忘了JOKER能当万能牌😆；（先用基本匹配的方式，如果都不匹配，再用JOKER遍历替换所有可能的牌来进行基本匹配）
+  // todo-ljq，如果都不匹配，则用JOKER遍历替换所有可能的牌；
+  getAllPossibilityCardSets(myCards);
 
-  // ljq，先match()，如果都不匹配，则用JOKER遍历替换所有可能的牌，并分别进行match()；
-  match(myCards, previousCards);
-
-  // // 大王的数量
-  // const jokerNum = myCards.filter((item) => {
-  //   return item === 'JOKER';
-  // }).length;
-  // if (!jokerNum) {
-  //   // 【不存在大王】时，进行牌型校验
-  //   verifyResult = verifyRules(myCards);
-  // } else {
-  //   // 【存在大王】时，遍历所有大王可替换的牌（从大到小替换，尽可能让牌型的威力最大化），并分别进行牌型校验
-  //   const ranksCopy = ranks.slice().reverse();
-
-  //   let replaceCard1 = null; // 替换掉第 1 张大王的牌
-  //   let replaceCard2 = null; // 替换掉第 2 张大王的牌
-
-  //   replaceCard1 = ranksCopy.find((card1) => {
-  //     const indexOfJoker1 = myCards.indexOf('JOKER');
-  //     myCards.splice(indexOfJoker1, 1, card1); // 替换掉第 1 张大王
-
-  //     console.log(77, myCards);
-  //     if (jokerNum === 1) {
-  //       // 只有 1 张大王
-  //       verifyResult = verifyRules(myCards); // 牌型校验
-  //     } else if (jokerNum === 2) {
-  //       // 有 2 张大王
-  //       replaceCard2 = ranksCopy.find((card2) => {
-  //         const indexOfJoker2 = myCards.indexOf('JOKER');
-  //         myCards.splice(indexOfJoker2, 1, card2); // 替换掉第 2 张大王
-  //         console.log(88, myCards);
-  //         verifyResult = verifyRules(myCards); // 牌型校验
-  //         // 第二张JOKER的本次替换，没通过规则校验，则替换回去
-  //         if (!verifyResult?.result) {
-  //           myCards.splice(indexOfJoker2, 1, 'JOKER');
-  //         }
-  //         return verifyResult?.result;
-  //       });
-  //     }
-
-  //     // 第一种JOKER的本次替换，没通过规则校验，则替换回去
-  //     if (!verifyResult?.result) {
-  //       myCards.splice(indexOfJoker1, 1, 'JOKER');
-  //     }
-  //     return verifyResult?.result;
-  //   });
-  //   // console.log(56, myCards, verifyResult);
-  // }
+  // todo-ljq 同牌型、不同牌型的大小比较
 }
 
-// // 匹配出可压制对方的最小牌型的组合
-// function match(myCards, previousCards) {
-//   let cards: any = [];
-//   // 对方出的牌数
-//   const len = previousCards.cards.length;
+// 分析出所有牌型的组合（不考虑大王的替换）
+export function getAllPossibilityCardSets(cards) {
+  // 先排序（从小到大）
+  cards = sort(cards);
 
-//   const setArr1 = ['单牌', '对子', '三条', '相炸弹']; // 每张牌相同，只是牌数不同
-//   const setArr2 = ['级顺子', '级连对', '级连三张', '连环炸弹']; // 牌连续，只是级数和相数不同
-//   // const setArr3 = ['三王炸弹', '天王炸弹']; // 特殊牌。不用处理，因为不可能出现同牌型的情况
-
-//   if (setArr1.find((x) => previousCards.type.includes(x))) {
-//     const card = myCards.find((c) => {
-//       const flag1 = ranks.indexOf(c) > ranks.indexOf(previousCards.cards[0]);
-//       const flag2 = myCards.filter((c2) => c2 === c).length >= len;
-//       return flag1 && flag2;
-//     });
-//     if (card) {
-//       // cards = Array(len).fill(card);
-//       for (let i = 0; i < len; i++) {
-//         cards.push(card)
-//       }
-//     }
-//   } else if (setArr2.find((x) => previousCards.type.includes(x))) {
-//     // 重复次数
-//     const len2 = previousCards.type.includes('级顺子')
-//       ? 1
-//       : previousCards.type.includes('级连对')
-//       ? 2
-//       : previousCards.type.includes('级连三张')
-//       ? 3
-//       : previousCards.type.includes('连环炸弹')
-//       ? previousCards.type.at(0)
-//       : null;
-
-//     const card = myCards.find((c) => {
-//       let flag = true;
-//       const indexOfCurrentCard = ranks.indexOf(c)
-//       if (indexOfCurrentCard > ranks.indexOf(previousCards.cards[0])) {
-//         for (let i = indexOfCurrentCard; i < indexOfCurrentCard + len / len2; i++) {
-//           const cardToFind = ranks.slice(0, -3)[i];
-//           if (myCards.filter((item) => item === cardToFind).length < len2) {
-//             flag = false;
-//             break;
-//           }
-//         }
-//       } else {
-//         flag = false;
-//       }
-//       return flag;
-//     });
-
-//     if (card) {
-//       const index = ranks.indexOf(card);
-//       const arr = ranks.slice(index, index + len / len2);
-//       // cards = arr.join('').repeat(len2).split('')
-
-//       for (let i = 0; i < len2; i++) {
-//         cards.push(...arr)
-//       }
-//     }
-//   }
-
-//   console.log(999999, cards);
-
-//   // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
-//   // if (cards.length === 0) {
-//   //   // 对方不是炸弹，找出我方威力最小的炸弹
-//   //   if (!previousCards.type.includes('炸弹)) {
-
-//   //   } else {
-//   //   // 对方是炸弹，找出我方威力更大的最小炸弹
-
-//   //   }
-//   // }
-// }
-
-// 分析出我方所有牌型的组合
-function match(myCards, previousCards) {
   const cardsObj = {};
   // 我方拥有每种牌的数量
-  const numOfCard = getNumOfCard(myCards);
+  const numOfCard = getNumOfCard(cards);
 
-  // 针对【每张牌相同，只是牌数不同】的牌型：'单牌', '对子', '三条', '相炸弹'
+  // 针对【每张牌相同，但相数不同】的牌型：'单牌', '对子', '三张', '相炸弹'
   for (let i = 1; i <= 10; i++) {
     let arr = numOfCard.filter((item) => item.num >= i);
     arr = arr.map((item) => {
@@ -522,7 +401,7 @@ function match(myCards, previousCards) {
     } else if (i === 2) {
       cardsObj[`对子`] = arr;
     } else if (i === 3) {
-      cardsObj[`三条`] = arr;
+      cardsObj[`三张`] = arr;
     } else {
       cardsObj[`${i}相炸弹`] = arr;
     }
@@ -530,7 +409,7 @@ function match(myCards, previousCards) {
   console.log(567, cardsObj);
 
 
-  // 针对【牌连续，只是级数和相数不同】的牌型：'顺子', '连对', '连三张', '连环炸弹'
+  // 针对【连环牌，但相数和连环数不同】的牌型：'顺子', '连对', '连三张', '连环炸弹'
   for (let i = 1; i <= 10; i++) {
     let name;
     let min = 3;
@@ -540,7 +419,7 @@ function match(myCards, previousCards) {
     } else if (i === 2) {
       name = '对子';
     } else if (i === 3) {
-      name = '三条';
+      name = '三张';
     } else if (i >= 4) {
       name = `${i}相炸弹`;
     }
@@ -579,8 +458,8 @@ function match(myCards, previousCards) {
   console.log(5678, cardsObj);
 
   // 针对【特殊】的牌型：'三王炸弹', '天王炸弹'
-  const jokerNum = myCards.filter((x) => x === 'joker').length;
-  const jokerNum2 = myCards.filter((x) => x === 'JOKER').length;
+  const jokerNum = cards.filter((x) => x === 'joker').length;
+  const jokerNum2 = cards.filter((x) => x === 'JOKER').length;
   cardsObj['三王炸弹'] = [];
   cardsObj['天王炸弹'] = [];
   if (jokerNum === 1 && jokerNum2 === 2) {
@@ -597,6 +476,8 @@ function match(myCards, previousCards) {
     cardsObj['天王炸弹'].push(['joker', 'joker', 'JOKER', 'JOKER']);
   }
   console.log(1010, cardsObj);
+
+  return cardsObj;
 
   // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
   // if (cards.length === 0) {
@@ -622,44 +503,6 @@ function getNumOfCard(cards) {
   });
   return numOfCard;
 }
-
-// // 获取所有炸弹（三王炸弹、天王炸弹除外）
-// function getCardsArrOfBomb(myCards) {
-//   // 我方拥有每种牌的数量
-//   const numOfCard = getNumOfCard(myCards);
-
-//   // 我方的所有炸弹
-//   const cardsObj = {};
-
-//   // 我方所有的4-10相炸弹（joker、JOKER，除外）
-//   for (let i = 4; i < 10; i++) {
-//     const arr = numOfCard.slice(0, -2).filter((item) => item.num >= i);
-//     cardsObj[`${i}相炸弹`] = arr.map((item) => {
-//       const a: any = [];
-//       for (let j = 0; j < i; j++) {
-//         a.push(item.card);
-//       }
-//       return a;
-//     });
-//   }
-
-//   // 我方所有的【4-8】相【3-6】连环炸弹
-//   if (cardsObj[`4相炸弹`].length >= 3) {
-//     for (let i = 4; i < 10; i++) {
-//       const arr2 = cardsObj[`${i}相炸弹`].filter((x) => x[0] !== '2'); // 除去2，因为2不能成为连环炸弹的一部分
-//       const indexArr = arr2.map((x) => ranks.indexOf(x[0]));
-//       const obj = findConsecutiveSubarrays(indexArr, 3, Math.floor(27 / i)); // 27 / i，共27张牌，除以相数，得到连环数
-//       for (const key in obj) {
-//         cardsObj[`${i}相${key[0]}连环炸弹`] = obj[key].map((x) => {
-//           const cardArr = x.map((y) => ranks[y]);
-//           return sort(Array(i).fill(cardArr).flat());
-//         });
-//       }
-//     }
-//   }
-
-//   return cardsObj;
-// }
 
 // 数组元素，重复指定次数
 function repeatArr(arr, repeatNum) {
