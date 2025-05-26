@@ -222,7 +222,6 @@ function comparison({ cards, type }, previousCards) {
     if (type === previousCards.type) {
       // 同牌型
       if (ranks.indexOf(cards[0]) > ranks.indexOf(previousCards.cards[0])) {
-        // 比上一手的牌大
         return { result: true };
       }
     } else {
@@ -375,9 +374,10 @@ export function autoMove(myCards, previousCards) {
   myCards = sort(myCards);
 
   // todo-ljq，如果都不匹配，则用JOKER遍历替换所有可能的牌；
-  getAllPossibilityCardSets(myCards);
+  const obj = getAllPossibilityCardSets(myCards);
 
-  // todo-ljq 同牌型、不同牌型的大小比较
+  // todo-ljq 大小比较
+  comparison()
 }
 
 // 分析出所有牌型的组合（不考虑大王的替换）
@@ -407,7 +407,6 @@ export function getAllPossibilityCardSets(cards) {
     }
   }
   console.log(567, cardsObj);
-
 
   // 针对【连环牌，但相数和连环数不同】的牌型：'顺子', '连对', '连三张', '连环炸弹'
   for (let i = 1; i <= 10; i++) {
