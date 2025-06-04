@@ -1,6 +1,11 @@
 <template>
   <div id="room" class="room" @contextmenu.prevent="move" @dblclick="unselect">
-    <div class="player" v-for="player in players" :key="player?.name">
+    <div
+      class="player"
+      :class="`player-${index}`"
+      v-for="(player, index) in players"
+      :key="player?.name"
+    >
       <div class="basic-info">
         <el-avatar :size="50" v-if="player?.name" :src="circleUrl" />
         <span class="player-name">{{ player?.name }}</span>
@@ -24,11 +29,25 @@
         >
           提示
         </el-button>
+        <span style="margin: 0 10px">剩余{{ playerCards[player.name]?.length }}</span>
+
+        <el-button
+          v-if="player?.name === 'me'"
+          type="success"
+          plain
+          @click="getTips"
+        >
+          下一步
+        </el-button>
       </div>
 
-      <div
+      <!-- <div
         class="cards-wrapper"
         v-if="player?.name === 'me'"
+        :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
+      ></div> -->
+      <div
+        class="cards-wrapper"
         :id="player?.name === 'me' ? 'my-cards-wrapper' : ''"
       >
         <TransitionGroup name="fade" @after-leave="transitionComplete">
@@ -82,8 +101,13 @@
           'mid-left': index === 3,
         }"
       >
-        <div
+        <!-- <div
           v-if="index === 2"
+          class="cards-wrapper"
+          :style="{ width: `${(item.cards?.length ?? 0) * 22 + (100 - 22)}px` }"
+        ></div> -->
+        <!-- todo-ljq 桌面区域分为4部分，每个player在各自的区域出牌 -->
+        <div
           class="cards-wrapper"
           :style="{ width: `${(item.cards?.length ?? 0) * 22 + (100 - 22)}px` }"
         >
@@ -160,6 +184,7 @@ const tableCards = ref([
 
 const allCards: any = ref([]);
 const playerCards: any = ref({ me: [] });
+
 const isActive = computed(() => {
   return props.roomInfo.players.every((item) => item.isReady);
 });
@@ -319,7 +344,7 @@ function move() {
 
   const powerArr = autoMove(myC, {
     type: '三张',
-    cards: ['A','A','A'],
+    cards: ['A', 'A', 'A'],
   });
   console.log(333, powerArr);
 

@@ -25,7 +25,7 @@
       margin: 0 8px;
     }
 
-    &:nth-child(1) {
+    &.player-0 {
       width: 100%;
       height: 30%;
       top: 0;
@@ -33,15 +33,18 @@
         top: 100px;
       }
     }
-    &:nth-child(2) {
-      width: 20%;
+    &.player-1 {
+      width: 25%;
       height: 100%;
       right: 0;
       > .basic-info {
         right: 100px;
       }
+      .cards-wrapper {
+        top: 30%;
+      }
     }
-    &:nth-child(3) {
+    &.player-2 {
       width: 100%;
       height: 30%;
       bottom: 0;
@@ -49,12 +52,15 @@
         bottom: 100px;
       }
     }
-    &:nth-child(4) {
-      width: 20%;
+    &.player-3 {
+      width: 25%;
       height: 100%;
       left: 0;
       > .basic-info {
         left: 100px;
+      }
+      .cards-wrapper {
+        top: 30%;
       }
     }
 
@@ -99,7 +105,7 @@
   }
 
   .table-wrapper {
-    width: 60%;
+    width: 50%;
     height: 40%;
     overflow: hidden;
     // border: 1px solid green;
