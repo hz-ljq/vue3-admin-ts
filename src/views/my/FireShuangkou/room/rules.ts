@@ -220,77 +220,67 @@ function verifyRules(cards) {
 function comparison({ cards, type }, previousCards) {
   if (previousCards.cards.length) {
     if (type === previousCards.type) {
-      // 同牌型
+      // 同牌型（包括相同类型的炸弹）
       if (ranks.indexOf(cards[0]) > ranks.indexOf(previousCards.cards[0])) {
         return { result: true };
       }
     } else {
       // 不同牌型
-      // 我方出了炸弹
       if (type.includes('炸弹')) {
-        // 对方出的不是炸弹
+        // 我方出了炸弹
         if (!previousCards.type.includes('炸弹')) {
+          // 对方出的不是炸弹
           return { result: true };
         } else {
-          // 对方出的也是炸弹，比较炸弹大小（同相级的炸弹比较，在同牌型中已处理）；
+          // 对方出的也是炸弹；
           const star1 = bombStarMap[type];
           const star2 = bombStarMap[previousCards.type];
           const length1 = cards.length;
           const length2 = previousCards.cards.length;
-          let result = {};
+          let result;
           // 星级相同的情况
           if (star1 === star2) {
             if (length1 === 3) {
-              // 我方是三王炸弹
-              result = {
-                result: false,
-                tips: '压不过！！！',
-              };
+              // 特殊情况：我方是三王炸弹
+              result = false;
             } else if (cards.includes('joker') && length1 === 4) {
-              // 我方是天王炸弹
+              // 特殊情况：我方是天王炸弹
               result = true;
             } else if (length2 === 3) {
-              // 对方是三王炸弹
+              // 特殊情况：对方是三王炸弹
               result = true;
             } else if (previousCards.cards.includes('joker') && length2 === 4) {
-              // 对方是天王炸弹
-              result = {
-                result: false,
-                tips: '压不过！！！',
-              };
+              // 特殊情况：对方是天王炸弹
+              result = false;
             } else if (length1 === length2) {
-              result = {
-                result:
-                  ranks.indexOf(cards.at(-1)) -
-                    ranks.indexOf(previousCards.cards.at(-1)) >
-                  0,
-                tips: '压不过！！！',
-              };
+              // 如果牌数相同，则按照牌型中最大牌的点数比较大小
+              result =
+                ranks.indexOf(cards.at(-1)) -
+                  ranks.indexOf(previousCards.cards.at(-1)) >
+                0;
             } else {
-              result = {
-                result: length1 - length2 < 0,
-                tips: '压不过！！！',
-              };
+              // 其他情况，则牌数越少的越大
+              result = length1 - length2 < 0;
             }
           } else {
-            result = {
-              result: star1 - star2 > 0,
-              tips: '压不过！！！',
-            };
+            // 星级越大则威力越大
+            result = star1 - star2 > 0;
           }
 
-          return result;
+          return {
+            result,
+          };
         }
       } else {
         // console.log('打法不符合游戏规则！！！');
         return {
           result: false,
-          tips: `${type} 不能压 ${previousCards.type}`,
+          tips: `不符合规则（${type} 不能压 ${previousCards.type}）`,
         };
       }
     }
   } else {
-    return { result: true };
+    return { result: true, tips: '对方未出牌' };
   }
 }
 
@@ -377,7 +367,7 @@ export function autoMove(myCards, previousCards) {
   const obj = getAllPossibilityCardSets(myCards);
 
   // todo-ljq 大小比较
-  comparison()
+  comparison();
 }
 
 // 分析出所有牌型的组合（不考虑大王的替换）
