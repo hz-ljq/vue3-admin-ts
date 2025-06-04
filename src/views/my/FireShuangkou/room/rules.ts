@@ -238,32 +238,38 @@ function comparison({ cards, type }, previousCards) {
           const length1 = cards.length;
           const length2 = previousCards.cards.length;
           let result;
-          // 星级相同的情况
           if (star1 === star2) {
-            if (length1 === 3) {
-              // 特殊情况：我方是三王炸弹
-              result = false;
-            } else if (cards.includes('joker') && length1 === 4) {
-              // 特殊情况：我方是天王炸弹
-              result = true;
-            } else if (length2 === 3) {
-              // 特殊情况：对方是三王炸弹
-              result = true;
-            } else if (previousCards.cards.includes('joker') && length2 === 4) {
-              // 特殊情况：对方是天王炸弹
-              result = false;
-            } else if (length1 === length2) {
+            // 星级相同的情况
+            if (length1 === length2) {
               // 如果牌数相同，则按照牌型中最大牌的点数比较大小
               result =
                 ranks.indexOf(cards.at(-1)) -
                   ranks.indexOf(previousCards.cards.at(-1)) >
                 0;
             } else {
-              // 其他情况，则牌数越少的越大
+              // 如果牌数不同，则牌数越少的越大
               result = length1 - length2 < 0;
+
+              // 特殊情况
+              if (length1 === 3) {
+                // 我方是三王炸弹
+                result = false;
+              } else if (cards.includes('joker') && length1 === 4) {
+                // 我方是天王炸弹
+                result = true;
+              } else if (length2 === 3) {
+                // 对方是三王炸弹
+                result = true;
+              } else if (
+                previousCards.cards.includes('joker') &&
+                length2 === 4
+              ) {
+                // 对方是天王炸弹
+                result = false;
+              }
             }
           } else {
-            // 星级越大则威力越大
+            // 如果星级不同，则星级越大则威力越大
             result = star1 - star2 > 0;
           }
 
@@ -358,20 +364,61 @@ export default function analyse(myCards, previousCards) {
   }
 }
 
-// 自动出牌
+// 自动出牌（选出能压过对方的所有牌型组合，威力从小到大排序）
+// todo-ljq 考虑大王的遍历替换
 export function autoMove(myCards, previousCards) {
   // 先排序（从小到大）
   myCards = sort(myCards);
 
   // todo-ljq，如果都不匹配，则用JOKER遍历替换所有可能的牌；
   const obj = getAllPossibilityCardSets(myCards);
+  const obj2 = {
+    非炸弹类: {},
+    炸弹类: {},
+  };
+  for (const key in obj) {
+    if (!key.includes('炸弹')) {
+      obj2['非炸弹类'][key] = obj[key];
+    } else {
+      obj2['炸弹类'][key] = obj[key];
+    }
+  }
 
-  // todo-ljq 大小比较
-  comparison();
+  let arr: any = [];
+  if (!previousCards.type.includes('炸弹')) {
+    // 如果对方不是炸弹
+    arr = obj2['非炸弹类'][previousCards.type];
+    arr = arr.map((x) => {
+      return {
+        type: previousCards.type,
+        cards: x,
+      };
+    });
+    arr = arr.filter((x) => {
+      // 大小比较
+      return comparison(x, previousCards)?.result;
+    });
+    if (arr.length === 0) {
+      const bombRank = sortBomb(obj2['炸弹类']);
+      arr = bombRank;
+    }
+  } else {
+    // 如果对方是炸弹
+    let bombRank = sortBomb(obj2['炸弹类']);
+    bombRank = bombRank.filter((x) => {
+      // 大小比较
+      return comparison(x, previousCards)?.result;
+    });
+    arr = bombRank;
+  }
+
+  return arr;
 }
 
 // 分析出所有牌型的组合（不考虑大王的替换）
 export function getAllPossibilityCardSets(cards) {
+  // fixme-ljq，存在【1级连对、1级顺子、2级顺子】的key；
+
   // 先排序（从小到大）
   cards = sort(cards);
 
@@ -396,7 +443,6 @@ export function getAllPossibilityCardSets(cards) {
       cardsObj[`${i}相炸弹`] = arr;
     }
   }
-  console.log(567, cardsObj);
 
   // 针对【连环牌，但相数和连环数不同】的牌型：'顺子', '连对', '连三张', '连环炸弹'
   for (let i = 1; i <= 10; i++) {
@@ -444,7 +490,9 @@ export function getAllPossibilityCardSets(cards) {
       delete cardsObj[key];
     }
   }
-  console.log(5678, cardsObj);
+  delete cardsObj['1级连对'];
+  delete cardsObj['1级顺子'];
+  delete cardsObj['2级顺子'];
 
   // 针对【特殊】的牌型：'三王炸弹', '天王炸弹'
   const jokerNum = cards.filter((x) => x === 'joker').length;
@@ -467,19 +515,6 @@ export function getAllPossibilityCardSets(cards) {
   console.log(1010, cardsObj);
 
   return cardsObj;
-
-  // // 如果我方没有同牌型的牌，判断是否存在威力更大的其他牌型
-  // if (cards.length === 0) {
-  //   // 对方不是炸弹，找出我方威力最小的炸弹
-  //   if (!previousCards.type.includes('炸弹)) {
-
-  //   } else {
-  //   // 对方是炸弹，找出我方威力更大的最小炸弹
-
-  //   }
-  // }
-
-  // const judgement = verifyRules(cards)
 }
 
 // 获得每种牌的数量
@@ -535,4 +570,63 @@ function isConsecutive(arr) {
     if (arr[i] !== arr[i - 1] + 1) return false;
   }
   return true;
+}
+
+// 炸弹威力排序；
+function sortBomb(obj) {
+  const bombArr: any = [];
+  for (const key in obj) {
+    const arr = obj[key].map((x) => {
+      return {
+        type: key,
+        cards: x,
+        star: bombStarMap[key],
+      };
+    });
+    bombArr.push(...arr);
+  }
+
+  bombArr.sort((a, b) => {
+    let result;
+    if (a.type === b.type) {
+      // 同牌型
+      result = ranks.indexOf(a.cards[0]) - ranks.indexOf(b.cards[0]);
+
+      // 如果a和b都是三王炸弹，则将2个小王的三王炸弹排前面
+      if (a.type === '三王炸弹' && a.cards[1] === 'joker') {
+        result = -1;
+      }
+    } else {
+      // 不同牌型
+      const length1 = a.cards.length;
+      const length2 = b.cards.length;
+      if (a.star === b.star) {
+        // 如果星级相同
+        if (length1 === length2) {
+          // 如果牌数相同，则按照牌型中最大牌的点数比较大小
+          result =
+            ranks.indexOf(a.cards.at(-1)) - ranks.indexOf(b.cards.at(-1));
+        } else {
+          // 如果牌数不同，则牌数越少的越大
+          result = length2 - length1;
+
+          // 特殊情况
+          if (a.type === '三王炸弹') {
+            // 三王炸弹
+            result = -1;
+          } else if (a.type === '天王炸弹') {
+            // 天王炸弹
+            result = 1;
+          }
+        }
+      } else {
+        // 如果星级不同，则星级越大则威力越大
+        result = a.star - b.star;
+      }
+    }
+    return result;
+  });
+
+  console.log(999, bombArr);
+  return bombArr;
 }

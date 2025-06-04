@@ -305,22 +305,23 @@ function getTips() {
 // 出牌
 function move() {
   const myC = [
-    ...Array(4)
+    ...Array(8)
       .fill(['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'])
       .flat(),
-    '3',
-    '4',
-    '5',
+    // '3',
+    // '4',
+    // '5',
     'joker',
     'joker',
     'JOKER',
     'JOKER',
   ];
 
-  autoMove(myC, {
-    type: '对子',
-    cards: ['3', '3'],
+  const powerArr = autoMove(myC, {
+    type: '三张',
+    cards: ['A','A','A'],
   });
+  console.log(333, powerArr);
 
   // 选中的牌
   const arr = playerCards.value.me.filter((item) => {
