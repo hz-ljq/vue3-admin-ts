@@ -26,9 +26,8 @@
     </JsxComp> -->
     <!-- <Steps /> -->
     <!-- <MyGaodeMap /> -->
-    <!-- <TsDemo /> -->
+    <TsDemo />
     <!-- <FormDetail /> -->
-    <FireShuangkou />
   </div>
 </template>
 
@@ -63,8 +62,6 @@ import Steps from './Steps/Steps.vue';
 import MyGaodeMap from './MyGaodeMap/MyGaodeMap.vue';
 // TS的Demo
 import TsDemo from './TsDemo/index.vue';
-// 火拼双扣
-import FireShuangkou from './FireShuangkou/index.vue';
 
 // import $ from 'jquery'
 // console.log(333, $);
